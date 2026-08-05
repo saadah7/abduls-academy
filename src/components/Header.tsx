@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { Message01Icon } from "@hugeicons/core-free-icons";
-import { Icon } from "./Icon";
 import { site } from "@/content/site";
 
 export function Header() {
@@ -16,9 +14,8 @@ export function Header() {
           <a className="hs" href="#results">Results</a>
           <a className="hs" href="#programmes">Programmes</a>
           <a className="hs" href="#behind">Behind on your degree</a>
-          {/* Both references carry a CTA in the nav. One is enough here. */}
+          {/* Both references carry a CTA in the nav. Theirs are text only. */}
           <a className="btn-sm" href="#visit">
-            <Icon icon={Message01Icon} size={15} />
             Contact us
           </a>
         </nav>

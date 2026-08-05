@@ -189,14 +189,22 @@ p strong { color: var(--ink); font-weight: 600; }
 .btn-2:hover { color: var(--blue-d); gap: 0.85rem; }
 .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
 
-/* compact pill for the nav, as both references carry a CTA up there */
-.btn-sm {
+/*
+  Compact pill for the nav, as both references carry a CTA up there. Arcade's
+  nav buttons are text only, so this one is too.
+
+  Selector is .nav .btn-sm on purpose: .nav a is (0,1,1) and would otherwise
+  beat a bare .btn-sm (0,1,0), which made the label inherit --muted on a blue
+  fill and let .nav a::after draw its underline bar across the pill.
+*/
+.nav .btn-sm {
   display: inline-flex; align-items: center; gap: 0.4rem; background: var(--blue-d);
-  color: #fff; text-decoration: none; padding: 0.55rem 1.05rem; border-radius: var(--r-pill);
+  color: #fff; text-decoration: none; padding: 0.6rem 1.15rem; border-radius: var(--r-pill);
   font-size: 0.8125rem; font-weight: 600; white-space: nowrap; box-shadow: var(--sh-sub);
   transition: background var(--t-base), box-shadow var(--t-slow) var(--e-out);
 }
-.btn-sm:hover { background: var(--blue2); box-shadow: var(--sh-card); }
+.nav .btn-sm:hover, .nav .btn-sm:focus-visible { color: #fff; background: var(--blue2); box-shadow: var(--sh-card); }
+.nav .btn-sm::after { display: none; }
 
 /*
   ---------- hero ----------
