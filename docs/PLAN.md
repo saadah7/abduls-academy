@@ -3,7 +3,7 @@
 Handoff document. Any session picking this up should read this file first, then
 `CLAUDE.md`. Update the phase table as you go.
 
-Last updated: 2026-08-06
+Last updated: 2026-08-06 (end of first build session)
 
 ---
 
@@ -15,7 +15,15 @@ two references the client chose after rejecting the first two attempts.
 
 Dev server: `npm run dev` → <http://localhost:3400>
 
-Nothing is committed. There is no git repo yet, by instruction.
+Repo: <https://github.com/saadah7/abduls-academy> (private). Pushed to `main`.
+The initial import went to `main` because there was no base to open a PR
+against; the client's standing rule is branch then PR, so work from here should
+use a branch unless he says otherwise.
+
+**Nobody has looked at this page in a browser yet.** The hero gradient, the type
+scale, the results rows and the icon placements were all built and verified only
+against the compiled CSS and the served HTML. Phase 9 exists for that reason and
+should probably happen before any more design work.
 
 ---
 
