@@ -484,30 +484,37 @@ p strong { color: var(--ink); font-weight: 600; }
 */
 .rlist { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
 .rrow {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
-  gap: 0.25rem 1.5rem; padding: 0.95rem 1.25rem; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline;
+  gap: 0.35rem 1.5rem; padding: 0.8rem 1.25rem; border-top: 1px solid var(--line);
   transition: background var(--t-base);
 }
 .rrow:first-child { border-top: 0; }
 .rrow:not(.top):hover { background: var(--tint); }
-.rrow .nm { font-size: 1rem; line-height: 1.4; font-weight: 550; color: var(--ink); overflow-wrap: break-word; }
+/*
+  Both of these must be block. Left inline, the badge sat on the same line as the
+  name and its margin-bottom did nothing, and the note could not sit under it.
+*/
+.rrow .nm {
+  display: block; font-size: 1rem; line-height: 1.45; font-weight: 550;
+  color: var(--ink); overflow-wrap: break-word;
+}
 .rrow i {
-  display: block; font-style: normal; font-size: 0.8125rem; line-height: 1.45;
-  color: var(--muted); font-weight: 450; margin-top: 0.1rem;
+  display: block; font-style: normal; font-size: 0.8125rem; line-height: 1.5;
+  color: var(--muted); font-weight: 450; margin-top: 0.15rem;
 }
 .rrow b {
-  font-size: 1.1875rem; font-weight: 650; color: var(--blue); letter-spacing: -0.02em;
+  font-size: 1.0625rem; font-weight: 650; color: var(--blue); letter-spacing: -0.015em;
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .rrow .roll { font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
 .rrow .badge {
-  display: inline-block; margin-bottom: 0.4rem; background: #fff; color: var(--blue-d);
-  border-radius: var(--r-pill); padding: 0.24rem 0.55rem; font-size: 0.625rem;
-  letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+  display: block; width: fit-content; margin-bottom: 0.5rem; background: #fff;
+  color: var(--blue-d); border-radius: var(--r-pill); padding: 0.22rem 0.55rem;
+  font-size: 0.625rem; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700;
 }
-.rrow.top { background: var(--blue); padding-block: 1.25rem; }
+.rrow.top { background: var(--blue); padding-block: 1.15rem; align-items: center; }
 .rrow.top .nm { color: #fff; font-size: 1.0625rem; font-weight: 600; }
-.rrow.top b { color: #fff; font-size: 1.5rem; }
+.rrow.top b { color: #fff; font-size: 1.375rem; }
 .rrow.top i { color: rgb(255 255 255 / 0.8); }
 .foot-note { margin-top: 1.5rem; font-size: 0.875rem; }
 
