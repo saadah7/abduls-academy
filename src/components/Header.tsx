@@ -1,24 +1,100 @@
-import Image from "next/image";
-import { site } from "@/content/site";
+"use client";
 
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Cancel01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
+import { Icon } from "@/components/ui/Icon";
+import { site, whatsappLink } from "@/content/site";
+
+const LINKS = [
+  { href: "#programmes", label: "Programmes" },
+  { href: "#results", label: "Results" },
+  { href: "#nextgen", label: "NextGen" },
+  { href: "#visit", label: "Visit" },
+];
+
+const BOOK = whatsappLink(
+  "Hello, I found you on your website. I'd like to book the 3 free demo classes.",
+);
+
+/**
+ * A floating white pill over the deep blue hero, links centred, mark left,
+ * call to action right. Below 980px the links move into a panel under the
+ * pill rather than disappearing.
+ */
 export function Header() {
+  const [open, setOpen] = useState(false);
+
+  // Close on Escape, and whenever the viewport grows past the breakpoint, so
+  // the panel can never be left open behind a desktop layout.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const mq = window.matchMedia("(min-width: 981px)");
+    const onChange = () => mq.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onChange);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onChange);
+    };
+  }, [open]);
+
   return (
     <header className="hdr">
-      <div className="wrap mast">
-        <a className="mark" href="#top">
-          {/* TODO: replace with the vector logo once Abdul sends it. This is his
-              real mark, recovered at 150px and upscaled, so it is slightly soft. */}
-          <Image src="/logo.png" alt={`${site.name}, ${site.tagline}`} width={375} height={90} priority />
-        </a>
-        <nav className="nav">
-          <a className="hs" href="#results">Results</a>
-          <a className="hs" href="#programmes">Programmes</a>
-          <a className="hs" href="#behind">Behind on your degree</a>
-          {/* Both references carry a CTA in the nav. Theirs are text only. */}
-          <a className="btn-sm" href="#visit">
-            Contact us
+      <div className="wrap">
+        <div className="mast">
+          <a className="mark" href="#top" aria-label={`${site.name}, home`}>
+            {/*
+              Re-sourced at 858x152 from the academy's own result posters.
+              TODO: replace with the vector mark once Abdul sends it.
+            */}
+            <Image src="/logo.png" alt={site.name} width={858} height={152} priority />
           </a>
-        </nav>
+
+          <nav className="nav" aria-label="Primary">
+            {LINKS.map((l) => (
+              <a key={l.href} href={l.href}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="mast-end">
+            <a className="btn btn--primary btn--sm" href={BOOK}>
+              Book a demo
+            </a>
+            <button
+              type="button"
+              className="nav-toggle"
+              aria-expanded={open}
+              aria-controls="nav-panel"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <Icon icon={open ? Cancel01Icon : Menu01Icon} size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="nav-panel" id="nav-panel" data-open={open}>
+          <ul>
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <a href={l.href} onClick={() => setOpen(false)}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="nav-panel-cta">
+            <a className="btn btn--primary btn--block" href={BOOK} onClick={() => setOpen(false)}>
+              Book {site.demoClasses} free demo classes
+            </a>
+          </div>
+        </div>
       </div>
     </header>
   );

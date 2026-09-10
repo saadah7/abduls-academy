@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Abdul's Academy">
+  <!--
+    The academy's mark is a wordmark on a blue plate with a black keyline; it has
+    no glyph, so the favicon derives one. Plate colour and keyline are taken from
+    the mark itself, the A is set to match its serif capitals.
+  -->
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14" fill="#2A78FF" stroke="#0A1628" stroke-width="3" />
+  <path
+    fill="#ffffff"
+    fill-rule="evenodd"
+    d="M32 11 L53 53 L43.5 53 L38.8 43.4 L25.2 43.4 L20.5 53 L11 53 Z M32 22 L27.2 36.8 L36.8 36.8 Z"
+  />
+</svg>
