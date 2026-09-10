@@ -27,10 +27,12 @@ Next 16 App Router · React 19 · Tailwind v4 (`@theme` tokens in
 ## Layout
 
 ```
-src/content/     all copy and data, typed. Edit content here, never in JSX.
-src/components/  one component per section, plus Reveal / MagneticCTA / ScrollProgress
-src/app/         layout.tsx · page.tsx · globals.css
-public/logo.png  the academy's real mark
+src/content/              all copy and data, typed. Edit content here, never in JSX.
+src/components/sections/  one component per section
+src/components/ui/        Icon · Reveal · SectionHead
+src/app/                  layout.tsx · page.tsx · globals.css (plain CSS, tokens in :root)
+public/logo.png           the academy's real mark
+public/photos/            the one real photograph, and the NextGen mark
 ```
 
 ## Hard rules for this repo
@@ -55,11 +57,13 @@ public/logo.png  the academy's real mark
 7. Run the `redline` skill on the diff before opening any PR. It is the single
    post-code review; do not chain other review skills with it.
 
-## Design references
+## Design reference
 
-The client chose two, and only two: <https://www.miter.com/> and
-<https://www.arcade.software/>. Their stylesheets were downloaded and grepped for
-real values; the extracted numbers are recorded in `docs/PLAN.md` under "Borrowed
-system". Take geometry and system values from them. **Take colour from neither**:
-Miter is warm maroon and cream, Arcade is Tailwind greys, and this brand is white
-plus the academy's own electric blue.
+Since 2026-09-11 the layout reference is <https://cadmus.io/>, the client's
+choice, replacing miter.com and arcade.software. What was taken from it and how
+it was translated is recorded in `docs/PLAN.md` under "The reference". Take
+structure and geometry from it. **Take colour from it never**: cadmus is maroon,
+cream and pastels, and this brand is white plus the academy's own blue. The
+client's two other standing instructions: **two academies in one building**
+(Abdul's Academy and NextGen AI Training Institute, and the page must say so),
+and **less content**, not condensed content.

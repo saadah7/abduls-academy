@@ -3,27 +3,66 @@
 Handoff document. Any session picking this up should read this file first, then
 `CLAUDE.md`. Update the phase table as you go.
 
-Last updated: 2026-08-06 (end of first build session)
+Last updated: 2026-09-11 (design pass against cadmus.io)
 
 ---
 
 ## Where this stands
 
-The project is scaffolded, builds clean and prerenders static. All copy lives in
-typed content files. The **design system and the hero are being rebuilt** against
-two references the client chose after rejecting the first two attempts.
+The site was rebuilt twice. The first build followed miter.com and
+arcade.software; the client did not like the result. On 2026-09-11 he gave a
+new layout reference, <https://cadmus.io/>, with two instructions: keep the
+white and blue, and cut the content down ("too much content, keep it simple,
+keep it straightforward"). He also reframed the site: **two academies in one
+building**, Abdul's Academy (tuition) and NextGen AI Training Institute (skills
+and AI), and the page has to say so.
+
+The 2026-09-11 pass is **uncommitted on `main`** and is what the working copy
+now contains. It builds clean, type-checks clean, prerenders static, and was
+checked in a headless browser at 390, 820, 1280 and 1440 with no horizontal
+overflow and no console errors. The client has not yet seen it.
 
 Dev server: `npm run dev` → <http://localhost:3400>
 
-Repo: <https://github.com/saadah7/abduls-academy> (private). Pushed to `main`.
-The initial import went to `main` because there was no base to open a PR
-against; the client's standing rule is branch then PR, so work from here should
-use a branch unless he says otherwise.
+Repo: <https://github.com/saadah7/abduls-academy> (private). The client's
+standing rule is branch then PR.
 
-**Nobody has looked at this page in a browser yet.** The hero gradient, the type
-scale, the results rows and the icon placements were all built and verified only
-against the compiled CSS and the served HTML. Phase 9 exists for that reason and
-should probably happen before any more design work.
+### Five files could not be deleted from the session that wrote this pass
+
+The tooling refused file deletion, so these were emptied to `export {};`
+instead. Delete them; nothing imports them.
+
+```
+src/content/admissions.ts
+src/components/sections/Admissions.tsx
+src/components/sections/GuessPapers.tsx
+src/components/sections/Rescue.tsx
+src/components/sections/RouteLine.tsx
+```
+
+---
+
+## The page, top to bottom
+
+| # | Section | Band | What it is |
+|---|---|---|---|
+| 0 | Header | white, sticky | Full-width rectangle with a hairline below. Mark left, four links centred, "Book a demo" right. Collapses to a menu button below 980px. |
+| 1 | Hero | deep blue, rounded bottom | Centred eyebrow, headline, two-sentence lede naming both academies, "Book 3 free demo classes" and "Contact us". Below: two white cards, one per academy, each opening with its own logo, four lines each, linking to their sections. |
+| 2 | Proof | white | Three figures: 100% (SSC and ICSE), 97% (Intermediate top score), 200+ (backlogs cleared). |
+| 3 | Programmes | white, tint cards | Four cards: Class 6 to 10, Intermediate, Diploma and Engineering, Open schooling and English. Each opens with the marks of the boards or universities it prepares for, then three lines and a demo link. |
+| 4 | Results 2026 | tint, white cards | One card per board with the board's own mark in the head, top five rows, one button opens every row. Names and marks verbatim. No headcount anywhere. |
+| 5 | Fallen behind | white | One centred statement, three figures, one button. |
+| 6 | NextGen | tint | The NextGen mark above the head. Deep blue featured card for the ₹999 thirty day programme beside a three by three grid of the nine skills, each with its technology's mark. Four career course cards with icons below. |
+| 7 | How we teach | white, tint cards | Four cards, one icon each. |
+| 8 | Questions | white | Five native `<details>`. |
+| 9 | Visit | tint | The felicitation photograph with a white card floating over it: founder line, address, WhatsApp and Maps. |
+| 10 | Footer | deep blue, rounded top | Four columns. Guess papers live here as links. |
+
+Cut in this pass, all of it content the client called too much: the dated
+admissions board, the guess-paper band, the six-reason grid, the route line,
+the results tile mosaic and its caption, the numbered chapter rules, the
+founder's unverified "4th Rank, PGECET" badge, and two FAQ entries whose
+answers are visible elsewhere on the page.
 
 ---
 
@@ -32,18 +71,14 @@ should probably happen before any more design work.
 | # | Phase | Status |
 |---|---|---|
 | 0 | Research, IA, content extraction | **done** |
-| 1 | Scaffold: Next 16, tokens, typed content, all 13 sections | **done** |
-| 2 | Borrowed system: radius, shadow, motion, tracking tokens | **done** |
-| 3 | Typography rebuild: Schibsted Grotesk, sentence case, type scale | **done** |
-| 4 | Hero rebuild: centred single column, question card below | **done** |
-| 5 | Proof row directly after hero | **done** |
-| 6 | Sections pass: apply system to sections 3 to 11 | **in progress**. System applied globally in the globals.css rewrite; still needs a per-section review against the references |
-| 7 | Footer rebuild (weakest part of the page) | todo |
-| 8 | Motion and interaction polish, reduced-motion, focus states | todo |
-| 9 | Responsive verification at 390 / 768 / 1024 / 1440 | todo |
-| 10 | A11y and performance pass | todo |
-| 11 | Real asset integration (blocked on client) | **blocked** |
-| 12 | Review, commit, deploy | todo |
+| 1 | Scaffold: Next 16, tokens, typed content | **done** |
+| 2 | First build against miter and arcade | superseded |
+| 3 | Design pass against cadmus.io, content cut to two academies | **done, uncommitted, awaiting the client** |
+| 4 | Client review of the pass; iterate on what he flags | todo |
+| 5 | Responsive check with a human eye (headless numbers are clean) | todo |
+| 6 | A11y and performance pass | todo |
+| 7 | Real asset integration (blocked on client) | **blocked** |
+| 8 | Review (`redline`), commit, PR, deploy | todo |
 
 ---
 
@@ -53,161 +88,122 @@ Do not reopen these without the client asking.
 
 | Decision | Rationale |
 |---|---|
-| One page, long scroll | Client chose this over a multi-page site and over four journey-stage pages. |
-| White + blue, single light theme | Client: "need the white and blue theme. not dark". No dark variant. |
-| `--blue` #2A78FF, `--blue-d` #1257D6 | #2A78FF sampled from the academy's own logo plate. It is 4.05:1 on white so it is display-only; #1257D6 is 6.2:1 and carries all small text. |
+| One page, long scroll | Client chose this over a multi-page site. |
+| White + blue, single light theme | Client: "need the white and blue theme. not dark". No dark variant, no `prefers-color-scheme`. The deep blue hero, featured card and footer are brand colour blocks, the reference's maroon translated, not a theme. |
+| `--blue-500` #2A78FF, `--blue-600` #1257D6 | #2A78FF sampled from the academy's own logo plate. It is 4.05:1 on white so it is display-only; #1257D6 is 6.2:1 and carries all small text. The deep band is `--blue-900` #0A2E73. |
 | No green anywhere | The logo ring contains #01A54C, but the client said "remove green if present anywhere". |
-| No second accent colour | Blue does all accent work. A yellow highlighter was tried and removed. |
-| Sentence case headings | Both references are sentence case. Two typefaces were rejected while headings were all-caps. |
-| Results = the centrepiece | The academy's strongest asset. Named students, marks verbatim, nothing rounded up. |
-| Full transparency: show every result **with** hall ticket numbers | Client, reversing the earlier policy: "full transparency, show all results with roll numbers". The concern was raised and he reaffirmed, so it is his call. `Student.roll` exists and renders, but is empty pending the real result sheets. Never invent one. |
-| Results are uniform rows, not a card grid | Cards rendered uneven for three reasons: counts (6, 10, 7, 4, 4) never divided into columns so every board ended on an orphan row; `margin-top: auto` on the note left hollow gaps; and the topper's longer note made the whole first row taller. Rows are identical height at any count. |
-| Known-count grids use explicit columns, never `auto-fill` | `auto-fill` resolved to 4 columns at this container width, leaving Reasons as 6 cells in 4 + 2 with a large empty block, and Rescue as 3 + 1. Reasons is now 3 columns, Rescue 4. Programmes keeps 3 and lets a stranded last card span the full row. |
-| Icons are Hugeicons free, stroke style | `@hugeicons/react` + `@hugeicons/core-free-icons`, both MIT, 5,437 icons. All usage goes through `src/components/Icon.tsx` so stroke weight and sizing stay consistent. Icon choices live as string keys in content files so those stay pure data. |
-| Content lives in `src/content/*.ts` | Client chose "static for now, decide later"; typed files keep a CMS swap cheap. |
+| No second accent colour | Blue does all accent work. |
+| Sentence case headings | Two typefaces were rejected while headings were all-caps. |
+| Two academies, one building | Client, 2026-09-11: "abdul's academy where next gen AI training institute is also a part of abdul's academy. two academies at the same place, same building." The hero says it; NextGen has its own section, its own footer column and its own phone number. |
+| Content cut, not condensed | Client, 2026-09-11: "there is too much content present currently. refine it, keep it simple, keep it straightforward." Every section is one head and one grid. Do not add a lede where a heading will do. |
+| Results: every name and mark, verbatim, one click away | Client wants full transparency. Top five per board render on load; "Show all" opens every board. Rank order is the poster's own, never re-sorted. `Student.roll` renders when present and is empty everywhere because the posters carry no hall ticket numbers. **Never invent one.** |
+| Content lives in `src/content/*.ts` | Typed files keep a CMS swap cheap. |
 | CTAs are `tel:` and `wa.me` deep links | Frontend only. A form with no backend would fail silently. |
-| Hero visual = the Arcade widget pattern, not an image | Client: "instead of that visual, add that design as in arcade". Arcade's hero visual is a segmented toggle with a sliding tracker above a 72px input bar with a 36x36 circular submit. Ours picks a stage, takes a subject, and composes a prefilled `wa.me` booking. Values borrowed verbatim from `arcade.css`: track radius 16px / padding 4px / gap 4px, option height 36px, `transition: all .22s cubic-bezier(.6,.6,0,1)`, bar height 72px / radius 24px / max-width 468px / margin-top 16px. Two adaptations: their track is `#11182724` with white labels because their hero is dark, ours is ink at 7% with a white active pill on white; and their bar has no border, ours needs one to read as a surface. |
-| Question card moved out of the hero to its own "Our method" section | Displaced by the widget. It now sits after Faculty, where it evidences the "concept first, then the paper" claim instead of competing with the hero. |
-| Hero gradient built in CSS, **not** copied from Arcade's technique | Arcade renders theirs as a WebGL shader canvas via `unicornstudio.js@v1.4.34` injected from jsDelivr, which is why it appears in neither their HTML nor their CSS. A continuously running shader plus a third-party CDN is the wrong trade for parents and students on mid-range Android over mobile data. Ours is 3 radial gradients + a 5-stop vertical wash + an inline SVG `feTurbulence` grain at 14% overlay. Static, no dependency, no runtime cost. |
-| Hero wash is light to ~58%, blue below | So the eyebrow, headline and lede sit on pale ground in dark ink while the widget sits on colour, exactly as Arcade's does. Consequence: anything below the lede must be light-on-blue. `.demo-note` and `.hero-links .btn-2` are already handled; add nothing dark there. |
-| Toggle track reverted to Arcade's original `#11182724` with white labels | An earlier revision lightened it for a white hero. Once the hero gained the blue ground that adaptation became wrong, so it was reverted. Ours resolves to `#0b1a3024`, the same alpha byte over our ink. |
+| Schibsted Grotesk, one family | Chosen after Anton and Bricolage were rejected. Display weights are 500 because "too bold" has been the complaint twice. |
+| Icons are Hugeicons free, stroke style | All usage goes through `src/components/ui/Icon.tsx`. |
+| Header is a full-width rectangle, sticky | Client, 2026-09-11: "I don't like that pill nav bar. Make it a rectangle. And it should be sticky, obviously." |
+| Secondary CTA reads "Contact us", never a raw phone number | Client, 2026-09-11, on the hero's "Call 88016 48481" button: "Why is the number present directly there?" Numbers live in the footer, the Visit card and the mobile call bar, not in headline CTAs. |
+| No student headcount on the page | Client, 2026-09-11, on "38 students across four boards": "there are hundreds of students studying, not just thirty eight." The 38 are only those on the 2026 result posters. Never total them into a claim about the academy. |
+| Both academies' logos wherever each is named | Client, 2026-09-11: "add NextGen Institute logo wherever it is present." Hero cards carry both marks; NextGen's section head and footer column carry its mark. |
+| Real board, university and technology logos, never drawn | Client, 2026-09-11: "I need those icons, their logos actual." Sourced files under `public/logos` and `public/tech`; registry with provenance in `src/content/marks.ts`. See "Third-party marks" below. |
+| The Telangana state emblem stands for SSC | The Emblems and Names Act concern was raised; the client reaffirmed: "add the state emblem for SSC anyway." His call, recorded here so it is not re-litigated. IGCSE stays a text tile because Cambridge's IGCSE mark is not published anywhere takeable. |
+
+### Superseded on 2026-09-11 by the change of reference
+
+These were locked against arcade.software and no longer apply: the segmented
+toggle plus input bar hero widget, the three-row stage picker that replaced it,
+the CSS gradient hero wash with SVG grain, the "light to 58%, blue below"
+rule, the numbered chapter rule as section head, and the results tile mosaic.
+They are listed so nobody reads the old rationale in git history and restores
+one.
 
 ## REJECTED, do not retry
 
 | Attempt | Why it failed |
 |---|---|
-| "Honours Board" direction: warm paper, ruled marksheet, dense typographic results list | Client: "the honors board isnt good". |
+| "Honours Board" direction: warm paper, ruled marksheet, dense results list | Client: "the honors board isnt good". |
 | Dark theme / theme-aware tokens | Client wants light only. |
-| **Anton** display face | "the current one is too bold". Ships a single heavy weight, so weight was not tunable. |
-| **Bricolage Grotesque** at wght 470-500 | "i dont like the font too". |
-| All-caps headings with `+.028em` tracking | Not reference-true. Both references track at ~0. |
-| Split hero: copy left, question card right | "i dont like the hero". Both references centre the hero and put the visual below. |
-| A graphic pattern as the hero visual | Client clarified: "i need templates for website, not the visual". |
-| Multi-agent research workflows | Burns tokens for what grep answers. `CLAUDE.md` in `C:\dev` already says "Grep > general-purpose agent for lookups". Two workflows were launched and stopped. Extract with grep. |
+| **Anton** display face | "the current one is too bold". Single weight. |
+| **Bricolage Grotesque** | "i dont like the font too". |
+| All-caps headings | Two typefaces rejected while set that way. |
+| Split hero: copy left, visual right | "i dont like the hero". |
+| A graphic pattern as the hero visual | Client: "i need templates for website, not the visual". |
+| The miter + arcade build (stage picker, gradient wash, chapter rules, tile mosaic, dated admissions board) | Client, 2026-09-11: "we redesigned the website, but I still don't like it." Replaced by the cadmus.io pass. |
+| Multi-agent research workflows | Burns tokens for what grep answers. |
 
 ---
 
-## Borrowed system
+## The reference, and what was taken from it
 
-Real values, grepped from the downloaded stylesheets, not eyeballed. Sources:
-`arcade.css` (461KB Webflow) and `miter.css` (184KB Next.js).
+<https://cadmus.io/> (Gatsby, `AT Realm` display + Inter body). Grepped from
+the served HTML on 2026-09-11, not eyeballed:
 
-### Radius, both references agree
-
-Arcade: `16px` dominant, 106 uses, then `8px`, `12px`, `24px`, `80px` pill.
-Miter: `--radius-2xl: 1rem` (= 16px), `--radius-md: .375rem`, `--radius-xs: .125rem`.
-
-```
---r-lg: 16px    /* cards, panels, the hero question card */
---r-md: 8px
---r-sm: 6px
---r-pill: 9999px
-```
-
-### Shadows, taken verbatim from Arcade and recoloured to our ink
-
-Arcade layers 4 to 6 stops of `#111827` at 3% to 12% alpha. This is the single
-most valuable thing borrowed; the previous shadows here were invented.
-
-```
-/* subtle */
-0 2px 2px #1118270f, 0 3px 3px #1118270a
-/* card */
-0 16px 16px #11182708, 0 8px 8px #11182708, 0 4px 4px #11182708, 0 2px 2px -2px #11182708
-/* card + hairline ring */
-…as card… , 0 0 0 1px #1118271f
-/* elevated, use on the hero question card */
-0 24px 24px -12px #1118270a, 0 12px 12px -6px #1118270a, 0 6px 6px -3px #1118270a,
-0 3px 3px -1.5px #1118270a, 0 1px 1px -.5px #1118270a, 0 0 0 1px #1118271a
-```
-
-### Motion
-
-Arcade durations: `.2s` dominant (85 uses), then `.15s`, `.35s`, `.1s`, `.3s`.
-Arcade easings: `cubic-bezier(.6,.6,0,1)` (15), `cubic-bezier(.25,.46,.45,.94)`
-(11), `cubic-bezier(.16,1,.3,1)` (11).
-
-```
---t-fast: .15s      --t-base: .2s      --t-slow: .35s
---e-out:   cubic-bezier(.16,1,.3,1)     /* entrances, reveals */
---e-emph:  cubic-bezier(.6,.6,0,1)      /* emphasis, exits */
-```
-
-### Tracking
-
-Arcade: `letter-spacing: 0` on 23 declarations. Miter: `.01em` / `-.01em`.
-So headings sit at `0`, display sizes may go to `-.01em`. Positive tracking is
-reserved for small uppercase labels only.
-
-### Spacing
-
-Miter base unit `--spacing: .25rem`. Tailwind v4 default text scale.
-
-### Structure, shared by both references
-
-1. Centred single-column hero: headline → subhead → CTA row, all centre-aligned
-2. Product visual full width directly below, not beside
-3. Social proof immediately after the hero
-4. Tabbed sections for switching between related content
-5. Metrics-driven cards for testimonials and outcomes
-
-### Take colour from neither
-
-Arcade primary `#2142e7` is close to our logo blue, which validates electric
-blue on white, but the ramp is Tailwind grey. Miter is warm: `#260f14` maroon,
-`#f0ebe4` cream, `#ffae9e` peach, `#66a88c` sage. Neither palette is ours.
+- **Structure**: one deep brand colour (maroon `#580c1d`) for the hero band,
+  a featured card and the footer, all with large rounded corners
+  (`border-radius: 32px 32px 0 0` on the footer). Everything else is a warm
+  off-white page with pastel card fills (`#b6dbff` light blue is the most used).
+  Centred section heads with a one-line lede. A photograph with a white card
+  floating over it (`.image-card-wrapper` + `.floating-content-card`, `p40`,
+  `br-12`, `max-650`), alternating sides. Four-card "why choose" grid. Three
+  large stats. Small pill "Learn more" links with an arrow.
+- **Geometry**: radius `8px` on images, `12px` on cards, `4px` on small
+  controls; shadow `1px 8px 12px hsla(31,24%,75%,.12)`; body `16px` / `14px`;
+  display up to `64-90px`; `transition: all .3s ease`.
+- **Translated to this brand**: maroon → `--blue-900`; pastels → `--blue-50`
+  and `--blue-100`; warm shadow → `0 8px 12px rgb(10 22 40 / .08)`; band
+  corners → `--r-xl: clamp(20px, 3vw, 32px)`; cards `--r-lg: 16px`.
+- **Not taken**: its colours, its typeface, its title-case h1, its logo
+  marquee (no logos to run), its illustrations.
 
 ---
 
-## Typography decision
+## Third-party marks
 
-Rejected: Anton (single weight, too bold), Bricolage Grotesque (disliked).
+All in `src/content/marks.ts`, rendered through `src/components/ui/Mark.tsx`
+at a CSS-set height. Fetched 2026-09-11.
 
-**Chosen: Schibsted Grotesk**, variable, wght 400 to 900, latin subset already
-downloaded and verified. Reasons: a real weight range so "too bold" is fixable
-by changing a number; warmer and more characterful than Inter without being
-quirky; holds up in sentence case at display size, which is how both references
-set their headlines; not on the overused list (Inter, Roboto, Space Grotesk,
-Poppins, Montserrat, Playfair, system stacks).
+| Mark | File | Source | Licence on the source |
+|---|---|---|---|
+| CBSE | `logos/cbse.svg` | en.wikipedia, "CBSE new logo.svg" | fair use |
+| ICSE (CISCE) | `logos/cisce.png` | en.wikipedia, "CISCE logo.png", downscaled to 160px | fair use |
+| IGCSE | text tile | IGCSE is Cambridge International's exam. Its lockup reads "Cambridge International Education", which the client rejected ("why did you add Cambridge International Education"), and the Cambridge IGCSE mark itself is not published anywhere takeable. Typographic, like SSC. | |
+| TOSS | `logos/toss.png` | telanganaopenschool.org, its own site icon (120px, the only size it publishes), white ground made transparent | the society's own |
+| TSBIE | `logos/tsbie.png` | en.wikipedia, "TSBIE Logo.jpg", white ground made transparent | fair use |
+| Osmania University | `logos/ou.png` | en.wikipedia, downscaled | fair use |
+| JNTU Hyderabad | `logos/jntuh.png` | en.wikipedia, downscaled | fair use |
+| NIOS | `logos/nios.svg` | Commons | public domain |
+| SSC (Telangana) | `logos/telangana.png` | The board has no logo; its site and hall tickets use the Telangana state emblem. The Emblems and Names Act restricts a state emblem in trade; this was raised, and the client chose it anyway ("add the state emblem for SSC anyway"). en.wikipedia, "Emblem of Telangana.svg", rasterised to 192px because the SVG is 478KB | CC0 |
+| Microsoft 365, Excel | `tech/office.svg`, `tech/excel.svg` | Commons | public domain (simple geometry) |
+| Tally | `tech/tally.png` | Commons, "Tally - Logo.png", cropped and downscaled | see file page |
+| Canva, Instagram | `tech/*.svg` | Simple Icons 15 / 16, brand colour written into the file | CC0 |
+| AutoCAD, HTML5 | inline paths in `src/components/ui/BrandIcon.tsx` | Simple Icons 16 | CC0 |
 
-Archivo is being dropped. Arcade runs Inter for 15 of its font-family
-declarations, i.e. essentially one face doing everything with weight and size
-carrying the hierarchy. Pairing two grotesks (Archivo + Schibsted) would be a
-weak pairing anyway. One family, fewer variables, and if the client dislikes it
-the swap is one import.
-
-Also downloaded and available locally if this one is rejected too:
-Instrument Serif (warning: 400 only, same single-weight trap as Anton),
-Fraunces (variable serif, characterful, risks reading artisanal),
-Funnel Display (variable, geometric, friendly).
-
-Miter's own display face is **Denim** (`DenimVF.woff2`), which is commercial and
-not licensable for this project.
-
----
+**Caveat for the client.** Every one of these is somebody else's trademark.
+Coaching centres use board logos routinely to say which board a course
+prepares for, and that nominative use is the norm, but the marks are not ours
+and a board could object. The NextGen logo is the 150px Instagram avatar,
+the only size that exists; TODO: ask Abdul for the vector. The TOSS emblem is
+120px for the same reason.
 
 ## Blocked on the client
 
-Nothing below can be resolved from this side.
-
 | Item | Impact |
 |---|---|
-| Vector logo (SVG/AI) | `public/logo.png` is his real mark recovered from the Instagram CDN at 150px and upscaled 3x. It is soft. Instagram serves nothing larger. |
-| 3 photographs | Building from the street, a batch mid-session, results day. Section 10 renders labelled placeholder slots until these arrive. |
-| Year established | The masthead has no "since" line. |
-| Real WhatsApp link and Maps place link | Both are `#` placeholders with TODOs in `src/content/site.ts`. |
-| Domain | `abdulsacademy.com` resolves to a WordPress.com parking cert, so it is not his. |
-| Written consent for publishing student names | Minors, permanently indexed. The page states consent was given; that needs to be true. |
-| Is the logo green intentional? | #01A54C is in the profile mark. Removed on instruction, but worth confirming it is not brand. |
-| Urdu or Telugu versions? | The contact block says all three languages are spoken; the site is English only. |
-
----
+| Vector logo (SVG/AI) | `public/logo.png` is re-sourced at 858x152 from a result poster. Soft at footer size. |
+| More photographs | One real photograph exists (Felicitation Day, 4 May 2026). It carries the Visit section. |
+| Consent for the photograph | The students in it are identifiable minors. Same consent as for the names. |
+| Written consent for publishing student names | The page no longer states that consent was given (client, 2026-09-11: "remove this line"), but the names of minors are still published, so the consent itself is still needed. |
+| Year established | No "since" line anywhere. |
+| Real Google Business place link | `site.maps` is a Maps *search* for the address, with a TODO. |
+| Which phone answers what | Three numbers are in circulation; `site.ts` documents them. |
+| Domain | `abdulsacademy.com` is a WordPress.com parking cert, so it is not his. |
+| Guess paper PDFs | Footer links go to Instagram posts because only poster images exist. |
+| "Taught by an AI engineer at Google" | On the NextGen posters. Deliberately not published until confirmed. |
+| Urdu or Telugu versions? | The site is English only; the page says classes run in three languages. |
 
 ## Open questions
 
-- Should fees appear on the page? Their creatives say "affordable" and "50% off"
-  but never state a number. Current copy says "fees stated up front" without one.
-- The academy claims "100% results" alongside an ICSE list topping out at 67%.
-  Current copy says "100% pass rate", which is defensible. Confirm it is true.
-- Do they want the guess papers (a real thing they publish) as a downloads
-  section? It would be a strong reason for students to return to the site.
+- Should fees appear? Only ₹1500 (summer camp) and ₹999 (thirty day skills)
+  are published. The FAQ says so.
+- "100% results" is claimed on the SSC and ICSE posters and repeated here as
+  written. Confirm it is true.
