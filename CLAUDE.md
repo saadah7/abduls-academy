@@ -15,9 +15,16 @@ already rejected. Do not relitigate what is marked LOCKED there.
 ```bash
 npm install
 npm run dev        # http://localhost:3400
-npm run build      # static prerender, must stay clean
+npm run build      # static export to out/, must stay clean
 npx tsc --noEmit   # must stay clean
 ```
+
+Deployed by `.github/workflows/pages.yml` to GitHub Pages on every push to
+`main`: <https://saadah7.github.io/abduls-academy/>. The workflow builds with
+`NEXT_PUBLIC_BASE_PATH=/abduls-academy`; every `public/` path in an `<Image>`
+goes through `asset()` from `src/lib/asset.ts` so it picks that prefix up.
+Locally the variable is unset and the site serves from `/`. There is no
+server: `next start` does not apply to an exported site.
 
 ## Stack
 

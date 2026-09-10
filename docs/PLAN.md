@@ -17,28 +17,19 @@ keep it straightforward"). He also reframed the site: **two academies in one
 building**, Abdul's Academy (tuition) and NextGen AI Training Institute (skills
 and AI), and the page has to say so.
 
-The 2026-09-11 pass is **uncommitted on `main`** and is what the working copy
-now contains. It builds clean, type-checks clean, prerenders static, and was
-checked in a headless browser at 390, 820, 1280 and 1440 with no horizontal
-overflow and no console errors. The client has not yet seen it.
+The 2026-09-11 pass was reviewed by the client the same day, revised on his
+notes (logos, header, CTAs, headcount, consent line), and **merged to `main`
+as PR #1**. PR #2 fixed a reduced-motion hydration bug in `Reveal` that left
+most of the page invisible for visitors with the OS setting on. The site is
+**live on GitHub Pages**: <https://saadah7.github.io/abduls-academy/>, built
+and deployed by `.github/workflows/pages.yml` on every push to `main`. The
+repo was made public on 2026-09-11 because GitHub Pages on a private repo
+needs a paid plan.
 
 Dev server: `npm run dev` → <http://localhost:3400>
 
-Repo: <https://github.com/saadah7/abduls-academy> (private). The client's
-standing rule is branch then PR.
-
-### Five files could not be deleted from the session that wrote this pass
-
-The tooling refused file deletion, so these were emptied to `export {};`
-instead. Delete them; nothing imports them.
-
-```
-src/content/admissions.ts
-src/components/sections/Admissions.tsx
-src/components/sections/GuessPapers.tsx
-src/components/sections/Rescue.tsx
-src/components/sections/RouteLine.tsx
-```
+Repo: <https://github.com/saadah7/abduls-academy> (public). The standing rule
+is branch, then PR, then merge; never push to `main` directly.
 
 ---
 
@@ -73,12 +64,12 @@ answers are visible elsewhere on the page.
 | 0 | Research, IA, content extraction | **done** |
 | 1 | Scaffold: Next 16, tokens, typed content | **done** |
 | 2 | First build against miter and arcade | superseded |
-| 3 | Design pass against cadmus.io, content cut to two academies | **done, uncommitted, awaiting the client** |
-| 4 | Client review of the pass; iterate on what he flags | todo |
+| 3 | Design pass against cadmus.io, content cut to two academies | **done**, PR #1 |
+| 4 | Client review of the pass; iterate on what he flags | **done**, same day, in PR #1 |
 | 5 | Responsive check with a human eye (headless numbers are clean) | todo |
-| 6 | A11y and performance pass | todo |
+| 6 | A11y and performance pass | todo. The correctness review pass ran; the design/a11y and security/performance passes were cut short and never reported |
 | 7 | Real asset integration (blocked on client) | **blocked** |
-| 8 | Review (`redline`), commit, PR, deploy | todo |
+| 8 | Deploy | **done**, GitHub Pages via Actions |
 
 ---
 
