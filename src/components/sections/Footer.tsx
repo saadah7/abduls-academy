@@ -3,6 +3,7 @@ import { Mark } from "@/components/ui/Mark";
 import { careerCourses, nextgen, skillsProgramme } from "@/content/nextgen";
 import { guessPapers, programmeGroups } from "@/content/programmes";
 import { site, whatsappLink } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 const MESSAGE = whatsappLink("Hello, I'd like to ask about Abdul's Academy.");
 
@@ -19,7 +20,7 @@ export function Footer() {
         <div className="ftr-grid">
           <div>
             <a className="mark" href="#top" aria-label={`${site.name}, back to top`}>
-              <Image src="/logo.png" alt={site.name} width={858} height={152} />
+              <Image src={asset("/logo.png")} alt={site.name} width={858} height={152} />
             </a>
             <p style={{ marginTop: "var(--sp-5)", maxWidth: "34ch" }}>
               {site.address.line1}

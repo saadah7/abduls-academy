@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { site, whatsappLink } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 const MESSAGE = whatsappLink(
   "Hello, I'd like to ask about admissions at Abdul's Academy.",
@@ -32,7 +33,7 @@ export function Visit() {
         <Reveal className="spot">
           <figure className="spot-photo">
             <Image
-              src="/photos/felicitation-2026.jpg"
+              src={asset("/photos/felicitation-2026.jpg")}
               alt="Students of the Class 10 batch of 2025-26 holding their certificates and medals on Felicitation Day, with Abdul Hadi Sir"
               width={1080}
               height={810}

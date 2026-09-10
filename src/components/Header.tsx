@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Cancel01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 import { Icon } from "@/components/ui/Icon";
 import { site, whatsappLink } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 const LINKS = [
   { href: "#programmes", label: "Programmes" },
@@ -51,7 +52,7 @@ export function Header() {
               Re-sourced at 858x152 from the academy's own result posters.
               TODO: replace with the vector mark once Abdul sends it.
             */}
-            <Image src="/logo.png" alt={site.name} width={858} height={152} priority />
+            <Image src={asset("/logo.png")} alt={site.name} width={858} height={152} priority />
           </a>
 
           <nav className="nav" aria-label="Primary">
