@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/content/site";
 
 /**
  * Three URLs, written absolute.
@@ -14,7 +15,6 @@ import type { MetadataRoute } from "next";
  * is not `new Date()`: a sitemap that claims every page changed on every build
  * teaches crawlers to ignore the field.
  */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
 /**
  * Required by `output: "export"`: a metadata route is a route handler, and a
  * static export refuses to build one that has not declared itself static.

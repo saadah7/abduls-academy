@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/content/site";
 
 /**
  * Allow everything, and point at the sitemap.
@@ -14,7 +15,6 @@ import type { MetadataRoute } from "next";
  * There is nothing here worth disallowing: the site is three public pages with
  * no admin area, no search parameters and no duplicate paths.
  */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
 /**
  * Required by `output: "export"`: a metadata route is a route handler, and a
  * static export refuses to build one that has not declared itself static.

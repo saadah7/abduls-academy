@@ -35,7 +35,8 @@ export const marks = {
     Telangana state emblem. The Emblems and Names Act restricts a state emblem
     in trade, which was raised with the client. He chose it anyway (2026-09-11:
     "add the state emblem for SSC anyway"). en.wikipedia file, tagged CC0,
-    rasterised to 192px because the SVG is 478KB.
+    rasterised from the 478KB SVG, then re-exported at 128px and quantised on
+    2026-09-12: it renders at 52px at most, so 192px was four times the need.
   */
   ssc: { src: "/logos/telangana.png", alt: "SSC, Board of Secondary Education, Telangana", w: 128, h: 128 },
   cbse: { src: "/logos/cbse.svg", alt: "CBSE", w: 251, h: 297 },
@@ -52,7 +53,10 @@ export const marks = {
   jntuh: { src: "/logos/jntuh.png", alt: "JNTU Hyderabad", w: 122, h: 128 },
   /* a tall mark: set larger than the round seals or it reads as a dot */
   nios: { src: "/logos/nios.svg", alt: "NIOS, National Institute of Open Schooling", w: 150, h: 226, tall: true },
-  /* the society's own emblem, taken from telanganaopenschool.org, the only size it publishes */
+  /* The society's own emblem. telanganaopenschool.org publishes it at one size
+     only, 120px; this is that file, re-exported at 128px on the long edge and
+     quantised, so it is a resample of the only size available rather than a
+     larger original. */
   toss: { src: "/logos/toss.png", alt: "TOSS, Telangana Open School Society", w: 109, h: 128 },
   /*
     TSCHE conducts EAPCET, ECET, ICET and PGECET, so its emblem stands for the
@@ -100,7 +104,7 @@ export const marks = {
   // technologies
   office: { src: "/tech/office.svg", alt: "Microsoft 365", w: 40, h: 44 },
   excel: { src: "/tech/excel.svg", alt: "Microsoft Excel", w: 2290, h: 2130 },
-  tally: { src: "/tech/tally.png", alt: "Tally", w: 128, h: 51 },
+  tally: { src: "/tech/tally.png", alt: "Tally", w: 160, h: 64 },
   canva: { src: "/tech/canva.svg", alt: "Canva", w: 24, h: 24 },
   instagram: { src: "/tech/instagram.svg", alt: "Instagram", w: 24, h: 24 },
 } as const satisfies Record<string, Mark>;

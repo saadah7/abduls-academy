@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
-import { site } from "@/content/site";
+import { site, SITE_URL } from "@/content/site";
 import "./globals.css";
 
 /**
@@ -31,7 +31,6 @@ const schibsted = Schibsted_Grotesk({
  * abdulsacademy.com is a WordPress.com parking page, so it is not the
  * academy's, even though the Google listing points at it.
  */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
 
 const DESCRIPTION =
   "Abdul's Academy and NextGen AI Training Institute, one building in New Malakpet, Hyderabad. Tuition for Class 6 to 10, Intermediate, Diploma and Engineering, plus skills and AI courses. Separate batches for boys and girls, and three free demo classes.";

@@ -16,12 +16,27 @@
  *   the document are outbound link targets, not loaded assets.
  * - No forms and no backend. Every call to action is a tel: or wa.me link.
  *
+ * The published-data list is meant to be exhaustive, and it is checked against
+ * the codebase rather than written from memory: results.ts for names and marks,
+ * reviews.ts for the quoted reviewers (one of whom states his own exam rank),
+ * faculty.ts for the three teachers, and gallery.ts for the frames that show a
+ * student. If you publish a new category of personal data, it goes in that list
+ * and in the removal paragraph in the same commit.
+ *
  * THE PART THAT MATTERS is the student-data section. This site publishes the
  * names and marks of real children and three photographs in which students are
  * identifiable. The consent for that is still outstanding with the client (see
  * docs/PLAN.md, "Blocked on the client"). A removal route is therefore not a
  * formality here: it is the one mechanism a parent has, so it names the real
  * phone and WhatsApp numbers and promises nothing the academy cannot do.
+ *
+ * ONE OPERATIONAL COMMITMENT is made here that the academy has to be able to
+ * keep: the removal paragraph says that on request we will also clear a name or
+ * photograph out of the public repository's git history. That is deliverable (a
+ * history rewrite and a force push) but it is manual, so whoever answers the
+ * phone needs to know it is promised. The cleaner fix is to make the repository
+ * private, which removes the retention entirely; that needs a paid plan for
+ * Pages, which is why it is public today (docs/PLAN.md).
  *
  * TODO: these are plain-language drafts, not lawyer-reviewed. Abdul should have
  * someone check them before relying on them, particularly the governing-law
@@ -67,7 +82,7 @@ export const privacy: LegalDoc = {
       heading: "What loads when you open a page",
       body: [
         "Only files from this site. The typeface is built into the site and served from the same place as the pages, so your browser makes no request to Google or to any font service when you visit. Photographs and logos are served from here too. No part of the page is loaded from a third party.",
-        "The pages are hosted on GitHub Pages. Like any web host, GitHub receives your IP address in order to send you the page, and keeps short-lived server logs for delivery and security. We never see those logs and cannot link them to a person.",
+        "The pages are hosted on GitHub Pages. Like any web host, GitHub receives your IP address in order to send you the page, and keeps server logs for delivery and security. We never see those logs and cannot link them to a person.",
       ],
     },
     {
@@ -84,8 +99,10 @@ export const privacy: LegalDoc = {
       ],
       points: [
         "Students' names and their board exam marks, transcribed from the academy's own result posters.",
-        "One competitive exam rank, with the student's name, from the same source.",
+        "Competitive exam ranks, with the student's name. One comes from our own result poster; another appears inside a Google review, where the student wrote it himself.",
         "Photographs of the academy, three of which show students recognisably.",
+        "Quotations from public Google reviews of the academy, each with the reviewer's Google display name as it already appears there.",
+        "The names of our teachers, and the credential each of them has given us.",
       ],
     },
     {
@@ -98,9 +115,10 @@ export const privacy: LegalDoc = {
     {
       heading: "Having a name or a photograph removed",
       body: [
-        "If you are a student here, or the parent or guardian of one, and you want a name, a mark or a photograph taken off this site, tell us and we will remove it. You do not have to give a reason, and it will not affect your classes in any way.",
-        `Message or call ${site.phones[0].display}, or send a WhatsApp to ${site.phones[1].display}. Say which page and which name or photograph. We will take it down and confirm to you when it is gone.`,
-        "Removal is the quickest thing on this list to action, because the site is rebuilt from a small set of files. Nothing is archived elsewhere by us once it is removed, although we cannot reach copies that search engines or other people have already taken.",
+        "If any of the above is about you, or about your child, and you want it taken off this site, tell us and we will remove it. That covers a name, a mark, a rank, a quotation and a photograph, and it applies to our teachers as much as to our students. You do not have to give a reason, and it will not affect anyone's classes in any way.",
+        `Message or call ${site.phones[0].display}, or send a WhatsApp to ${site.phones[1].display}. Say which page and which name or photograph. We will take it off the site, and we will tell you when we have.`,
+        "One thing you should know, because it changes how complete that removal is. This website is built in the open: its source files, including the page that lists results, sit in a public code repository, and that repository keeps a copy of every past version. Taking a name off the page does not take it out of that history. If you want it gone from there too, say so when you ask us, and we will clear it.",
+        "What we cannot reach are copies that search engines or other people have already taken."
       ],
     },
     {

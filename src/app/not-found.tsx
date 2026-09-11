@@ -28,9 +28,13 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
+      <a className="skip" href="#content">
+        Skip to the content
+      </a>
+
       <Header />
 
-      <main className="doc-page">
+      <main className="doc-page" id="content">
         <div className="doc-head">
           <div className="wrap">
             <p className="eyebrow">Page not found</p>
