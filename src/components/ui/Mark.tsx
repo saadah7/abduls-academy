@@ -7,6 +7,10 @@ import { asset } from "@/lib/asset";
  * aspect ratio; text marks (a board with no logo of its own) render as a
  * small tile in the brand blue so the row still reads as a row of marks.
  *
+ * Two shape flags, both set in marks.ts: `tall` lifts a portrait mark so it
+ * does not read as a dot beside the round seals, and `wide` shortens a
+ * wordmark so it does not run half the width of the card it sits in.
+ *
  * Images are served as they are (static export, no optimiser), so the src is
  * run through asset() to pick up the deploy base path.
  */
@@ -21,7 +25,12 @@ export function Mark({ k, className }: { k: MarkKey; className?: string }) {
   }
   return (
     <Image
-      className={["mark-img", "tall" in m && m.tall ? "mark-img--tall" : null, className]
+      className={[
+        "mark-img",
+        "tall" in m && m.tall ? "mark-img--tall" : null,
+        "wide" in m && m.wide ? "mark-img--wide" : null,
+        className,
+      ]
         .filter(Boolean)
         .join(" ")}
       src={asset(m.src)}

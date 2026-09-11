@@ -44,13 +44,32 @@ export const site = {
   whatsapp: "https://wa.me/918978676960",
 
   /**
-   * A Maps *search* for the address, not a fabricated place ID.
-   * TODO: replace with the real Google Business place link once Abdul sends it.
+   * The real Google Business place, sent by Abdul on 2026-09-12
+   * (maps.app.goo.gl/3qNbCgb8S2dbmUaP8, which resolves to place ID
+   * ChIJhWuYf9OZyzsRdhdRxeOkuv0, "Abdul's Academy", Coaching Center). Written
+   * as the place_id form rather than the short link so it cannot rot into
+   * somebody else's listing. This replaces the address search the site used
+   * before. Reviews from the same profile are in src/content/reviews.ts.
    */
-  maps: "https://www.google.com/maps/search/?api=1&query=Abdul%27s%20Academy%2C%2016-8-726%2C%20Opposite%20Noor%20Masjid%2C%20New%20Malakpet%2C%20Hyderabad",
+  maps: "https://www.google.com/maps/place/?q=place_id:ChIJhWuYf9OZyzsRdhdRxeOkuv0",
 
   languages: "English, Urdu, Telugu",
   demoClasses: 3,
+
+  /**
+   * The listing's opening hours, read off the Google Business Profile on
+   * 2026-09-12: 11 am to 11 pm Monday to Saturday, 3:30 pm to 11 pm on Sunday.
+   *
+   * Two things these are not. They are not batch timings: a specific batch
+   * runs when its poster says it runs, and the site does not claim otherwise.
+   * And the one-off Ganesh Chaturthi note Google showed against that Monday is
+   * a holiday exception, not a standing hour, so it is not reproduced here.
+   * Re-read the profile if Abdul changes the listing.
+   */
+  hours: [
+    { days: "Monday to Saturday", time: "11am to 11pm" },
+    { days: "Sunday", time: "3:30pm to 11pm" },
+  ],
 
   /** From the Sept 2025 profile post, which lists the academy's standing features. */
   separateBatches: true,
@@ -65,16 +84,48 @@ export function whatsappLink(message: string): string {
 }
 
 /**
- * Three outcomes, each traceable to a poster. Each label says what a student
- * achieved, never what this website chose to publish.
- *   100%  stated on the academy's own SSC and ICSE 2026 result posters.
+ * Four outcomes. Each label says what a student achieved, never what this
+ * website chose to publish.
+ *   100%  printed on the academy's own SSC and ICSE 2026 result posters. CBSE
+ *         was added on 2026-09-12: the client marked up a screenshot with
+ *         "CBSE is missing in pass rate section" and confirmed it when asked.
+ *         The CBSE poster prints percentages only and makes no pass claim, so
+ *         that third board rests on his word rather than on a printed line.
  *   97%   Mohammed Muzammil Bagmar, Intermediate second year, 934/1000.
+ *   70+   His figure, same day, in his words: "70 + students secured free seat
+ *         in top colleges by studying EAPCET etc". No year and no college list
+ *         were given, so none are stated.
  *   200+  backlog subjects cleared, OU and JNTU.
- * The TS ICET rank 313 (Ruqaiya Abdul Hakeem, poster of 18 June 2026) is real
- * but needs a sentence of context, so it is not a strip figure.
+ * TS ICET rank 313 (Ruqaiya Abdul Hakeem, 18 June 2026) is not a strip figure;
+ * it is a named result row on the competitive board in results.ts.
  */
 export const stats = [
-  { value: "100%", label: "Pass rate in SSC and ICSE, 2026" },
+  { value: "100%", label: "Pass rate in SSC, CBSE and ICSE, 2026" },
   { value: "97%", label: "Top score, Intermediate 2026" },
+  { value: "70+", label: "Free seats secured in top colleges" },
   { value: "200+", label: "Engineering backlogs cleared" },
 ] as const;
+
+/**
+ * The tinted strip above the header. Client, 2026-09-12: "Can we also add free
+ * 1:1 Career Assistance & Free 1:1 Job Assistance in header section with
+ * different light color." Career consultation was already promised inside the
+ * NextGen programme list; this says both where a visitor reads them first.
+ */
+export const assistance = [
+  "Free 1:1 career assistance",
+  "Free 1:1 job assistance",
+] as const;
+
+/**
+ * The one dated intake on the page. Client, 2026-09-12: "just 25sep for now,
+ * its Long term EAPCET & NEET batch". No year, no fee and no timings were
+ * given, so none are invented. An earlier pass cut a whole dated admissions
+ * board for being too much content; this is one line, not that board.
+ */
+export const admission = {
+  date: "25 September",
+  title: "Long term EAPCET and NEET batch",
+  message:
+    "Hello, I'd like to know about the long term EAPCET and NEET batch starting 25 September.",
+} as const;

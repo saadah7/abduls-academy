@@ -28,6 +28,9 @@ jobs:
         env:
           # Project site: https://saadah7.github.io/abduls-academy/
           NEXT_PUBLIC_BASE_PATH: /abduls-academy
+          # Absolute origin for the Open Graph card and the canonical link.
+          # Change both lines together if the site moves to its own domain.
+          NEXT_PUBLIC_SITE_URL: https://saadah7.github.io/abduls-academy
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

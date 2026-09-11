@@ -55,6 +55,16 @@ export function Visit() {
               <br />
               {site.address.line3}
             </p>
+
+            {/* The listing's hours, not a batch timetable. See site.ts. */}
+            <dl className="hours">
+              {site.hours.map((h) => (
+                <div key={h.days}>
+                  <dt>{h.days}</dt>
+                  <dd className="tabular">{h.time}</dd>
+                </div>
+              ))}
+            </dl>
             <div className="ctas">
               <a className="btn btn--primary" href={MESSAGE}>
                 Message on WhatsApp
