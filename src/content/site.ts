@@ -88,6 +88,19 @@ export const site = {
 } as const;
 
 /**
+ * Absolute origin for anything that cannot be a relative URL: metadataBase,
+ * the canonical links, the Open Graph card, and the sitemap.
+ *
+ * Declared once here because it was previously copied into three files, and a
+ * production build with the variable unset fails silently rather than loudly:
+ * it publishes a sitemap full of localhost URLs and a canonical pointing at a
+ * machine nobody can reach. The deploy workflow sets it; locally it is unset
+ * and the dev origin stands in, which keeps the tags well formed without
+ * claiming the production URL from a laptop.
+ */
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
+
+/**
  * Compose a WhatsApp deep link with the message already written.
  * Every primary CTA on the site goes through here so the wording stays consistent.
  */

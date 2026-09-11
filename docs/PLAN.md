@@ -182,14 +182,15 @@ at a CSS-set height. Fetched 2026-09-11.
 | Mark | File | Source | Licence on the source |
 |---|---|---|---|
 | CBSE | `logos/cbse.svg` | en.wikipedia, "CBSE new logo.svg" | fair use |
-| ICSE (CISCE) | `logos/cisce.png` | en.wikipedia, "CISCE logo.png", downscaled to 160px | fair use |
+| ICSE (CISCE) | `logos/cisce.png` | en.wikipedia, "CISCE logo.png" | fair use |
 | IGCSE | text tile | IGCSE is Cambridge International's exam. Its lockup reads "Cambridge International Education", which the client rejected ("why did you add Cambridge International Education"), and the Cambridge IGCSE mark itself is not published anywhere takeable. Typographic, like SSC. | |
 | TOSS | `logos/toss.png` | telanganaopenschool.org, its own site icon (120px, the only size it publishes), white ground made transparent | the society's own |
+| | | **2026-09-12:** every raster mark in this table was re-exported at 128px on the long edge and palette-quantised. They render at 52px at most, and between them they were 338KB. They are now 100KB, with transparency intact and every `w`/`h` in `marks.ts` re-synced to the real file. `logo.png` went the same way: 91KB to 25KB, and it is on the critical path. | |
 | TSBIE | `logos/tsbie.png` | en.wikipedia, "TSBIE Logo.jpg", white ground made transparent | fair use |
 | Osmania University | `logos/ou.png` | en.wikipedia, downscaled | fair use |
 | JNTU Hyderabad | `logos/jntuh.png` | en.wikipedia, downscaled | fair use |
 | NIOS | `logos/nios.svg` | Commons | public domain |
-| SSC (Telangana) | `logos/telangana.png` | The board has no logo; its site and hall tickets use the Telangana state emblem. The Emblems and Names Act restricts a state emblem in trade; this was raised, and the client chose it anyway ("add the state emblem for SSC anyway"). en.wikipedia, "Emblem of Telangana.svg", rasterised to 192px because the SVG is 478KB | CC0 |
+| SSC (Telangana) | `logos/telangana.png` | The board has no logo; its site and hall tickets use the Telangana state emblem. The Emblems and Names Act restricts a state emblem in trade; this was raised, and the client chose it anyway ("add the state emblem for SSC anyway"). en.wikipedia, "Emblem of Telangana.svg", rasterised from the 478KB SVG, now 128px | CC0 |
 | Microsoft 365, Excel | `tech/office.svg`, `tech/excel.svg` | Commons | public domain (simple geometry) |
 | Tally | `tech/tally.png` | Commons, "Tally - Logo.png", cropped and downscaled | see file page |
 | Canva, Instagram | `tech/*.svg` | Simple Icons 15 / 16, brand colour written into the file | CC0 |

@@ -28,9 +28,15 @@ jobs:
         env:
           # Project site: https://saadah7.github.io/abduls-academy/
           NEXT_PUBLIC_BASE_PATH: /abduls-academy
-          # Absolute origin for the Open Graph card and the canonical link.
-          # Change both lines together if the site moves to its own domain.
+          # Absolute origin for the canonical links, the Open Graph card and the
+          # sitemap. Read once, in src/content/site.ts. Change it and the base
+          # path above together if the site moves to its own domain.
           NEXT_PUBLIC_SITE_URL: https://saadah7.github.io/abduls-academy
+      # Next writes the not-found route twice: out/404.html, which Pages serves
+      # with a real 404 status, and out/_not-found.html, which is byte-identical
+      # but served at 200. Nothing links to it and it is not in the sitemap, but
+      # a "Page not found" page answering 200 is not worth keeping.
+      - run: rm -f out/_not-found.html && rm -rf out/_not-found
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

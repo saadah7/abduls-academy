@@ -5,13 +5,19 @@ import Image from "next/image";
 import { Cancel01Icon, CheckmarkCircle02Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 import { Icon } from "@/components/ui/Icon";
 import { assistance, site, whatsappLink } from "@/content/site";
-import { asset } from "@/lib/asset";
+import { asset, route } from "@/lib/asset";
 
+/*
+  Written as full paths, not bare fragments. This header renders on the legal
+  pages and the 404 as well, where "#results" would scroll a page that has no
+  results section instead of going home to it. On the home page the browser
+  still treats these as fragments, because the path already matches.
+*/
 const LINKS = [
-  { href: "#programmes", label: "Programmes" },
-  { href: "#results", label: "Results" },
-  { href: "#nextgen", label: "NextGen" },
-  { href: "#visit", label: "Visit" },
+  { href: route("/#programmes"), label: "Programmes" },
+  { href: route("/#results"), label: "Results" },
+  { href: route("/#nextgen"), label: "NextGen" },
+  { href: route("/#visit"), label: "Visit" },
 ];
 
 const BOOK = whatsappLink(
@@ -66,7 +72,7 @@ export function Header() {
       <header className="hdr">
         <div className="wrap">
           <div className="mast">
-            <a className="mark" href="#top" aria-label={`${site.name}, home`}>
+            <a className="mark" href={route("/")} aria-label={`${site.name}, home`}>
               {/*
                 Re-sourced at 858x152 from the academy's own result posters.
                 TODO: replace with the vector mark once Abdul sends it.
