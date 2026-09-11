@@ -44,6 +44,18 @@ function TechMark({ t, size }: { t: Tech; size: number }) {
  * The second academy. Its mark above the head, then the thirty day programme
  * as one deep blue card beside a grid of the nine skills with their marks,
  * then the four career courses.
+ *
+ * The offer sits on its own band, a step lighter than the section's tint. The
+ * client asked on 2026-09-12 for the price to be highlighted and said how:
+ * "highlighting just change the bg". The card itself stays on the deep blue
+ * rather than going bright: white on --blue-500 is 4.05:1, so the price would
+ * read but "Free laptop access" under it would not, and --blue-500 is
+ * display-only for exactly that reason. Changing the ground behind the card
+ * gets the emphasis without putting small text below AA.
+ *
+ * The section keeps its tint. Taking it off to make the band pop harder left
+ * four white sections in a row and quietly re-skinned the four career cards,
+ * which fall out of `.section--tint .card` on a white ground.
  */
 export function NextGen() {
   return (
@@ -58,37 +70,39 @@ export function NextGen() {
           />
         </Reveal>
 
-        <Reveal className="ng">
-          <article className="feature">
-            <p className="eyebrow">{skillsProgramme.duration}, one price</p>
-            <h3>{skillsProgramme.title}</h3>
-            <div className="price">
-              <b className="tabular">{skillsProgramme.price}</b>
-              <s className="tabular">{skillsProgramme.wasPrice}</s>
-            </div>
-            <ul className="list">
-              {skillsProgramme.includes.map((i) => (
-                <li key={i}>{i}</li>
+        <div className="ng-band">
+          <Reveal className="ng">
+            <article className="feature">
+              <p className="eyebrow">{skillsProgramme.duration}, one price</p>
+              <h3>{skillsProgramme.title}</h3>
+              <div className="price">
+                <b className="tabular">{skillsProgramme.price}</b>
+                <s className="tabular">{skillsProgramme.wasPrice}</s>
+              </div>
+              <ul className="list">
+                {skillsProgramme.includes.map((i) => (
+                  <li key={i}>{i}</li>
+                ))}
+              </ul>
+              <div className="ctas">
+                <a className="btn btn--white" href={ENQUIRE}>
+                  Ask about the programme
+                </a>
+              </div>
+            </article>
+
+            <ul className="skills">
+              {skillsProgramme.skills.map((s) => (
+                <li className="skill" key={s.label}>
+                  <span className="skill-ico">
+                    <TechMark t={s} size={24} />
+                  </span>
+                  {s.label}
+                </li>
               ))}
             </ul>
-            <div className="ctas">
-              <a className="btn btn--white" href={ENQUIRE}>
-                Ask about the programme
-              </a>
-            </div>
-          </article>
-
-          <ul className="skills">
-            {skillsProgramme.skills.map((s) => (
-              <li className="skill" key={s.label}>
-                <span className="skill-ico">
-                  <TechMark t={s} size={24} />
-                </span>
-                {s.label}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+          </Reveal>
+        </div>
 
         <Reveal className="cards cards--4">
           {careerCourses.map((c) => (

@@ -47,7 +47,16 @@ export type Board = {
   /** The board's own mark. See marks.ts. */
   mark: MarkKey;
   authority: string;
-  /** Verbatim from the poster, where it makes one. Rendered as a small note. */
+  /**
+   * A pass claim, and the flag that shows the "100% results" badge on the card.
+   *
+   * TWO PROVENANCES, and the difference matters. SSC and ICSE carry this
+   * because their posters print it. CBSE carries it on the client's word, given
+   * on 2026-09-12 after he flagged CBSE missing from the pass-rate figure; its
+   * poster prints percentages only and claims nothing. Each board's own comment
+   * says which it is. Never add this to a fourth board without recording where
+   * the claim came from.
+   */
   claim?: string;
   /** Source post, so the next person can re-check the transcription. */
   source: string;
@@ -116,6 +125,11 @@ export const boards: Board[] = [
     name: "CBSE Class X",
     mark: "cbse",
     authority: "Central Board of Secondary Education",
+    // The poster prints percentages only and claims nothing. The 100% is the
+    // client's, confirmed on 2026-09-12 after he flagged CBSE missing from the
+    // pass-rate figure. Recorded here so the next reader knows which of these
+    // claims came off a poster and which came off a message.
+    claim: "100% results from the academy",
     // instagram.com/p/DXcYxlkkxwZ/ , 22 April 2026. Percentages only.
     source: "10th CBSE Results poster, 22 April 2026",
     students: [
@@ -145,6 +159,47 @@ export const boards: Board[] = [
   },
 ];
 
+/**
+ * Competitive exams, added 2026-09-12 on the client's ask for "Competitive
+ * Exam Results". One result, and it leads the results section as a single wide
+ * card rather than joining `boards` as a fifth list.
+ *
+ * WHY IT IS NOT A BOARD. Two reasons, in the order they were found. Five cards
+ * in the two-column board grid leave a card-shaped hole in the bottom right,
+ * which the client flagged on sight. And a one-row list stretched to the full
+ * width reads as a list whose rows failed to load, not as a result worth
+ * leading with. A single result gets a single result's layout.
+ *
+ * WHY THERE IS ONLY ONE. All 61 posts on @abdulsacademy were read again on
+ * 2026-09-12 looking for more. The account carries plenty of competitive-exam
+ * *batches* (a 40 day EAMCET batch, an EAMCET crash course, an ICET batch for
+ * girls, POLYCET, ECET) and a guidance reel on what to do after EAPCET
+ * results, but exactly one published competitive *result*: this one. A Google
+ * review also thanks "hadi sir" for a rank of 4400. That is a reviewer's own
+ * sentence and it stays in reviews.ts; it is not a result the academy has
+ * published, and moving it here would make it one.
+ *
+ * Source: instagram.com/p/DZuxZgYz3Lr/ , 18 June 2026. The poster prints the
+ * rank, the name and the TSCHE emblem, and nothing else. No marks, no
+ * percentage, no hall ticket.
+ */
+export const competitive = {
+  title: "Competitive exams",
+  mark: "tsche" as MarkKey,
+  authority: "Telangana State Council of Higher Education",
+  exam: "TS ICET entrance examination",
+  rank: "Rank 313",
+  student: "Ruqaiya Abdul Hakeem",
+  source: "TS ICET rank poster, 18 June 2026",
+} as const;
+
+/**
+ * The competitive exams the academy runs batches for, from its own profile
+ * post of 2 Oct 2025. Said as a line under the results because the account
+ * announces batches for all of these and has published a result for one.
+ */
+export const competitiveExams = "POLYCET, EAPCET, ECET and ICET";
+
 export const totalStudents = boards.reduce((n, b) => n + b.students.length, 0);
 
 /**
@@ -156,5 +211,8 @@ export const totalStudents = boards.reduce((n, b) => n + b.students.length, 0);
 export const standouts =
   "Best of the year: 934 / 1000 in Intermediate, and rank 313 in TS ICET.";
 
-/** Verified on the academy's own SSC and ICSE posters. Not claimed elsewhere. */
-export const passClaim = "100% results in SSC and ICSE.";
+/**
+ * SSC and ICSE are printed on the academy's own posters. CBSE is the client's
+ * confirmation of 2026-09-12, not a printed line. See the CBSE board above.
+ */
+export const passClaim = "100% results in SSC, CBSE and ICSE.";

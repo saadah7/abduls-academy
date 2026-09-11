@@ -30,6 +30,9 @@ export function Footer() {
               {site.address.line3}
             </p>
             <p style={{ marginTop: "var(--sp-3)" }}>Classes in {site.languages}.</p>
+            <p style={{ marginTop: "var(--sp-3)" }}>
+              {site.hours.map((h) => `${h.days}, ${h.time}.`).join(" ")}
+            </p>
           </div>
 
           <div>

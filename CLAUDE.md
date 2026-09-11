@@ -20,11 +20,17 @@ npx tsc --noEmit   # must stay clean
 ```
 
 Deployed by `.github/workflows/pages.yml` to GitHub Pages on every push to
-`main`: <https://saadah7.github.io/abduls-academy/>. The workflow builds with
-`NEXT_PUBLIC_BASE_PATH=/abduls-academy`; every `public/` path in an `<Image>`
-goes through `asset()` from `src/lib/asset.ts` so it picks that prefix up.
-Locally the variable is unset and the site serves from `/`. There is no
-server: `next start` does not apply to an exported site.
+`main`: <https://saadah7.github.io/abduls-academy/>. The workflow sets two
+build-time variables and they move together:
+
+- `NEXT_PUBLIC_BASE_PATH=/abduls-academy` — every `public/` path in an
+  `<Image>` goes through `asset()` from `src/lib/asset.ts` so it picks that
+  prefix up. Unset locally, so the site serves from `/`.
+- `NEXT_PUBLIC_SITE_URL=https://saadah7.github.io/abduls-academy` — the
+  absolute origin `metadataBase` needs for the Open Graph card and the
+  canonical link. Unset locally, where the dev origin stands in.
+
+There is no server: `next start` does not apply to an exported site.
 
 ## Stack
 

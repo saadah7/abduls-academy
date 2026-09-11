@@ -204,7 +204,8 @@ img {
 /* on the deep bands the outline has to be light to be seen */
 .hero :focus-visible,
 .feature :focus-visible,
-.ftr :focus-visible {
+.ftr :focus-visible,
+.section--deep :focus-visible {
   outline-color: var(--white);
 }
 
@@ -256,6 +257,46 @@ img {
   background: var(--blue-50);
 }
 
+/* The fourth deep surface, after the hero, the NextGen offer card and the
+   footer. The results sit on it
+   because the client asked on 2026-09-12 for them highlighted, and said how:
+   "highlighting just change the bg". Rounded top and bottom so it reads as a
+   block the page passes through, the way the hero and the footer do at their
+   own ends. Cards inside keep their white ground, so every name, mark and
+   percentage is unchanged dark-on-white; only the head, the note and the
+   disclosure button sit on the blue. */
+.section--deep {
+  background: var(--deep);
+  border-radius: var(--r-xl);
+  color: rgb(255 255 255 / 0.8);
+}
+
+.section--deep .head h2 {
+  color: var(--white);
+}
+
+.section--deep .head .eyebrow {
+  color: var(--blue-200);
+}
+
+.section--deep .head .lede,
+.section--deep .note {
+  color: rgb(255 255 255 / 0.8);
+}
+
+.section--deep .card {
+  background: var(--white);
+}
+
+/* the white button needs no outline once it is the light thing on the band */
+.section--deep .btn--secondary {
+  border-color: transparent;
+}
+
+.results-exams {
+  margin-top: var(--sp-8);
+}
+
 /* ---- section head: centred eyebrow, heading, one-line lede ---- */
 .head {
   display: grid;
@@ -270,6 +311,15 @@ img {
   justify-items: start;
   margin-inline: 0;
   text-align: left;
+}
+
+/* Balanced wraps on the two short strings that break into two lines and are
+   not headings. At 1440 the pass-rate label stranded "2026" on a line of its
+   own. Headings already get this from the h1-h4 rule above, so they are not
+   listed again here. */
+.stat span,
+.admit-title {
+  text-wrap: balance;
 }
 
 .head h2 {
@@ -686,11 +736,15 @@ a:hover > .more svg {
   padding-block: clamp(48px, 6vw, 80px);
 }
 
+/* Four since 2026-09-12: the client flagged CBSE missing from the pass rate
+   and added the free-seat figure. Four across needs a wider container than
+   three did, and drops to two columns rather than one on a phone: stacked,
+   four figures push the whole page down by most of a viewport. */
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--sp-6);
-  max-width: 960px;
+  max-width: 1080px;
   margin-inline: auto;
   text-align: center;
 }
@@ -712,10 +766,16 @@ a:hover > .more svg {
   line-height: 1.45;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-8) var(--sp-6);
+  }
+}
+
+@media (max-width: 380px) {
   .stats {
     grid-template-columns: 1fr;
-    gap: var(--sp-8);
   }
 }
 
@@ -732,8 +792,21 @@ a:hover > .more svg {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.cards--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .cards--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Three cards go straight to one column. Two-up would leave the third alone
+   beside a hole, which is the arrangement the client stopped on in the
+   results grid. */
+@media (max-width: 860px) {
+  .cards--3 {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1463,6 +1536,364 @@ a:hover > .more svg {
   .card .more {
     padding-top: var(--sp-2);
   }
+}
+
+/* ============================================================================
+   opening hours, in the visit card. Two rows, label left and time right, so
+   the times line up under each other.
+   ========================================================================= */
+
+.hours {
+  display: grid;
+  gap: var(--sp-2);
+  margin: var(--sp-5) 0 0;
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+}
+
+.hours > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.hours dt {
+  color: var(--ink-500);
+  font-size: var(--fs-sm);
+}
+
+.hours dd {
+  margin: 0;
+  color: var(--ink-900);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   the strip above the header. Client, 2026-09-12: both free one-to-one
+   services, "in header section with different light color". --blue-100 is that
+   light colour, and --blue-900 on it is 10.1:1, so the smallest type on the
+   page is also the safest.
+   ========================================================================= */
+
+.topbar {
+  background: var(--blue-100);
+}
+
+.topbar-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2) var(--sp-6);
+  margin: 0;
+  padding-block: var(--sp-2);
+  list-style: none;
+}
+
+.topbar-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--blue-900);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ============================================================================
+   the dated intake. One line and one button on a light band, which is the
+   whole of the highlight: no badge, no countdown.
+   ========================================================================= */
+
+.admit {
+  background: var(--blue-100);
+}
+
+.admit-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4) var(--sp-6);
+  padding-block: var(--sp-5);
+}
+
+.admit-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  margin: 0;
+}
+
+.admit-date {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--blue-700);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.admit-title {
+  color: var(--ink-900);
+  font-size: var(--fs-lede);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================================
+   the gallery. An even 4:3 grid. CSS columns came first and was dropped: with
+   four landscape frames and two portrait, no ordering fills three columns to
+   within 230px of each other, and the short column reads as a hole. The four
+   landscapes are natively 4:3 so only the two portraits crop, each to an
+   anchor measured in src/content/gallery.ts.
+   ========================================================================= */
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.shot {
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--blue-100);
+  line-height: 0;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .shots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .shots {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================================
+   the competitive result, leading the results band as one wide card. The
+   client asked for it highlighted; it cannot be a fifth board card without
+   leaving a card-shaped hole in the grid, and a single row stretched to
+   1200px reads as a list that failed to load. So: the exam on the left, the
+   rank set large on the right.
+   ========================================================================= */
+
+.standout {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5) var(--sp-8);
+  margin-bottom: var(--sp-4);
+  padding-inline: var(--sp-8);
+}
+
+.standout-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+.standout-brand .mark-img {
+  height: 52px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.standout-brand h3 {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.standout-authority {
+  margin-top: 2px;
+  color: var(--ink-400);
+  font-size: var(--fs-sm);
+}
+
+.standout-figure {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  margin: 0;
+  text-align: right;
+}
+
+.standout-figure span {
+  display: grid;
+  gap: 2px;
+  color: var(--ink-500);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+
+.standout-figure strong {
+  color: var(--ink-900);
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.standout-figure b {
+  color: var(--blue-600);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .standout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-inline: var(--sp-6);
+  }
+
+  .standout-figure {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+/* ============================================================================
+   faculty. A name and the credential given for it, nothing else.
+   ========================================================================= */
+
+/* Wordmarks sit shorter than the round emblems, and the row keeps its height
+   whether a card has marks or not so the three names stay on one line. */
+.marks--credential {
+  min-height: 34px;
+  margin-bottom: var(--sp-4);
+}
+
+.marks--credential .mark-img:not(.mark-img--tall) {
+  height: 34px;
+}
+
+.marks--credential .mark-img--wide {
+  height: 24px;
+}
+
+.teacher h3 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.teacher-title {
+  margin-top: var(--sp-1);
+  color: var(--ink-400);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.teacher-cred {
+  margin-top: var(--sp-2);
+  color: var(--blue-700);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   reviews. Columns again, because the five quotes run from 220 to 480
+   characters and a row grid would leave three cards half empty.
+   ========================================================================= */
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  white-space: nowrap;
+}
+
+/* Filled, not outlined: an outlined star reads as an empty star, which is the
+   opposite of what 5.0 means. Hugeicons free ships stroke geometry only, so
+   the star's own closed path is filled here rather than a different star being
+   drawn by hand. */
+.rating-stars {
+  display: inline-flex;
+  color: var(--blue-500);
+}
+
+.rating-stars svg,
+.rating-stars svg * {
+  fill: currentColor;
+}
+
+.rating b {
+  color: var(--ink-900);
+  font-weight: 600;
+}
+
+.quotes {
+  columns: 2;
+  column-gap: var(--sp-4);
+}
+
+.quote {
+  display: block;
+  margin: 0 0 var(--sp-4);
+  break-inside: avoid;
+}
+
+.quote blockquote {
+  margin: 0;
+  color: var(--ink-700);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.quote figcaption {
+  margin-top: var(--sp-4);
+  color: var(--ink-400);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .quotes {
+    columns: 1;
+  }
+}
+
+/* ============================================================================
+   the offer band inside NextGen. A step up from the section's own tint, so the
+   offer reads as the promoted thing on the page.
+
+   Two things this is not. It is not --blue-500: that is 4.05:1 on white and
+   display-only, so the price would read and "Free laptop access" under it
+   would not. And the section is not white: taking the tint off it to make this
+   band pop put four white sections in a row and dropped the career cards out
+   of `.section--tint .card`, so the tint stayed and the band stepped up
+   instead. Nothing small sits directly on this band -- the offer card is deep
+   and the nine skills are white cards -- so --blue-200 carries no text.
+   ========================================================================= */
+
+.ng-band {
+  padding: var(--pad);
+  border-radius: var(--r-xl);
+  background: var(--blue-200);
 }
 
 /* ============================================================================

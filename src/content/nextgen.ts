@@ -6,10 +6,14 @@
  * Sourced from @abdulsacademy posts of 18 Aug, 28 Aug, 30 Aug and 4 Sept 2026,
  * and the tagged account @nextgenaitraininginstitute.
  *
- * DELIBERATELY NOT PUBLISHED HERE: the posters claim the course is "taught by
- * an AI engineer at Google". It may well be true, but it is a specific claim
- * about a named employer that we cannot verify, and it is the kind of claim
- * that does real damage if it is wrong. TODO: ask Abdul before adding it.
+ * THE GOOGLE CLAIM IS NOW PUBLISHED, ONCE, AND NOT FROM HERE. The posters say
+ * the course is "taught by an AI engineer at Google". This file withheld it
+ * until it could be confirmed, because it is a specific claim about a named
+ * employer and the kind that does real damage if it is wrong. The client
+ * confirmed it on 2026-09-12, and it is published on the faculty card as
+ * "Senior AI Engineer at Google" against Abdul Aziz. The provenance lives with
+ * it, in src/content/faculty.ts. Do not restate it in the NextGen copy: one
+ * claim, one place, one record of who stands behind it.
  */
 
 import type { MarkKey } from "./marks";

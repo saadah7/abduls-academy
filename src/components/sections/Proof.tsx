@@ -1,8 +1,10 @@
 import { stats } from "@/content/site";
 
 /**
- * Three figures directly under the hero, as on the reference. No borders, no
- * counting animation: every one of these is checkable against a poster.
+ * Four figures directly under the hero, as on the reference. No borders, no
+ * counting animation. Three are checkable against a poster; the fourth, the
+ * free-seat count, is the client's own figure. Provenance for each is in
+ * src/content/site.ts against the `stats` export.
  */
 export function Proof() {
   return (
