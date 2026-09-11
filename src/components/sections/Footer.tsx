@@ -2,8 +2,9 @@ import Image from "next/image";
 import { Mark } from "@/components/ui/Mark";
 import { careerCourses, nextgen, skillsProgramme } from "@/content/nextgen";
 import { guessPapers, programmeGroups } from "@/content/programmes";
+import { legalDocs } from "@/content/legal";
 import { site, whatsappLink } from "@/content/site";
-import { asset } from "@/lib/asset";
+import { asset, route } from "@/lib/asset";
 
 const MESSAGE = whatsappLink("Hello, I'd like to ask about Abdul's Academy.");
 
@@ -19,7 +20,7 @@ export function Footer() {
       <div className="wrap">
         <div className="ftr-grid">
           <div>
-            <a className="mark" href="#top" aria-label={`${site.name}, back to top`}>
+            <a className="mark" href={route("/")} aria-label={`${site.name}, home`}>
               <Image src={asset("/logo.png")} alt={site.name} width={858} height={152} />
             </a>
             <p style={{ marginTop: "var(--sp-5)", maxWidth: "34ch" }}>
@@ -40,11 +41,11 @@ export function Footer() {
             <ul>
               {programmeGroups.map((g) => (
                 <li key={g.id}>
-                  <a href="#programmes">{g.stage}</a>
+                  <a href={route("/#programmes")}>{g.stage}</a>
                 </li>
               ))}
               <li>
-                <a href="#results">Results 2026</a>
+                <a href={route("/#results")}>Results 2026</a>
               </li>
             </ul>
             <h4 style={{ marginTop: "var(--sp-8)" }}>Free guess papers</h4>
@@ -67,11 +68,11 @@ export function Footer() {
             <ul>
               {careerCourses.map((c) => (
                 <li key={c.label}>
-                  <a href="#nextgen">{c.label}</a>
+                  <a href={route("/#nextgen")}>{c.label}</a>
                 </li>
               ))}
               <li>
-                <a href="#nextgen">{skillsProgramme.title}</a>
+                <a href={route("/#nextgen")}>{skillsProgramme.title}</a>
               </li>
             </ul>
           </div>
@@ -112,6 +113,13 @@ export function Footer() {
           <p style={{ fontSize: "inherit", color: "inherit" }}>
             {site.name}, {site.address.area}.
           </p>
+          <ul className="ftr-legal">
+            {legalDocs.map((d) => (
+              <li key={d.slug}>
+                <a href={route(`/${d.slug}`)}>{d.title}</a>
+              </li>
+            ))}
+          </ul>
           <div className="creed">
             {site.creed.map((c) => (
               <span key={c}>{c}</span>

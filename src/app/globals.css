@@ -23,7 +23,7 @@
   --color-ink-900: #0a1628;
   --color-ink-700: #1f2e45;
   --color-ink-500: #4a5a72;
-  --color-ink-400: #6b7c96;
+  --color-ink-400: #5c6d86;
   --color-line: #e2e8f2;
   --color-line-2: #cbd5e5;
   --color-blue-50: #eef4ff;
@@ -45,7 +45,12 @@
   --ink-900: #0a1628;
   --ink-700: #1f2e45;
   --ink-500: #4a5a72;
-  --ink-400: #6b7c96;
+  /* Darkened from #6b7c96 on 2026-09-12. That value is 4.24:1 on white and
+     3.84:1 on --blue-50, and this token is only ever used at --fs-sm and
+     --fs-xs, so every one of its nine uses was under the 4.5:1 AA bar for
+     small text. #5c6d86 is 5.27:1 on white and 4.77:1 on --blue-50, and is
+     still lighter than --ink-500 (#4a5a72), which is the whole point of it. */
+  --ink-400: #5c6d86;
   --line: #e2e8f2;
   --line-2: #cbd5e5;
 
@@ -201,11 +206,16 @@ img {
   border-radius: var(--r-xs);
 }
 
-/* on the deep bands the outline has to be light to be seen */
+/* On the deep bands the outline has to be light to be seen: --blue-600 on
+   --blue-900 is 2.03:1, under the 3:1 that WCAG 1.4.11 wants for a focus
+   indicator. Every surface painted with --deep belongs in this list. It has
+   been missed twice now, once for .section--deep and once for .doc-head, so
+   if you add a fifth deep surface add it here in the same commit. */
 .hero :focus-visible,
 .feature :focus-visible,
 .ftr :focus-visible,
-.section--deep :focus-visible {
+.section--deep :focus-visible,
+.doc-head :focus-visible {
   outline-color: var(--white);
 }
 
@@ -1894,6 +1904,119 @@ a:hover > .more svg {
   padding: var(--pad);
   border-radius: var(--r-xl);
   background: var(--blue-200);
+}
+
+/* ============================================================================
+   the prose pages: privacy, terms, and the 404. A deep head, then one column
+   at a reading measure. The sticky header is white and these pages open on the
+   deep band, so the head carries its own top padding rather than relying on
+   the hero's.
+   ========================================================================= */
+
+.doc-page {
+  padding-bottom: var(--sec-y);
+}
+
+.doc-head {
+  padding-block: clamp(48px, 7vw, 88px) clamp(40px, 5vw, 64px);
+  background: var(--deep);
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
+  color: rgb(255 255 255 / 0.8);
+}
+
+.doc-head h1 {
+  max-width: 22ch;
+  margin-top: var(--sp-4);
+  color: var(--white);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.doc-head .eyebrow {
+  color: var(--blue-200);
+}
+
+.doc-head .lede {
+  max-width: 62ch;
+  margin-top: var(--sp-5);
+  color: rgb(255 255 255 / 0.8);
+}
+
+.doc-head .ctas {
+  margin-top: var(--sp-8);
+}
+
+.doc-updated {
+  margin-top: var(--sp-6);
+  color: var(--blue-200);
+  font-size: var(--fs-xs);
+}
+
+.doc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--blue-200);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.doc-back:hover {
+  color: var(--white);
+}
+
+/* 65ch is the measure; the section rhythm is looser than the marketing page's
+   because this is read in order rather than scanned. */
+.doc {
+  max-width: 65ch;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.doc section + section {
+  margin-top: var(--sp-12);
+}
+
+.doc h2 {
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.doc p {
+  margin-top: var(--sp-4);
+  color: var(--ink-700);
+  line-height: 1.7;
+}
+
+.doc .list {
+  margin-top: var(--sp-5);
+}
+
+.doc .list li {
+  color: var(--ink-700);
+  line-height: 1.6;
+}
+
+.doc .list li + li {
+  margin-top: var(--sp-3);
+}
+
+/* the legal links in the footer base */
+.ftr-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 700px) {
+  .doc-head h1 {
+    max-width: none;
+  }
 }
 
 /* ============================================================================

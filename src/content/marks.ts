@@ -37,9 +37,9 @@ export const marks = {
     "add the state emblem for SSC anyway"). en.wikipedia file, tagged CC0,
     rasterised to 192px because the SVG is 478KB.
   */
-  ssc: { src: "/logos/telangana.png", alt: "SSC, Board of Secondary Education, Telangana", w: 192, h: 192 },
+  ssc: { src: "/logos/telangana.png", alt: "SSC, Board of Secondary Education, Telangana", w: 128, h: 128 },
   cbse: { src: "/logos/cbse.svg", alt: "CBSE", w: 251, h: 297 },
-  cisce: { src: "/logos/cisce.png", alt: "ICSE, CISCE", w: 223, h: 160 },
+  cisce: { src: "/logos/cisce.png", alt: "ICSE, CISCE", w: 128, h: 92 },
   /*
     IGCSE is Cambridge International's exam. Its lockup reads "Cambridge
     International Education", which nobody in Malakpet calls it, and the
@@ -47,13 +47,13 @@ export const marks = {
     So a text mark, like SSC.
   */
   igcse: { text: "IGCSE", alt: "Cambridge IGCSE" },
-  tsbie: { src: "/logos/tsbie.png", alt: "Telangana State Board of Intermediate Education", w: 214, h: 213 },
-  ou: { src: "/logos/ou.png", alt: "Osmania University", w: 192, h: 160 },
-  jntuh: { src: "/logos/jntuh.png", alt: "JNTU Hyderabad", w: 153, h: 160 },
+  tsbie: { src: "/logos/tsbie.png", alt: "Telangana State Board of Intermediate Education", w: 128, h: 127 },
+  ou: { src: "/logos/ou.png", alt: "Osmania University", w: 128, h: 107 },
+  jntuh: { src: "/logos/jntuh.png", alt: "JNTU Hyderabad", w: 122, h: 128 },
   /* a tall mark: set larger than the round seals or it reads as a dot */
   nios: { src: "/logos/nios.svg", alt: "NIOS, National Institute of Open Schooling", w: 150, h: 226, tall: true },
   /* the society's own emblem, taken from telanganaopenschool.org, the only size it publishes */
-  toss: { src: "/logos/toss.png", alt: "TOSS, Telangana Open School Society", w: 113, h: 133 },
+  toss: { src: "/logos/toss.png", alt: "TOSS, Telangana Open School Society", w: 109, h: 128 },
   /*
     TSCHE conducts EAPCET, ECET, ICET and PGECET, so its emblem stands for the
     competitive-exams board. Exported on 2026-09-12 from the academy's own TS
@@ -100,7 +100,7 @@ export const marks = {
   // technologies
   office: { src: "/tech/office.svg", alt: "Microsoft 365", w: 40, h: 44 },
   excel: { src: "/tech/excel.svg", alt: "Microsoft Excel", w: 2290, h: 2130 },
-  tally: { src: "/tech/tally.png", alt: "Tally", w: 480, h: 192 },
+  tally: { src: "/tech/tally.png", alt: "Tally", w: 128, h: 51 },
   canva: { src: "/tech/canva.svg", alt: "Canva", w: 24, h: 24 },
   instagram: { src: "/tech/instagram.svg", alt: "Instagram", w: 24, h: 24 },
 } as const satisfies Record<string, Mark>;
