@@ -38,7 +38,6 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  alternates: { canonical: "/" },
   title: {
     default: "Abdul's Academy: Tuition in New Malakpet, Hyderabad",
     template: `%s | ${site.name}`,

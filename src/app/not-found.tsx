@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { CallBar, Footer } from "@/components/sections/Footer";
 import { nextgen } from "@/content/nextgen";
@@ -11,8 +12,19 @@ import { route } from "@/lib/asset";
  *
  * It offers the two things someone who mistyped a URL actually wants -- the
  * page they were looking for, and a person -- rather than a joke and a dead
- * end. No metadata export is needed: Next marks this route noindex itself.
+ * end.
+ *
+ * The metadata below is not optional. Next emits its own noindex here, but the
+ * root layout's `robots: { index: true, follow: true }` was being emitted right
+ * after it, so the page carried two contradictory robots tags and leaned on
+ * crawlers preferring the stricter one. It also inherited the layout's title.
+ * Declaring both here replaces the inherited values rather than arguing with
+ * them.
  */
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+};
 export default function NotFound() {
   return (
     <>

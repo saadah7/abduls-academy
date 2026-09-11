@@ -19,6 +19,13 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { boards, competitive, competitiveExams, passClaim } from "@/content/results";
 
 /**
+ * The canonical lives here rather than on the layout. On the layout every page
+ * inherited it, which gave the 404 and the legal pages a canonical pointing at
+ * this page: a crawler reading that is being told the 404 is the home page.
+ */
+export const metadata = { alternates: { canonical: "/" } };
+
+/**
  * One page, one goal: three free demo classes booked over WhatsApp.
  *
  * Two academies in one building, in the order a parent decides in: what do
