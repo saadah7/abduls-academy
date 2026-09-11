@@ -35,9 +35,12 @@ import { boards, competitive, competitiveExams, passClaim } from "@/content/resu
  * each answering something a parent asks out loud. One dated intake is back
  * as a single line under the figures, not as the board that was cut.
  *
- * Bands alternate deliberately: deep, white, tint, white. Two sections of the
+ * Bands alternate deliberately, and the alternation is the only section
+ * separator this design has: deep, white, tint, white. Two sections of the
  * same ground never touch except Reasons and Questions, which read as one
- * block and always have.
+ * block and always have. Taking the tint off NextGen to make its offer band
+ * pop harder broke that for four sections in a row and was reverted; the
+ * offer band steps up to --blue-200 instead.
  */
 export default function Home() {
   return (

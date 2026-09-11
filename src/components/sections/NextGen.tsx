@@ -45,17 +45,21 @@ function TechMark({ t, size }: { t: Tech; size: number }) {
  * as one deep blue card beside a grid of the nine skills with their marks,
  * then the four career courses.
  *
- * The offer sits on its own tinted band inside an otherwise white section.
- * The client asked on 2026-09-12 for the price to be highlighted and said how:
+ * The offer sits on its own band, a step lighter than the section's tint. The
+ * client asked on 2026-09-12 for the price to be highlighted and said how:
  * "highlighting just change the bg". The card itself stays on the deep blue
  * rather than going bright: white on --blue-500 is 4.05:1, so the price would
  * read but "Free laptop access" under it would not, and --blue-500 is
  * display-only for exactly that reason. Changing the ground behind the card
  * gets the emphasis without putting small text below AA.
+ *
+ * The section keeps its tint. Taking it off to make the band pop harder left
+ * four white sections in a row and quietly re-skinned the four career cards,
+ * which fall out of `.section--tint .card` on a white ground.
  */
 export function NextGen() {
   return (
-    <section className="section" id="nextgen">
+    <section className="section section--tint" id="nextgen">
       <div className="wrap">
         <Reveal>
           <SectionHead

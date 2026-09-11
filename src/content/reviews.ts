@@ -23,10 +23,17 @@
  * on the page while saying nothing a visitor needs.
  */
 
+import { site } from "./site";
+
 export type Review = {
   /** The reviewer's Google display name, as shown. */
   name: string;
-  /** Stars awarded. Every review on the profile is currently five. */
+  /**
+   * Stars awarded, as the profile showed them. Provenance only: no component
+   * reads this, and the heading deliberately does not depend on it. Proving
+   * "every review is five stars" would need the profile's star histogram as
+   * data, which is not in this file.
+   */
   stars: number;
   /** Google's relative date on the read date. Provenance only, not rendered. */
   when: string;
@@ -37,8 +44,8 @@ export type Review = {
 export const googleRating = {
   rating: "5.0",
   count: 74,
-  /** The real place link, replacing the address search this site used before. */
-  url: "https://www.google.com/maps/place/?q=place_id:ChIJhWuYf9OZyzsRdhdRxeOkuv0",
+  /** One place link for the whole site. Defined once in site.ts. */
+  url: site.maps,
 } as const;
 
 export const reviews: Review[] = [

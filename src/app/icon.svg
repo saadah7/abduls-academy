@@ -2,9 +2,11 @@
   <!--
     The academy's mark is a wordmark on a blue plate, so it has no glyph of its
     own. Rather than draw a lookalike serif A, this path is the real 'A' from
-    ABDUL'S in public/logo.png: traced off the artwork, simplified, and set on
-    the plate colour sampled from the same file. Regenerate with
-    scratchpad/trace_a.py + build_icons.py if the vector logo ever arrives.
+    ABDUL'S in public/logo.png: the glyph was lifted out at its own 46x39,
+    supersampled, contour-traced, simplified to the two paths below, and set on
+    the plate colour sampled from the same file. favicon.ico and apple-icon.png
+    were rasterised from these same paths, so all three agree. When the vector
+    logo arrives, take the A from that instead and rebuild all three together.
   -->
   <rect width="64" height="64" rx="10" fill="#2A78FF" />
   <g transform="translate(12.00 15.77) scale(0.4000)">

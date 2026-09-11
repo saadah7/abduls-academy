@@ -47,7 +47,16 @@ export type Board = {
   /** The board's own mark. See marks.ts. */
   mark: MarkKey;
   authority: string;
-  /** Verbatim from the poster, where it makes one. Rendered as a small note. */
+  /**
+   * A pass claim, and the flag that shows the "100% results" badge on the card.
+   *
+   * TWO PROVENANCES, and the difference matters. SSC and ICSE carry this
+   * because their posters print it. CBSE carries it on the client's word, given
+   * on 2026-09-12 after he flagged CBSE missing from the pass-rate figure; its
+   * poster prints percentages only and claims nothing. Each board's own comment
+   * says which it is. Never add this to a fourth board without recording where
+   * the claim came from.
+   */
   claim?: string;
   /** Source post, so the next person can re-check the transcription. */
   source: string;

@@ -25,7 +25,7 @@ export function Faculty() {
     <section className="section" id="faculty">
       <div className="wrap">
         <Reveal>
-          <SectionHead eyebrow="Faculty" title="Who will actually teach you." />
+          <SectionHead eyebrow="Faculty" title="The people who teach here." />
         </Reveal>
 
         <Reveal className="cards cards--3">

@@ -4,20 +4,27 @@
  * SOURCE: the academy's own Google Business Profile, which carries 36
  * owner-uploaded photos, pulled on 2026-09-12 from place ID
  * ChIJhWuYf9OZyzsRdhdRxeOkuv0. The client's instruction that day, asked
- * whether to take them from the account: "yes pull". They are downscaled to
- * 1600px on the long edge and saved as progressive JPEG in
- * public/photos/gallery.
+ * whether to take them from the account: "yes pull". Each is saved as
+ * progressive JPEG in public/photos/gallery at the size its slot needs and no
+ * larger: 1280px on the long edge, which covers a 390px phone at DPR 3, since
+ * a static export has no optimiser and ships one file to every device.
  *
  * Instagram was checked first and is not a photo source: 61 posts, and all
  * but a handful are designed posters rather than photographs.
  *
- * CROPS. The six render as an even 4:3 grid, so the four landscape frames
- * (all of them natively 4:3) are uncropped and the two portrait frames lose
- * top and bottom. `focus` is the vertical anchor for those two, chosen by
- * rendering each candidate crop and looking at it rather than by guessing:
- * 12% on the medal photograph keeps both faces with headroom and still shows
- * the board behind, and 60% on the signboard is the only anchor that holds
- * the whole board. Re-measure if either file is ever replaced.
+ * CROPS ARE BAKED IN, not applied in CSS. The six render as an even 4:3 grid.
+ * Two of the originals are portrait, and they are cropped to 4:3 in the file
+ * itself at anchors chosen by rendering each candidate and looking at it: 12%
+ * from the top on the medal photograph, which keeps both faces with headroom
+ * and still shows the board behind, and 60% on the signboard, the only anchor
+ * that holds the whole board.
+ *
+ * An earlier pass did this with `object-position` instead and shipped the full
+ * portrait frames, so 700 of 1600 rows on one and 622 of 1432 on the other
+ * were downloaded and decoded only for `object-fit: cover` to throw them away.
+ * Cropping in the file removed 181KB for an identical result. If either
+ * photograph is ever replaced, re-measure the anchor and re-crop; do not add
+ * `object-position` back, or the anchor is applied twice.
  *
  * CONSENT, unchanged and still outstanding. Two of these frames show
  * identifiable students. The academy published them itself, on its own public
@@ -35,11 +42,6 @@ export type Shot = {
   h: number;
   /** True where the frame shows an identifiable student. See the note above. */
   people?: boolean;
-  /**
-   * Vertical anchor for the 4:3 crop, as a CSS object-position percentage.
-   * Only the portrait frames need one; the rest are already 4:3.
-   */
-  focus?: string;
 };
 
 export const gallery: Shot[] = [
@@ -59,16 +61,15 @@ export const gallery: Shot[] = [
   {
     src: "/photos/gallery/classroom-window.jpg",
     alt: "A classroom with the whiteboard and the window along one wall",
-    w: 1600,
-    h: 1200,
+    w: 1280,
+    h: 960,
   },
   {
     src: "/photos/gallery/student-medal.jpg",
     alt: "A student with his medal beside the founder at the academy",
     w: 1200,
-    h: 1600,
+    h: 900,
     people: true,
-    focus: "center 12%",
   },
   {
     src: "/photos/gallery/classroom-empty.jpg",
@@ -80,7 +81,6 @@ export const gallery: Shot[] = [
     src: "/photos/gallery/signboard.jpg",
     alt: "The academy signboard at the entrance on New Malakpet",
     w: 1080,
-    h: 1432,
-    focus: "center 60%",
+    h: 810,
   },
 ];

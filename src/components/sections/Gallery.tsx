@@ -13,8 +13,8 @@ import { asset } from "@/lib/asset";
  * portrait frames at all, but six photographs at 4 landscape to 2 portrait
  * cannot fill three columns evenly: the shortest column ran about 230px short
  * of the others whichever way they were ordered, which reads as a hole rather
- * than as a gallery. So the portraits crop, and the anchor for each is
- * measured and recorded in src/content/gallery.ts rather than guessed.
+ * than as a gallery. So the portraits crop, at anchors measured per file and
+ * baked into the files themselves. See src/content/gallery.ts.
  */
 export function Gallery() {
   return (
@@ -28,17 +28,22 @@ export function Gallery() {
         </Reveal>
 
         <Reveal className="shots">
-          {gallery.map((s, i) => (
+          {gallery.map((s) => (
             <figure className="shot" key={s.src}>
+              {/*
+                All six lazy. next/image promotes any non-lazy image to a
+                <link rel="preload"> in the head, and this section sits six
+                sections down, so eager-loading the top row put 589KB ahead of
+                the font and the stylesheet for images nobody can see yet.
+                `sizes` is left off for the same kind of reason: with
+                images.unoptimized there is no srcset for it to pick from.
+              */}
               <Image
                 src={asset(s.src)}
                 alt={s.alt}
                 width={s.w}
                 height={s.h}
-                sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
-                style={s.focus ? { objectPosition: s.focus } : undefined}
-                // The first three are the top row, so they decode with the section.
-                loading={i < 3 ? "eager" : "lazy"}
+                loading="lazy"
               />
             </figure>
           ))}

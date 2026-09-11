@@ -13,11 +13,12 @@ import { googleRating, reviews } from "@/content/reviews";
  * the honest headline here, so it leads and links straight to the profile
  * where anyone can check it.
  *
- * The heading states arithmetic, not a boast: an average of exactly 5.0 over
- * 74 ratings is only possible if every one of the 74 is five stars, and
- * Google's own histogram on the profile agrees, showing 74 against five stars
- * and zero against four and three. If the rating ever moves off 5.0 the
- * heading is false and has to change with it.
+ * The heading states the aggregate and nothing more. An earlier draft read
+ * "Not one review below five stars", which does not follow: `rating` is the
+ * one-decimal figure Google displays, and 367/74 = 4.9595 also displays as
+ * 5.0, so a shown 5.0 tolerates up to three four-star ratings. The absolute
+ * claim would have needed the star histogram as data, and it is not in this
+ * file. Say what is on the profile, which anyone can open and check.
  */
 export function Reviews() {
   return (
@@ -26,19 +27,24 @@ export function Reviews() {
         <Reveal>
           <SectionHead
             eyebrow="Reviews"
-            title="Not one review below five stars."
+            title="Rated 5.0 out of 5 on Google."
             lede={
               <>
                 <span className="rating">
                   <span className="rating-stars" aria-hidden="true">
-                    {[0, 1, 2, 3, 4].map((i) => (
+                    {Array.from({ length: Math.round(Number(googleRating.rating)) }, (_, i) => (
                       <Icon key={i} icon={StarIcon} size={16} />
                     ))}
                   </span>
                   <b className="tabular">{googleRating.rating}</b>
                 </span>{" "}
                 from {googleRating.count} reviews on{" "}
-                <a className="link" href={googleRating.url} target="_blank" rel="noreferrer">
+                <a
+                  className="link"
+                  href={googleRating.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   Google
                 </a>
                 .

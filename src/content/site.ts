@@ -67,8 +67,20 @@ export const site = {
    * Re-read the profile if Abdul changes the listing.
    */
   hours: [
-    { days: "Monday to Saturday", time: "11am to 11pm" },
-    { days: "Sunday", time: "3:30pm to 11pm" },
+    {
+      days: "Monday to Saturday",
+      time: "11am to 11pm",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "11:00",
+      closes: "23:00",
+    },
+    {
+      days: "Sunday",
+      time: "3:30pm to 11pm",
+      dayOfWeek: ["Sunday"],
+      opens: "15:30",
+      closes: "23:00",
+    },
   ],
 
   /** From the Sept 2025 profile post, which lists the academy's standing features. */

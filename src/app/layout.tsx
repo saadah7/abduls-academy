@@ -28,8 +28,8 @@ const schibsted = Schibsted_Grotesk({
  * the production URL on a machine that is not production.
  *
  * TODO: set NEXT_PUBLIC_SITE_URL to the real domain once Abdul has one.
- * abdulsacademy.com, which his Google listing points at, is a WordPress
- * parking page and is not his.
+ * abdulsacademy.com is a WordPress.com parking page, so it is not the
+ * academy's, even though the Google listing points at it.
  */
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
 
@@ -62,10 +62,16 @@ export const metadata: Metadata = {
     locale: "en_IN",
     siteName: site.name,
     /*
-      Composed from the academy's own logo plate, its own building, the hero
-      headline and the Google rating, in the site's own typeface. Built by
-      scratchpad/build_og.py; rerun that if the headline or the rating moves.
-      1200x630 is the size every platform crops from.
+      1200x630, the size every platform crops from. Composed from the academy's
+      own logo plate over public/photos/gallery/building-evening.jpg under a
+      --blue-900 wash, with the hero headline and the Google rating set in
+      Schibsted Grotesk, the site's own family, at the weights the design system
+      uses.
+
+      It bakes in the headline and the rating, so it goes stale if either moves.
+      Rebuild it by hand from those ingredients: there is no generator in the
+      repo, and the page's own <h1> and src/content/reviews.ts are the source
+      for the two strings.
     */
     images: [
       {
@@ -112,21 +118,14 @@ const SCHEMA = {
     addressCountry: "IN",
   },
   availableLanguage: ["English", "Urdu", "Telugu"],
-  // The same hours the Visit card shows, in the format search engines read.
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      opens: "11:00",
-      closes: "23:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Sunday",
-      opens: "15:30",
-      closes: "23:00",
-    },
-  ],
+  // Mapped from the same site.hours the Visit card and the footer render, so
+  // the structured data cannot drift from the page.
+  openingHoursSpecification: site.hours.map((h) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: h.dayOfWeek,
+    opens: h.opens,
+    closes: h.closes,
+  })),
 };
 
 export default function RootLayout({

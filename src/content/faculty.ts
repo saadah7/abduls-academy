@@ -27,8 +27,13 @@
  *   reviews name a "Bari" teaching engineering subjects, which is consistent
  *   but is a reviewer's word and is not used here as a source.
  *
- * The marks are the employers named in the credential and nothing more. Do not
- * decorate a card with a logo for an organisation the line does not name.
+ * MARKS FOLLOW THE CREDENTIAL, and nothing else. A card carries the mark of
+ * the organisation its credential line actually names: the employer where the
+ * line names an employer, the awarding body where the line names an exam. So
+ * Abdul Aziz carries Google and Tech Mahindra because the line names them, and
+ * Abdul Hadi carries TSCHE because TSCHE is the authority that sets PGECET.
+ * Abdul Bari's line names no organisation, so his card carries no mark. Do not
+ * decorate a card with a logo its credential does not account for.
  */
 
 import type { MarkKey } from "./marks";

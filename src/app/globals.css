@@ -204,7 +204,8 @@ img {
 /* on the deep bands the outline has to be light to be seen */
 .hero :focus-visible,
 .feature :focus-visible,
-.ftr :focus-visible {
+.ftr :focus-visible,
+.section--deep :focus-visible {
   outline-color: var(--white);
 }
 
@@ -256,7 +257,8 @@ img {
   background: var(--blue-50);
 }
 
-/* The third deep block, after the hero and the footer. The results sit on it
+/* The fourth deep surface, after the hero, the NextGen offer card and the
+   footer. The results sit on it
    because the client asked on 2026-09-12 for them highlighted, and said how:
    "highlighting just change the bg". Rounded top and bottom so it reads as a
    block the page passes through, the way the hero and the footer do at their
@@ -279,12 +281,11 @@ img {
 
 .section--deep .head .lede,
 .section--deep .note {
-  color: rgb(255 255 255 / 0.78);
+  color: rgb(255 255 255 / 0.8);
 }
 
 .section--deep .card {
   background: var(--white);
-  border-color: transparent;
 }
 
 /* the white button needs no outline once it is the light thing on the band */
@@ -312,10 +313,10 @@ img {
   text-align: left;
 }
 
-/* Balanced wraps on the short strings that break into two lines. At 1440 the
-   pass-rate label stranded "2026" on a line of its own and the gallery head
-   broke after "the"; balance costs nothing where the text already fits. */
-.head h2,
+/* Balanced wraps on the two short strings that break into two lines and are
+   not headings. At 1440 the pass-rate label stranded "2026" on a line of its
+   own. Headings already get this from the h1-h4 rule above, so they are not
+   listed again here. */
 .stat span,
 .admit-title {
   text-wrap: balance;
@@ -1572,7 +1573,7 @@ a:hover > .more svg {
 /* ============================================================================
    the strip above the header. Client, 2026-09-12: both free one-to-one
    services, "in header section with different light color". --blue-100 is that
-   light colour, and --blue-900 on it is 11.4:1, so the smallest type on the
+   light colour, and --blue-900 on it is 10.1:1, so the smallest type on the
    page is also the safest.
    ========================================================================= */
 
@@ -1783,7 +1784,7 @@ a:hover > .more svg {
   margin-bottom: var(--sp-4);
 }
 
-.marks--credential .mark-img {
+.marks--credential .mark-img:not(.mark-img--tall) {
   height: 34px;
 }
 
@@ -1877,15 +1878,22 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   the offer band inside NextGen. The section is white and this strip is
-   tinted, so the deep card reads as the promoted thing without --blue-500
-   having to carry small text it cannot carry at AA.
+   the offer band inside NextGen. A step up from the section's own tint, so the
+   offer reads as the promoted thing on the page.
+
+   Two things this is not. It is not --blue-500: that is 4.05:1 on white and
+   display-only, so the price would read and "Free laptop access" under it
+   would not. And the section is not white: taking the tint off it to make this
+   band pop put four white sections in a row and dropped the career cards out
+   of `.section--tint .card`, so the tint stayed and the band stepped up
+   instead. Nothing small sits directly on this band -- the offer card is deep
+   and the nine skills are white cards -- so --blue-200 carries no text.
    ========================================================================= */
 
 .ng-band {
-  padding: clamp(20px, 3vw, 40px);
+  padding: var(--pad);
   border-radius: var(--r-xl);
-  background: var(--blue-100);
+  background: var(--blue-200);
 }
 
 /* ============================================================================
