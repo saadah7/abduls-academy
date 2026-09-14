@@ -4,12 +4,13 @@ import { SITE_URL } from "@/content/site";
 /**
  * Three URLs, written absolute.
  *
- * A static export emits this as out/sitemap.xml, so it is served from the
- * project path (/abduls-academy/sitemap.xml). That is fine for a sitemap: it
- * is found by being submitted in Search Console or named in robots.txt, not by
- * sitting at the host root. The URLs inside it have to be absolute and have to
- * carry the base path, which is why they come from the same
- * NEXT_PUBLIC_SITE_URL that metadataBase uses rather than from a bare "/".
+ * On Vercel this is served at the host root. The Pages build emits it as
+ * out/sitemap.xml under the project path (/abduls-academy/sitemap.xml), which
+ * is still fine for a sitemap: it is found by being submitted in Search
+ * Console or named in robots.txt, not by sitting at the host root. The URLs
+ * inside it have to be absolute and have to carry the base path, which is why
+ * they come from the same NEXT_PUBLIC_SITE_URL that metadataBase uses rather
+ * than from a bare "/".
  *
  * lastModified is the date this content was last actually revised, by hand. It
  * is not `new Date()`: a sitemap that claims every page changed on every build

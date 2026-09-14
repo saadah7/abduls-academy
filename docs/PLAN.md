@@ -27,6 +27,16 @@ and deployed by `.github/workflows/pages.yml` on every push to `main`. The
 repo was made public on 2026-09-11 because GitHub Pages on a private repo
 needs a paid plan.
 
+**Production moved to Vercel on 2026-09-14**, onto the academy's own domain
+`abdulsacademy.com`. Vercel runs the Next server, so that build drops
+`output: "export"` and keeps next/image's optimiser; the Pages build is
+untouched and still exports. `next.config.ts` switches on `VERCEL`, which
+Vercel sets on every build it runs and nothing else does. The Vercel project
+carries `NEXT_PUBLIC_SITE_URL=https://abdulsacademy.com` and no
+`NEXT_PUBLIC_BASE_PATH`, so the site serves from `/`. Pages still builds on
+every push to `main`; decide whether to retire it rather than leave two live
+copies of the same three pages competing in search.
+
 Dev server: `npm run dev` → <http://localhost:3400>
 
 Repo: <https://github.com/saadah7/abduls-academy> (public). The standing rule
@@ -222,7 +232,7 @@ the only size that exists; TODO: ask Abdul for the vector. The TOSS emblem is
 | Year established | No "since" line anywhere. |
 | ~~Real Google Business place link~~ | **Resolved 2026-09-12.** Abdul sent it; `site.maps` is now the `place_id` form for `ChIJhWuYf9OZyzsRdhdRxeOkuv0`, and `src/content/reviews.ts` reads the same constant. The listing's opening hours came from the same profile. |
 | Which phone answers what | Three numbers are in circulation; `site.ts` documents them. |
-| Domain | `abdulsacademy.com` is a WordPress.com parking page, so it is not his, even though his Google listing points at it. Worth telling him: the listing is advertising a domain he does not control. Until there is a real domain, `NEXT_PUBLIC_SITE_URL` in the deploy workflow carries the Pages URL for the Open Graph card and the canonical link. |
+| ~~Domain~~ | **Resolved 2026-09-14, DNS pending.** `abdulsacademy.com` is the academy's after all, registered on Hostinger, and the credentials sit with its owner rather than with Saad. It is now the production origin on Vercel and carries the canonical link and the Open Graph card. The A and CNAME records still have to be added to the Hostinger zone by whoever holds that login; see "Deployment" above. |
 | Guess paper PDFs | Footer links go to Instagram posts because only poster images exist. |
 | ~~"Taught by an AI engineer at Google"~~ | **Resolved 2026-09-12.** Confirmed by the client and published once, on the faculty card. See "Published on the client's word" above. |
 | Urdu or Telugu versions? | The site is English only; the page says classes run in three languages. |

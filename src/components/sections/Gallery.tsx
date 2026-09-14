@@ -35,14 +35,22 @@ export function Gallery() {
                 <link rel="preload"> in the head, and this section sits six
                 sections down, so eager-loading the top row put 589KB ahead of
                 the font and the stylesheet for images nobody can see yet.
-                `sizes` is left off for the same kind of reason: with
-                images.unoptimized there is no srcset for it to pick from.
+
+                `sizes` tracks the grid in globals.css: one column under 560px,
+                two under 900px, three above that, and .wrap caps the row at
+                --max 1200px less two --pad and two 16px gaps, so the widest a
+                frame ever gets is (1120 - 32) / 3 = 363px. Without the
+                attribute next/image emits no srcset at all and every device,
+                phones included, takes the w=3840 render: 592KB across the six
+                rather than about 190KB. On the Pages build images.unoptimized
+                means there is no srcset to pick from and this is inert.
               */}
               <Image
                 src={asset(s.src)}
                 alt={s.alt}
                 width={s.w}
                 height={s.h}
+                sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, (max-width: 1280px) 33vw, 363px"
                 loading="lazy"
               />
             </figure>

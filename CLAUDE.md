@@ -19,9 +19,17 @@ npm run build      # static export to out/, must stay clean
 npx tsc --noEmit   # must stay clean
 ```
 
-Deployed by `.github/workflows/pages.yml` to GitHub Pages on every push to
-`main`: <https://saadah7.github.io/abduls-academy/>. The workflow sets two
-build-time variables and they move together:
+Production is **Vercel**, on the academy's own domain
+<https://abdulsacademy.com>, deployed from `main` through the connected GitHub
+repo. Vercel sets `VERCEL` on its builds, and `next.config.ts` reads it: that
+build drops `output: "export"` and keeps next/image's optimiser. The project
+holds `NEXT_PUBLIC_SITE_URL=https://abdulsacademy.com` and deliberately no
+`NEXT_PUBLIC_BASE_PATH`, so the site serves from `/`.
+
+`.github/workflows/pages.yml` still deploys to GitHub Pages on every push to
+`main` as well: <https://saadah7.github.io/abduls-academy/>. Retiring it is an
+open decision, recorded in `docs/PLAN.md`. It sets two build-time variables and
+they move together:
 
 - `NEXT_PUBLIC_BASE_PATH=/abduls-academy` — every `public/` path in an
   `<Image>` goes through `asset()` from `src/lib/asset.ts` so it picks that

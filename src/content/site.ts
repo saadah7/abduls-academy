@@ -94,9 +94,10 @@ export const site = {
  * Declared once here because it was previously copied into three files, and a
  * production build with the variable unset fails silently rather than loudly:
  * it publishes a sitemap full of localhost URLs and a canonical pointing at a
- * machine nobody can reach. The deploy workflow sets it; locally it is unset
- * and the dev origin stands in, which keeps the tags well formed without
- * claiming the production URL from a laptop.
+ * machine nobody can reach. Both deploys set it, Vercel from the project
+ * environment and GitHub Pages from the workflow; locally it is unset and the
+ * dev origin stands in, which keeps the tags well formed without claiming the
+ * production URL from a laptop.
  */
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3400";
 

@@ -23,13 +23,13 @@ const schibsted = Schibsted_Grotesk({
  *
  * Open Graph will not take a relative image, and a static export has no
  * request to infer a host from, so the origin has to be known at build time.
- * NEXT_PUBLIC_SITE_URL is set by the deploy workflow; locally it is unset and
- * the dev origin stands in, which keeps the tags well formed without claiming
- * the production URL on a machine that is not production.
+ * NEXT_PUBLIC_SITE_URL is set by whichever deploy is building; locally it is
+ * unset and the dev origin stands in, which keeps the tags well formed without
+ * claiming the production URL on a machine that is not production.
  *
- * TODO: set NEXT_PUBLIC_SITE_URL to the real domain once Abdul has one.
- * abdulsacademy.com is a WordPress.com parking page, so it is not the
- * academy's, even though the Google listing points at it.
+ * Production is https://abdulsacademy.com on Vercel, which the academy does
+ * own; the earlier note here was written when that name still served a
+ * WordPress.com parking page.
  */
 
 const DESCRIPTION =

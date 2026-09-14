@@ -6,8 +6,10 @@
  * ChIJhWuYf9OZyzsRdhdRxeOkuv0. The client's instruction that day, asked
  * whether to take them from the account: "yes pull". Each is saved as
  * progressive JPEG in public/photos/gallery at the size its slot needs and no
- * larger: 1280px on the long edge, which covers a 390px phone at DPR 3, since
- * a static export has no optimiser and ships one file to every device.
+ * larger: 1280px on the long edge, which covers a 390px phone at DPR 3. That
+ * ceiling is set by the Pages export, which has no optimiser and ships one
+ * file to every device. On Vercel these are the source the optimiser resizes
+ * down from, against the sizes attribute in Gallery.tsx.
  *
  * Instagram was checked first and is not a photo source: 61 posts, and all
  * but a handful are designed posters rather than photographs.
