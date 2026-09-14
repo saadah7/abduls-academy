@@ -29,8 +29,8 @@ export type Review = {
   /** The reviewer's Google display name, as shown. */
   name: string;
   /**
-   * Stars awarded, as the profile showed them. Provenance only: no component
-   * reads this, and the heading deliberately does not depend on it. Proving
+   * Stars awarded, as the profile showed them. Drawn on each review card since
+   * 2026-09-15. The heading deliberately does not depend on it: proving
    * "every review is five stars" would need the profile's star histogram as
    * data, which is not in this file.
    */

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { Icon } from "@/components/ui/Icon";
 import { Mark } from "@/components/ui/Mark";
+import { Reveal } from "@/components/ui/Reveal";
 import type { Board } from "@/content/results";
 
 /** Rows shown per board before the reader asks for all of them. */
@@ -24,7 +25,7 @@ export function ResultsBoard({ boards }: { boards: Board[] }) {
 
   return (
     <>
-      <div className="boards">
+      <Reveal className={all ? "boards boards--open" : "boards"} stagger>
         {boards.map((board) => {
           const shown = all ? board.students : board.students.slice(0, PREVIEW);
           const rest = board.students.length - shown.length;
@@ -66,7 +67,7 @@ export function ResultsBoard({ boards }: { boards: Board[] }) {
             </article>
           );
         })}
-      </div>
+      </Reveal>
 
       {hidden > 0 ? (
         <div className="results-foot">

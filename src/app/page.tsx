@@ -13,10 +13,12 @@ import { Reasons } from "@/components/sections/Reasons";
 import { Faq } from "@/components/sections/Faq";
 import { Visit } from "@/components/sections/Visit";
 import { CallBar, Footer } from "@/components/sections/Footer";
+import { Notices } from "@/components/Notices";
+import { Figure } from "@/components/ui/Figure";
 import { Mark } from "@/components/ui/Mark";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { boards, competitive, competitiveExams, passClaim } from "@/content/results";
+import { boards, competitiveExams, highlights, passClaim } from "@/content/results";
 
 /**
  * The canonical lives here rather than on the layout. On the layout every page
@@ -42,12 +44,17 @@ export const metadata = { alternates: { canonical: "/" } };
  * each answering something a parent asks out loud. One dated intake is back
  * as a single line under the figures, not as the board that was cut.
  *
+ * 2026-09-15, on Saad's review notes: that intake line moved above the hero,
+ * the slot PW uses for its banner, and the figures took the tint so two
+ * white sections never meet. The single competitive card became a row of
+ * three highlight cards, the figures count up, and every grid cascades in.
+ *
  * Bands alternate deliberately, and the alternation is the only section
- * separator this design has: deep, white, tint, white. Two sections of the
- * same ground never touch except Reasons and Questions, which read as one
- * block and always have. Taking the tint off NextGen to make its offer band
- * pop harder broke that for four sections in a row and was reverted; the
- * offer band steps up to --blue-200 instead.
+ * separator this design has: strip, deep, tint, white, deep, tint, white and
+ * on. Two sections of the same ground never touch except Reasons and
+ * Questions, which read as one block and always have. Taking the tint off
+ * NextGen to make its offer band pop harder broke that for four sections in
+ * a row and was reverted; the offer band steps up to --blue-200 instead.
  */
 export default function Home() {
   return (
@@ -59,9 +66,9 @@ export default function Home() {
       <Header />
 
       <main>
+        <Admission />
         <Hero />
         <Proof />
-        <Admission />
         <Programmes />
 
         <section className="section section--deep" id="results">
@@ -75,24 +82,25 @@ export default function Home() {
             </Reveal>
 
             {/*
-              The competitive result leads, as one wide card. Why it is not a
-              fifth board card is argued in src/content/results.ts.
+              Three figures lead, as white cards on the band, before a single
+              name. What the row is, and why POLYCET is not in it, is argued
+              in src/content/results.ts.
             */}
-            <Reveal className="card standout">
-              <div className="standout-brand">
-                <Mark k={competitive.mark} />
-                <div>
-                  <h3>{competitive.title}</h3>
-                  <p className="standout-authority">{competitive.authority}</p>
-                </div>
-              </div>
-              <p className="standout-figure">
-                <span>
-                  <strong>{competitive.student}</strong>
-                  {competitive.exam}
-                </span>
-                <b className="tabular">{competitive.rank}</b>
-              </p>
+            <Reveal className="cards cards--3 highlights" stagger>
+              {highlights.map((h) => (
+                <article className="card highlight" key={h.label}>
+                  <div className="marks marks--credential">
+                    {h.marks?.map((m) => (
+                      <Mark k={m} key={m} />
+                    ))}
+                  </div>
+                  <p className="highlight-figure">
+                    <Figure value={h.figure} className="tabular" />
+                  </p>
+                  <h3>{h.label}</h3>
+                  <p className="highlight-detail">{h.detail}</p>
+                </article>
+              ))}
             </Reveal>
 
             <ResultsBoard boards={boards} />
@@ -117,6 +125,7 @@ export default function Home() {
 
       <Footer />
       <CallBar />
+      <Notices />
     </>
   );
 }

@@ -23,7 +23,7 @@ export function Programmes() {
           />
         </Reveal>
 
-        <Reveal className="cards cards--4">
+        <Reveal className="cards cards--4" stagger>
           {programmeGroups.map((g) => (
             <article className="card" key={g.id}>
               <div className="marks">

@@ -14,11 +14,11 @@ import { faculty } from "@/content/faculty";
  * the way the programme cards open with the marks of the boards they prepare
  * for. A card whose line names no organisation opens with nothing.
  *
- * The name comes before the title, not after it. Only one of the three has a
- * title, so an eyebrow above the name dropped that one name a line below the
- * other two and the row read as broken. Name first puts all three on the same
- * baseline and leaves the uneven line at the bottom of the card, where a
- * ragged edge is what a card grid looks like anyway.
+ * The name comes before the title, not after it. Not every card has a title
+ * (Abdul Aziz's does not), so an eyebrow above the name dropped his name a
+ * line below the other two and the row read as broken. Name first puts all
+ * three on the same baseline and leaves the uneven line at the bottom of the
+ * card, where a ragged edge is what a card grid looks like anyway.
  */
 export function Faculty() {
   return (
@@ -28,7 +28,7 @@ export function Faculty() {
           <SectionHead eyebrow="Faculty" title="The people who teach here." />
         </Reveal>
 
-        <Reveal className="cards cards--3">
+        <Reveal className="cards cards--3" stagger>
           {faculty.map((t) => (
             <article className="card teacher" key={t.name}>
               <div className="marks marks--credential">

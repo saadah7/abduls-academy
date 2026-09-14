@@ -27,7 +27,7 @@ export function Gallery() {
           />
         </Reveal>
 
-        <Reveal className="shots">
+        <Reveal className="shots" stagger>
           {gallery.map((s) => (
             <figure className="shot" key={s.src}>
               {/*

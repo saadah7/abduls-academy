@@ -100,6 +100,27 @@ export const marks = {
   */
   google: { src: "/logos/google.svg", alt: "Google", w: 272, h: 92, wide: true },
   techmahindra: { src: "/logos/techmahindra.svg", alt: "Tech Mahindra", w: 200, h: 50, wide: true },
+  /*
+    GATE, the exam Abdul Bari's credential names (Saad, 2026-09-15: "add GATE
+    logo"). From en.wikipedia, "GATE current logo.png" (fair use there),
+    credited to gate2027.iitm.ac.in. Each year's organising institute issues
+    the lockup, and this one reads "GATE 2027, IIT Madras" under the emblem.
+    Bari did not sit GATE 2027, so only the emblem is kept: the "Graduate
+    Aptitude Test in Engineering" ring around the tree, pen and book, cut at
+    the transparent gap above the year line. Real artwork, not redrawn, and no
+    year it would be wrong to claim. Margins trimmed, 128px on the long edge,
+    palette PNG like the other raster marks.
+  */
+  gate: { src: "/logos/gate.png", alt: "GATE, Graduate Aptitude Test in Engineering", w: 125, h: 128 },
+  /*
+    NTA conducts NEET, so its wordmark stands for NEET in the admissions banner
+    (Saad, 2026-09-15: "add eapcet and neet logos here"; EAPCET is TSCHE's,
+    above). From en.wikipedia, "National Testing Agency logo.png", public
+    domain there, credited to nta.ac.in. Kept at its 421x72 source size rather
+    than 128px: it is a wordmark shown 28px tall and needs the width to stay
+    crisp at 2x. Palette PNG. Flagged `wide` like the other wordmarks.
+  */
+  nta: { src: "/logos/nta.png", alt: "NTA, National Testing Agency", w: 421, h: 72, wide: true },
 
   // technologies
   office: { src: "/tech/office.svg", alt: "Microsoft 365", w: 40, h: 44 },

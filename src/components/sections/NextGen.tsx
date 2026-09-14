@@ -104,7 +104,7 @@ export function NextGen() {
           </Reveal>
         </div>
 
-        <Reveal className="cards cards--4">
+        <Reveal className="cards cards--4" stagger>
           {careerCourses.map((c) => (
             <article className="card" key={c.label}>
               <span className="card-ico">

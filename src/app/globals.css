@@ -684,6 +684,47 @@ a:hover > .more svg {
   }
 }
 
+/* The hero cascades in CSS rather than through Reveal (Saad, 2026-09-15:
+   "this hero section should also have the stagger reveal"). It is the first
+   paint and the largest text on the page, and a reveal that waits for
+   hydration would hold the headline invisible until the JavaScript arrives.
+   Same beat as Reveal: 12px out of an 8px blur, 500ms, 60ms apart, copy
+   first and then the two cards. Fill-mode backwards, so once the animation
+   ends each element is back on its own styles and the card's hover transform
+   still applies. */
+.hero-copy > *,
+.hero-card {
+  animation: rise 0.5s var(--e-out) backwards;
+}
+
+.hero-copy > :nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.hero-copy > :nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.hero-copy > :nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.hero-cards > :nth-child(1) {
+  animation-delay: 240ms;
+}
+
+.hero-cards > :nth-child(2) {
+  animation-delay: 300ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(8px);
+  }
+}
+
 .hero-card {
   display: flex;
   flex-direction: column;
@@ -742,8 +783,11 @@ a:hover > .more svg {
    proof strip: three figures, centred, no borders
    ========================================================================= */
 
+/* Tinted since 2026-09-15, when the admissions strip moved above the hero and
+   left this section white against the white programmes below it. */
 .proof {
   padding-block: clamp(48px, 6vw, 80px);
+  background: var(--blue-50);
 }
 
 /* Four since 2026-09-12: the client flagged CBSE missing from the pass rate
@@ -930,16 +974,27 @@ a:hover > .more svg {
 /* Two columns, not four: at four, a 1200px container gives each card about
    220px of content width, and the names ("Mohammed Murtaza Ali Amaan") wrap a
    word per line beside their marks. */
+/* Closed, every board is the height of the tallest, so the four read as one
+   balanced block (Saad, 2026-09-15: "visually balance the boxes, same size").
+   Open, SSC runs to 21 rows against Intermediate's 6, and forcing those equal
+   would leave a card three-quarters empty, so each takes its own height. */
 .boards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: var(--sp-4);
+}
+
+.boards--open {
+  grid-auto-rows: auto;
   align-items: start;
 }
 
 @media (max-width: 900px) {
   .boards {
     grid-template-columns: 1fr;
+    /* Stacked, there is nothing to balance against, so each takes its height. */
+    grid-auto-rows: auto;
   }
 }
 
@@ -1036,8 +1091,12 @@ a:hover > .more svg {
   font-weight: 600;
 }
 
-.board-more {
-  margin-top: var(--sp-3);
+/* Pinned to the foot of the card, so the four boards align at the bottom
+   while they share a height. `.card > p` sets an 8px top margin on every
+   paragraph in a card and outranks a lone class, hence the child selector. */
+.card > .board-more {
+  margin-top: auto;
+  padding-top: var(--sp-3);
   font-size: var(--fs-xs);
   color: var(--ink-400);
 }
@@ -1237,7 +1296,9 @@ a:hover > .more svg {
   }
 }
 
-.ng + .cards {
+/* The career cards sit one grid gap under the offer band. The band wraps
+   `.ng` since the --blue-200 step-up, so the sibling is `.ng-band`. */
+.ng-band + .cards {
   margin-top: var(--sp-4);
 }
 
@@ -1382,7 +1443,9 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   footer: deep blue, rounded top corners, four columns
+   footer: deep blue, rounded top corners. A brand row, then four equal link
+   columns, two across on a phone. Reorganised 2026-09-15; the reasoning is on
+   the component.
    ========================================================================= */
 
 .ftr {
@@ -1394,25 +1457,37 @@ a:hover > .more svg {
   padding-bottom: calc(var(--sp-12) + env(safe-area-inset-bottom));
 }
 
+/* Row gap stays zero because the columns subgrid onto these rows (below) and
+   would inherit it between a heading and its list. */
 .ftr-grid {
   display: grid;
-  gap: var(--sp-10);
-}
-
-@media (min-width: 560px) {
-  .ftr-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--sp-6);
+  row-gap: 0;
 }
 
 @media (min-width: 900px) {
   .ftr-grid {
-    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
-    gap: var(--sp-12);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--sp-12);
   }
 }
 
+/* Each column is heading over list on the parent's rows (subgrid), so the
+   headings in a row share one height and the four lists start on the same
+   line even when the NextGen heading wraps beside its tile. */
+.ftr-grid > div {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  align-content: start;
+}
+
 .ftr h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: 32px;
   margin: 0 0 var(--sp-4);
   color: var(--white);
   font-size: var(--fs-xs);
@@ -1427,6 +1502,8 @@ a:hover > .more svg {
   padding: 0;
   display: grid;
   gap: var(--sp-3);
+  /* the list row is as tall as the longest list; a shorter one packs at the top */
+  align-content: start;
 }
 
 .ftr a {
@@ -1447,20 +1524,29 @@ a:hover > .more svg {
 }
 
 .ftr .mark img {
-  height: 32px;
+  height: 28px;
+}
+
+/* the contact column: address and hours above the links, all one block */
+.ftr-contact address {
+  margin: 0 0 var(--sp-3);
+  font-style: normal;
+}
+
+.ftr-contact p {
+  margin: 0 0 var(--sp-4);
 }
 
 /* the NextGen mark has a white ground, so on the deep band it sits in a tile */
 .ftr-tile {
   display: inline-flex;
-  padding: 6px;
-  margin-bottom: var(--sp-4);
+  padding: 4px;
   background: var(--white);
   border-radius: var(--r-sm);
 }
 
 .ftr-tile .mark-img {
-  height: 44px;
+  height: 24px;
   width: auto;
 }
 
@@ -1475,6 +1561,38 @@ a:hover > .more svg {
   border-top: 1px solid rgb(255 255 255 / 0.16);
   color: rgb(255 255 255 / 0.55);
   font-size: var(--fs-xs);
+}
+
+.ftr-base p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.5;
+}
+
+.ftr-base a {
+  font-size: inherit;
+}
+
+/* A phone shows the lists two across; the spacing steps down with it so the
+   footer stays well under two screens. */
+@media (max-width: 899px) {
+  .ftr {
+    padding-top: var(--sp-12);
+  }
+
+  .ftr ul {
+    gap: var(--sp-2);
+  }
+
+  /* the second pair of lists, under the first */
+  .ftr-grid > div:nth-child(n + 3) {
+    margin-top: var(--sp-8);
+  }
+
+  .ftr-base {
+    margin-top: var(--sp-8);
+  }
 }
 
 .creed {
@@ -1581,39 +1699,9 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   the strip above the header. Client, 2026-09-12: both free one-to-one
-   services, "in header section with different light color". --blue-100 is that
-   light colour, and --blue-900 on it is 10.1:1, so the smallest type on the
-   page is also the safest.
-   ========================================================================= */
-
-.topbar {
-  background: var(--blue-100);
-}
-
-.topbar-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--sp-2) var(--sp-6);
-  margin: 0;
-  padding-block: var(--sp-2);
-  list-style: none;
-}
-
-.topbar-list li {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  color: var(--blue-900);
-  font-size: var(--fs-xs);
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-/* ============================================================================
-   the dated intake. One line and one button on a light band, which is the
-   whole of the highlight: no badge, no countdown.
+   the dated intake. A centred banner on a light band between the header and
+   the hero: date, batch, one button. Still no badge and no countdown.
+   --blue-700 on --blue-100 clears AA for the date line.
    ========================================================================= */
 
 .admit {
@@ -1622,35 +1710,51 @@ a:hover > .more svg {
 
 .admit-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--sp-4) var(--sp-6);
-  padding-block: var(--sp-5);
-}
-
-.admit-copy {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--sp-2) var(--sp-3);
-  margin: 0;
+  gap: var(--sp-4);
+  padding-block: clamp(32px, 4vw, 48px);
+  text-align: center;
 }
 
 .admit-date {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
+  margin: 0;
   color: var(--blue-700);
   font-size: var(--fs-sm);
   font-weight: 600;
 }
 
 .admit-title {
+  margin: 0;
   color: var(--ink-900);
-  font-size: var(--fs-lede);
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
   font-weight: 500;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.admit-row .btn {
+  margin-top: var(--sp-2);
+}
+
+/* the two conducting bodies' seals, centred over the date line */
+.admit-marks {
+  justify-content: center;
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+.admit-marks .mark-img {
+  height: 44px;
+  width: auto;
+}
+
+/* the NTA wordmark reads at a wordmark's height beside the round seal */
+.admit-marks .mark-img--wide {
+  height: 28px;
 }
 
 /* ============================================================================
@@ -1696,91 +1800,43 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   the competitive result, leading the results band as one wide card. The
-   client asked for it highlighted; it cannot be a fifth board card without
-   leaving a card-shaped hole in the grid, and a single row stretched to
-   1200px reads as a list that failed to load. So: the exam on the left, the
-   rank set large on the right.
+   results highlights. Three white cards on the deep band, above the boards:
+   the figures a parent scans for before reading a single name. Each opens
+   with the mark of the body its figure names, on the faculty cards' rule.
+   Replaced the one wide competitive card on 2026-09-15; what is in the row
+   and why is argued in src/content/results.ts.
    ========================================================================= */
 
-.standout {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-5) var(--sp-8);
+.highlights {
   margin-bottom: var(--sp-4);
-  padding-inline: var(--sp-8);
 }
 
-.standout-brand {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-4);
-  min-width: 0;
-}
-
-.standout-brand .mark-img {
-  height: 52px;
-  width: auto;
-  flex-shrink: 0;
-}
-
-.standout-brand h3 {
-  font-size: var(--fs-h3);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-.standout-authority {
-  margin-top: 2px;
-  color: var(--ink-400);
-  font-size: var(--fs-sm);
-}
-
-.standout-figure {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-5);
+.highlight-figure {
   margin: 0;
-  text-align: right;
 }
 
-.standout-figure span {
-  display: grid;
-  gap: 2px;
-  color: var(--ink-500);
-  font-size: var(--fs-sm);
-  line-height: 1.4;
-}
-
-.standout-figure strong {
-  color: var(--ink-900);
-  font-size: var(--fs-body);
-  font-weight: 600;
-}
-
-.standout-figure b {
+.highlight-figure b {
+  display: block;
   color: var(--blue-600);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
-  white-space: nowrap;
 }
 
-@media (max-width: 700px) {
-  .standout {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-inline: var(--sp-6);
-  }
+.highlight h3 {
+  margin-top: var(--sp-3);
+  color: var(--ink-900);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
 
-  .standout-figure {
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-    text-align: left;
-  }
+.highlight-detail {
+  margin-top: var(--sp-1);
+  color: var(--ink-500);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
 }
 
 /* ============================================================================
@@ -1826,8 +1882,9 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   reviews. Columns again, because the five quotes run from 220 to 480
-   characters and a row grid would leave three cards half empty.
+   reviews. The aggregate in the head, then the five quotes as one
+   self-scrolling row of review-shaped cards. Two CSS columns came first and
+   were replaced on 2026-09-15 (Saad: shorter, and looking like reviews).
    ========================================================================= */
 
 .rating {
@@ -1856,35 +1913,105 @@ a:hover > .more svg {
   font-weight: 600;
 }
 
-.quotes {
-  columns: 2;
-  column-gap: var(--sp-4);
+/* One self-scrolling row, edge to edge, faded at both ends. The track holds
+   the cards twice and slides by half its width, so the second copy is already
+   in place when the first has gone. That is the whole trick, and it is why
+   each set carries the gap as trailing padding: half the track is then
+   exactly one set. It runs only while on screen (Marquee.tsx sets
+   data-playing) and never while the pointer is on it. 48s for one pass of
+   five cards is about 35px a second, slow enough to read. */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-.quote {
-  display: block;
-  margin: 0 0 var(--sp-4);
-  break-inside: avoid;
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+  animation-play-state: paused;
 }
 
-.quote blockquote {
-  margin: 0;
+.marquee[data-playing="true"] .marquee-track {
+  animation-play-state: running;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Every card the height of the tallest (Saad, 2026-09-15: "boxes should be
+   of same size, do something to make the design look intentional"). What makes
+   it intentional is the foot: the reviewer sits at the bottom of every card
+   behind a hairline, so the row reads as one system and a short quote reads
+   as a short quote rather than a card that came out wrong. */
+.marquee-set {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-4);
+  padding-right: var(--sp-4);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Wide enough that the longest of the five runs to about ten lines, which
+   sets the height of every card. The quote is never clamped: reviews.ts
+   forbids trimming a reviewer's words. */
+.review {
+  width: clamp(280px, 80vw, 380px);
+  flex-shrink: 0;
+}
+
+.review-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--blue-500);
+}
+
+.review-stars svg,
+.review-stars svg * {
+  fill: currentColor;
+}
+
+.review blockquote {
+  margin: var(--sp-4) 0 0;
   color: var(--ink-700);
   font-size: var(--fs-sm);
   line-height: 1.6;
 }
 
-.quote figcaption {
-  margin-top: var(--sp-4);
-  color: var(--ink-400);
-  font-size: var(--fs-xs);
+.review figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: auto;
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+  color: var(--ink-700);
+  font-size: var(--fs-sm);
   font-weight: 600;
 }
 
-@media (max-width: 760px) {
-  .quotes {
-    columns: 1;
-  }
+.review blockquote {
+  margin-bottom: var(--sp-5);
+}
+
+.review-avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue-100);
+  color: var(--blue-700);
+  font-size: var(--fs-sm);
+  font-weight: 600;
 }
 
 /* ============================================================================
@@ -2003,8 +2130,9 @@ a:hover > .more svg {
   margin-top: var(--sp-3);
 }
 
-/* the legal links in the footer base */
-.ftr-legal {
+/* the legal links in the footer base, side by side. `.ftr ul` turns every
+   footer list into a grid and outranks a lone class, hence the descendant. */
+.ftr .ftr-legal {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-2) var(--sp-5);
@@ -2020,9 +2148,211 @@ a:hover > .more svg {
 }
 
 /* ============================================================================
-   motion. The only entrance is the Reveal component (8px, 200ms, once), which
-   already renders static under reduced motion. This covers the CSS transitions.
+   notices. A pill in the bottom-right corner and, above it, a stack of cards
+   for what is live or announced (src/content/announcements.ts). Fixed, under
+   the header's layer and over the call bar's. Hidden by the component until
+   the hero has scrolled off. The cards enter on the hero's `rise` beat at
+   300ms, 60ms apart (inline animation-delay), so a reopen replays it.
    ========================================================================= */
+
+.notices {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 45;
+  display: grid;
+  justify-items: end;
+  gap: var(--sp-3);
+  width: min(340px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.notices > * {
+  pointer-events: auto;
+}
+
+/* development only: clears the review toolbar that shares this corner */
+.notices[data-dev] {
+  bottom: 92px;
+}
+
+.notices-stack {
+  display: none;
+  width: 100%;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: 0 16px 32px rgb(10 22 40 / 0.14), 0 1px 2px rgb(10 22 40 / 0.06);
+}
+
+.notices[data-open="true"] .notices-stack {
+  display: block;
+}
+
+.notices-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-500);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.notices-head button,
+.notice-x {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-500);
+  cursor: pointer;
+  transition: background var(--t-base) var(--e-out), color var(--t-base) var(--e-out);
+}
+
+.notices-head button:hover,
+.notice-x:hover {
+  background: var(--blue-50);
+  color: var(--ink-900);
+}
+
+.notices-stack ul {
+  display: grid;
+  gap: var(--sp-1);
+  max-height: min(60vh, 440px);
+  margin: 0;
+  padding: var(--sp-2);
+  overflow: auto;
+  list-style: none;
+}
+
+.notice {
+  position: relative;
+  animation: rise 0.3s var(--e-out) backwards;
+}
+
+.notice a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px var(--sp-3);
+  padding: var(--sp-3) var(--sp-10) var(--sp-3) var(--sp-3);
+  border-radius: var(--r-md);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--t-base) var(--e-out);
+}
+
+.notice a:hover {
+  background: var(--blue-50);
+}
+
+.notice a > svg {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  color: var(--blue-600);
+}
+
+.notice-kind {
+  color: var(--blue-700);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.notice-title {
+  color: var(--ink-900);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.notice-meta {
+  color: var(--ink-500);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+}
+
+.notice-x {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+}
+
+.notices-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 10px 12px 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--white);
+  color: var(--ink-900);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  box-shadow: var(--sh-float);
+  cursor: pointer;
+  transition: transform var(--t-base) var(--e-out), box-shadow var(--t-base) var(--e-out);
+}
+
+.notices-pill svg {
+  color: var(--blue-600);
+}
+
+.notices-pill b {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--r-pill);
+  background: var(--blue-600);
+  color: var(--white);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .notices-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 20px rgb(10 22 40 / 0.12), 0 1px 2px rgb(10 22 40 / 0.05);
+  }
+}
+
+/* above the call bar, which is 56px plus the safe area */
+@media (max-width: 760px) {
+  .notices,
+  .notices[data-dev] {
+    right: 12px;
+    bottom: calc(68px + env(safe-area-inset-bottom));
+    width: calc(100vw - 24px);
+  }
+}
+
+/* ============================================================================
+   motion. The entrance is the Reveal component (a 12px rise out of an 8px
+   blur, 500ms, once, 60ms apart across a grid), the figures count up
+   (Figure) and the reviews row scrolls itself (Marquee). All three already
+   stand still under reduced motion; this covers the CSS transitions and turns
+   the marquee into a row that scrolls by hand.
+   ========================================================================= */
+
+/* The wrapper a staggered Reveal puts around each child: a one-cell grid, so
+   a card fills its track exactly as it did when it was the grid item. */
+.reveal-item {
+  display: grid;
+  min-width: 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2032,7 +2362,18 @@ a:hover > .more svg {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  .marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-set[aria-hidden] {
+    display: none;
   }
 }

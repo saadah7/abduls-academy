@@ -3,8 +3,9 @@
 Handoff document. Any session picking this up should read this file first, then
 `CLAUDE.md`. Update the phase table as you go.
 
-Last updated: 2026-09-12 (client notes: results highlight, gallery, faculty,
-reviews, hours, Open Graph, favicon)
+Last updated: 2026-09-15 (Saad's review notes: motion across the page,
+admissions strip above the hero, results highlights row, faculty lines,
+reviews marquee)
 
 ---
 
@@ -48,21 +49,22 @@ is branch, then PR, then merge; never push to `main` directly.
 
 | # | Section | Band | What it is |
 |---|---|---|---|
-| 0 | Header | white, sticky | Full-width rectangle with a hairline below. Mark left, four links centred, "Book a demo" right. Collapses to a menu button below 980px. |
+| 0 | Header | white, sticky | Full-width rectangle with a hairline below. Mark left, four links centred, "Book a demo" right. Collapses to a menu button below 980px. The tinted strip of the two free 1:1 assistance lines that sat above it from 2026-09-12 came out on 2026-09-15 (Saad: "remove this from here"); the lines are unplaced. |
+| 0a | Admissions | `--blue-100` banner | One dated intake as a centred banner: the TSCHE seal and NTA wordmark (the bodies that set EAPCET and NEET; the exams have no marks of their own), "Next batch, 25 September", the long term EAPCET and NEET batch set large, "Ask about this batch" on WhatsApp. Still not the dated admissions board that was cut: no countdown, no seats. Sat under the figures as one line until 2026-09-15, when Saad moved it between the header and the hero (PW's banner slot) and asked for it taller and centred. The two free 1:1 assistance lines sat here briefly and came out on his note that they are "not a part of the batches"; they are unplaced, kept in `site.ts` as `assistance`. More banner content needs real batch facts (fee, timings, duration) from the client. |
 | 1 | Hero | deep blue, rounded bottom | Centred eyebrow, headline, two-sentence lede naming both academies, "Book 3 free demo classes" and "Contact us". Below: two white cards, one per academy, each opening with its own logo, four lines each, linking to their sections. |
-| 2 | Proof | white | Four figures: 100% (SSC, CBSE and ICSE), 97% (Intermediate top score), 70+ (free seats in top colleges), 200+ (backlogs cleared). |
-| 2a | Admissions | `--blue-100` band | One dated intake, 25 September, the long term EAPCET and NEET batch, with a WhatsApp link. One line, deliberately not the dated admissions board that was cut. |
+| 2 | Proof | tint | Four figures: 100% (SSC, CBSE, ICSE and Intermediate), 97% (Intermediate top score), 70+ (free seats in top colleges), 200+ (backlogs cleared). They count up on first view. Tinted since 2026-09-15 so it does not meet the white programmes section. |
 | 3 | Programmes | white, tint cards | Four cards: Class 6 to 10, Intermediate, Diploma and Engineering, Open schooling and English. Each opens with the marks of the boards or universities it prepares for, then three lines and a demo link. |
-| 4 | Results 2026 | **deep blue, rounded both ends**, white cards | The competitive result leads as one wide card (TS ICET rank 313), then one card per board with the board's own mark in the head, top five rows, one button opens every row. Names and marks verbatim. No headcount anywhere. A line under the boards names the exams batches run for. |
+| 4 | Results 2026 | **deep blue, rounded both ends**, white cards | Three highlight cards lead (TS ICET rank 313, 70+ free seats through EAPCET and ECET, 200+ backlogs cleared), each with the mark of the body it names, then one card per board with the board's own mark in the head, top five rows, one button opens every row. Intermediate carries the 100% badge since 2026-09-15 (printed on the achievements poster). Closed, the four board cards share the tallest card's height with the "and N more" line pinned to the foot; open, each takes its own height (SSC runs to 21 rows). Names and marks verbatim. No headcount anywhere. A line under the boards names the exams batches run for. |
 | 4a | Inside the academy | tint | Six photographs from the academy's own Google Business Profile, an even 4:3 grid. Crops are baked into the files, not applied in CSS. |
-| 4b | Faculty | white | Three cards: Abdul Hadi, Abdul Aziz, Abdul Bari. Each carries the credential the client gave and the mark of the organisation that credential names. No subjects stated. |
-| 4c | Reviews | tint | Five Google reviews verbatim, in two columns, under the 5.0 and 74-review aggregate linking to the profile. |
+| 4b | Faculty | white | Three cards: Abdul Hadi (Founder), Abdul Aziz, Abdul Bari (Managing Director). Each carries the credential the client gave and the mark of the organisation that credential names. No subjects stated. |
+| 4c | Reviews | tint | Five Google reviews verbatim as one self-scrolling row of review cards (stars, full quote, initial and name), edge to edge, under the 5.0 and 74-review aggregate linking to the profile. Every card is the height of the longest, with the reviewer pinned to the foot behind a hairline so the equal height reads as the design. Pauses under the pointer; scrolls by hand under reduced motion. |
 | 5 | Fallen behind | white | One centred statement, three figures, one button. |
 | 6 | NextGen | tint | The NextGen mark above the head. Deep blue featured card for the ₹999 thirty day programme beside a three by three grid of the nine skills, each with its technology's mark. Four career course cards with icons below. |
 | 7 | How we teach | white, tint cards | Four cards, one icon each. |
-| 8 | Questions | white | Five native `<details>`. |
+| 8 | FAQs | white | Five native `<details>`. Head reads "FAQs" over "Frequently asked questions." since 2026-09-15; the eyebrow and title had both said "Questions". |
 | 9 | Visit | tint | The felicitation photograph with a white card floating over it: founder line, address, opening hours, WhatsApp and Maps. |
-| 10 | Footer | deep blue, rounded top | Four columns. Guess papers live here as links. |
+| 11 | Notices | fixed, bottom right | A pill ("Batches and offers", with a count) and above it a stack of cards for what is live or announced: the 25 September batch, the ₹999 thirty-day skills programme, entrance-exam batches (start date on request, because none is published), the three free demo classes. Content in `src/content/announcements.ts`, every line already on the page with its provenance at the source. Appears once the hero scrolls off; a desktop opens the stack itself, a phone shows the pill above the call bar and opens on tap. Closing or dismissing is remembered for the session. Saad, 2026-09-15: "a sticky bot kinda thing on the page's bottom right ... kinda like notifications", then "build the notification thingy for now with what info you have right now". |
+| 10 | Footer | deep blue, rounded top | Four equal link columns, two across on a phone: programmes, free guess papers, NextGen (mark plus short name), get in touch, where the address, languages and hours sit above the phones and links so the contact details read together at the bottom right. Base row: the mark, legal links side by side, creed. Reorganised 2026-09-15 (Saad: "refine the footer, organize properly, and in mobile the footer is too long"; "the address and all should come at the bottom right"). |
 
 Cut in the 2026-09-11 pass, all of it content the client called too much: the
 dated admissions board, the guess-paper band, the six-reason grid, the route
@@ -89,6 +91,7 @@ the client's word" below.
 | 7 | Real asset integration | **partly done**. Six photographs and the real Google place link are in; the vector logo and the guess-paper PDFs are still blocked on the client. |
 | 8 | Deploy | **done**, GitHub Pages via Actions |
 | 9 | Client notes of 2026-09-12 | **done**, PR #4 |
+| 10 | Saad's review notes of 2026-09-15: blur stagger reveal across the page (hero included), counting figures, admissions strip above the hero, free-assistance strip out of the header, results highlights row, boards and review cards at equal heights, faculty lines, reviews marquee | **built**, branch `feat/agentation-notes-15-sep`, awaiting his look. Includes the taller centred banner (no logos: TSCHE covers EAPCET but NEET is NTA's and no NTA mark is sourced) and the bottom-right notices widget built from what the page already states |
 
 ---
 
@@ -130,6 +133,14 @@ recorded here so it is not quietly re-cut by a later session.
 | "4th Rank, PGECET. Gold Medalist." against Abdul Hadi | `src/content/faculty.ts` | Asked for by name after the badge had been cut for being unverified. |
 | "Senior AI Engineer at Google. Formerly Tech Mahindra." against Abdul Aziz | `src/content/faculty.ts` | "Abdul Aziz Sir - Senior AI Engineer @Google , ex- Tech Mahindra". This was deliberately withheld until he confirmed it; it is the one line on the page that does real damage if it is wrong. Published once, on the faculty card, and nowhere else. |
 | CBSE in the 100% pass-rate figure | `src/content/site.ts` `stats`, `src/content/results.ts` `passClaim` and the CBSE board's `claim` | He marked up a screenshot with "CBSE is missing in pass rate section" and confirmed it when asked. The CBSE poster prints percentages only and claims nothing, so this third board rests on his word. |
+| "Civil Engineer" against Abdul Hadi | `src/content/faculty.ts` | 2026-09-15, relayed by Saad: "Abdul Hadi ~ Founder, Civil Engineer, 4th PGECET, Gold Medalist". |
+| "Managing Director" and "GATE qualified. Engineering degree in AI and ML." against Abdul Bari | `src/content/faculty.ts` | 2026-09-15, relayed by Saad: "Abdul Bari ~ Managing Director, Gate, CSE AIML"; Saad added that he is a GATE topper, that "topper" must not appear, and that his engineering degree is in AI and ML. No rank was given, so none is stated. |
+
+Printed, not word of mouth, but from a later poster than the result it
+describes: Intermediate's 100% badge and its place in `passClaim` and the
+pass-rate figure come from the academy's "Proud Achievements 2025 - 2026"
+poster (2026-09-15), which prints "100% RESULT IN MPC | BIPC | CEC | MEC". The
+April Intermediate result poster claims nothing.
 
 Also his figure, same day: "70 + students secured free seat in top colleges by
 studying EAPCET etc". No year and no college list were given, so none are
@@ -157,8 +168,31 @@ one.
 | A graphic pattern as the hero visual | Client: "i need templates for website, not the visual". |
 | The miter + arcade build (stage picker, gradient wash, chapter rules, tile mosaic, dated admissions board) | Client, 2026-09-11: "we redesigned the website, but I still don't like it." Replaced by the cadmus.io pass. |
 | Multi-agent research workflows | Burns tokens for what grep answers. |
+| Transcribing names, ranks or hall tickets from the "Proud Achievements 2025 - 2026" poster | Its cells are a copied template: one hall ticket, 2661207759, against some fifteen students, one student with four ranks in one exam, whole rows repeated. Only its headline claims are used, each sourced where it appears. See rule 1 in `src/content/results.ts`. |
+| A "state top ranks in POLYCET" highlight | The poster's headline, and the only evidence under it is that unusable rank list. Waits for a real list. |
 
 ---
+
+## Motion
+
+Added 2026-09-15 on Saad's review notes ("add blur stagger reveal of all
+sections across the full page", "add animations of stats", "animate" the
+figures). Until then the page's only motion was an 8px, 200ms fade.
+
+| Piece | What it does | Where |
+|---|---|---|
+| `Reveal` | A block rises 12px out of an 8px blur over 500ms, once, on entering view (`framer-motion` `whileInView`, margin `-8%`). With `stagger`, its direct children cascade 60ms apart, each wrapped in a `.reveal-item` one-cell grid so cards keep filling their tracks. Blur sits on items, never on a section shell, so the gallery repaints six photographs rather than a band. `transform` is written as a string so it composites during load. | `src/components/ui/Reveal.tsx` |
+| `Figure` | A figure counts up to itself over 1.2s the first time it enters view. Only digit runs move, so "85 to 90%" counts both numbers and "Rank 313" keeps its word; anything under 10 stays still ("1 year"). The server renders the finished value; the client zeroes it on mount, while the Reveal around it is still transparent, so nothing snaps back. | `src/components/ui/Figure.tsx`; used by Proof, Behind and the results highlights |
+| `Marquee` | The reviews as one row, duplicated once (copy `aria-hidden`), sliding by half its width on a 48s linear CSS loop. Runs only while on screen, pauses under a fine pointer. | `src/components/ui/Marquee.tsx`, CSS under "reviews" |
+| Hero cascade | The same beat as Reveal, in CSS: `@keyframes rise` on `.hero-copy > *` and the two `.hero-card`s, 60ms apart, `animation-fill-mode: backwards`. CSS rather than Reveal because the hero is the first paint and a reveal that waits for hydration holds the headline invisible until the JavaScript arrives. Backwards fill so the card's hover transform still applies afterwards. | `globals.css` under "hero" |
+
+Reduced motion: every Reveal and Figure renders its finished state with a
+zero-length transition (the markup is identical on server and client, which is
+what PR #2 fixed), the hero's animation delays are zeroed so nothing is held
+invisible, and the marquee becomes a row you scroll by hand with the copy
+hidden. Do not nest one Reveal inside another: the inner inherits the
+outer's "show" the moment the outer enters view, which is why `Behind` uses
+three siblings.
 
 ## The reference, and what was taken from it
 
@@ -214,6 +248,13 @@ Added 2026-09-12, and not from the Wikipedia sweep above:
 | Google | `logos/google.svg` | Wikimedia Commons, "Google 2015 logo.svg" | nominative fair use |
 | Tech Mahindra | `logos/techmahindra.svg` | Wikimedia Commons, "TM Logo Color Pos RGB.svg", the company's own brand artwork as uploaded there | nominative fair use |
 
+Added 2026-09-15, on Saad's note "add GATE logo" against Abdul Bari:
+
+| Mark | File | Source | Licence on the source |
+|---|---|---|---|
+| NTA (stands for NEET in the admissions banner) | `logos/nta.png` | en.wikipedia, "National Testing Agency logo.png", credited there to nta.ac.in. Kept at its 421x72 source size: a wordmark shown 28px tall needs the width at 2x | public domain on Wikipedia; nominative use here |
+| GATE (Abdul Bari's credential) | `logos/gate.png` | en.wikipedia, "GATE current logo.png", credited there to gate2027.iitm.ac.in. Each year's organising institute issues the lockup and this one reads "GATE 2027, IIT Madras" under the emblem; Bari did not sit GATE 2027, so only the emblem ring is kept and the year and organiser lines are cropped away. Real artwork, not redrawn; 128px on the long edge, palette PNG | fair use on Wikipedia; nominative use here, as the boards |
+
 **Caveat for the client.** Every one of these is somebody else's trademark.
 Coaching centres use board logos routinely to say which board a course
 prepares for, and that nominative use is the norm, but the marks are not ours
@@ -234,6 +275,7 @@ the only size that exists; TODO: ask Abdul for the vector. The TOSS emblem is
 | Which phone answers what | Three numbers are in circulation; `site.ts` documents them. |
 | ~~Domain~~ | **Resolved 2026-09-14, DNS pending.** `abdulsacademy.com` is the academy's after all, registered on Hostinger, and the credentials sit with its owner rather than with Saad. It is now the production origin on Vercel and carries the canonical link and the Open Graph card. The A and CNAME records still have to be added to the Hostinger zone by whoever holds that login; see "Deployment" above. |
 | Guess paper PDFs | Footer links go to Instagram posts because only poster images exist. |
+| A real POLYCET and EAPCET rank list | The achievements poster's list is unusable (see REJECTED). Until one exists, TS ICET 313 is the only competitive rank on the page. Saad, 2026-09-15: leave it for now. |
 | ~~"Taught by an AI engineer at Google"~~ | **Resolved 2026-09-12.** Confirmed by the client and published once, on the faculty card. See "Published on the client's word" above. |
 | Urdu or Telugu versions? | The site is English only; the page says classes run in three languages. |
 
@@ -252,8 +294,12 @@ the only size that exists; TODO: ask Abdul for the vector. The TOSS emblem is
   figure to publish.
 - Competitive exam results: the client asked for these highlighted, and the
   account has published exactly one (TS ICET rank 313, 18 June 2026). Every one
-  of the 61 posts was re-read looking for more. Ask for the EAPCET and NEET
-  result posters.
+  of the 61 posts was re-read looking for more. The achievements poster of
+  2026-09-15 names POLYCET and EAPCET ranks but its list is unusable (see
+  REJECTED). Ask for the real rank lists when the client is ready.
+- Free seats: the client said 70+ on 2026-09-12 and his own achievements
+  poster prints 30+. Saad chose 70+ on 2026-09-15; the page says 70+
+  everywhere. Worth asking the client which he wants printed.
 - Only five of the 74 Google reviews are quoted, because signed-out Google
   serves five. If he wants more on the page he can paste them.
 - Opening hours are the listing's, not a batch timetable. Ask whether the
