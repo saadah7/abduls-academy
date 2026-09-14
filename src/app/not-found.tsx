@@ -6,9 +6,9 @@ import { whatsappLink } from "@/content/site";
 import { route } from "@/lib/asset";
 
 /**
- * The 404. A static export writes this to out/404.html, which is the file
- * GitHub Pages serves for any path it does not have, so one component covers
- * every wrong URL.
+ * The 404. Vercel renders this for any path that does not match, and the
+ * Pages export writes it to out/404.html, which is the file GitHub Pages
+ * serves for the same case, so one component covers every wrong URL.
  *
  * It offers the two things someone who mistyped a URL actually wants -- the
  * page they were looking for, and a person -- rather than a joke and a dead

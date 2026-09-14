@@ -11,8 +11,10 @@ import { asset } from "@/lib/asset";
  * does not read as a dot beside the round seals, and `wide` shortens a
  * wordmark so it does not run half the width of the card it sits in.
  *
- * Images are served as they are (static export, no optimiser), so the src is
- * run through asset() to pick up the deploy base path.
+ * The src is run through asset() to pick up the deploy base path. These are
+ * small and fixed, so next/image's own 1x/2x srcset covers them on Vercel and
+ * the Pages export ships the files as they are; no sizes prop is needed
+ * either way, and the four SVG marks skip the optimiser entirely.
  */
 export function Mark({ k, className }: { k: MarkKey; className?: string }) {
   const m = marks[k];
