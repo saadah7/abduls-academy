@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
+import { Agentation } from "agentation";
 import { site, SITE_URL } from "@/content/site";
 import "./globals.css";
 
@@ -138,6 +139,11 @@ export default function RootLayout({
           // Static object defined above, no user input reaches this.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
         />
+        {/*
+          Annotation toolbar for design review while developing. Gated on
+          NODE_ENV so neither the Vercel build nor the static export ships it.
+        */}
+        {process.env.NODE_ENV === "development" && <Agentation />}
       </body>
     </html>
   );
