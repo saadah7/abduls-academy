@@ -14,7 +14,7 @@ export function Faq() {
     <section className="section" id="faq">
       <div className="wrap">
         <Reveal>
-          <SectionHead eyebrow="Questions" title="Questions parents ask." />
+          <SectionHead eyebrow="FAQs" title="Frequently asked questions." />
         </Reveal>
 
         <Reveal className="faq">

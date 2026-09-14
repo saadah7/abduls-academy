@@ -16,6 +16,11 @@ const BOOK = whatsappLink(
  * Abdul's Academy on the left, the tuition. NextGen AI Training Institute on
  * the right, the skills. Each card opens with its own mark, lists what it
  * covers in four lines and links to its own section.
+ *
+ * The hero cascades in on load (copy first, then the two cards) through CSS
+ * in globals.css rather than the Reveal component: it is the first paint,
+ * and a reveal that waits for hydration would hold the headline invisible
+ * until the JavaScript arrives.
  */
 export function Hero() {
   return (

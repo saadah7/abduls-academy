@@ -13,6 +13,14 @@
  *    hall ticket number against a real child's name is far worse than an absent
  *    one, and consent from the families is not optional either way.
  *
+ *    The "Proud Achievements 2025 - 2026" poster (received 2026-09-15) does
+ *    print hall ticket numbers, and they are unusable: one number, 2661207759,
+ *    stands against some fifteen different students, one student holds four
+ *    different ranks in one exam, and several rows repeat whole. They are
+ *    template cells, not transcriptions. Nothing from that poster's rank
+ *    lists is on this page. Only the claims it prints as headlines are, and
+ *    each says so where it is used.
+ *
  * 2. NEVER COMPUTE A PERCENTAGE THE POSTER DID NOT PRINT. SSC and ICSE posters
  *    print both marks and percentage. CBSE prints percentage only. Intermediate
  *    prints marks only. So `percent` is optional and stays empty where the
@@ -50,12 +58,14 @@ export type Board = {
   /**
    * A pass claim, and the flag that shows the "100% results" badge on the card.
    *
-   * TWO PROVENANCES, and the difference matters. SSC and ICSE carry this
-   * because their posters print it. CBSE carries it on the client's word, given
-   * on 2026-09-12 after he flagged CBSE missing from the pass-rate figure; its
-   * poster prints percentages only and claims nothing. Each board's own comment
-   * says which it is. Never add this to a fourth board without recording where
-   * the claim came from.
+   * THREE PROVENANCES, and the difference matters. SSC and ICSE carry this
+   * because their result posters print it. CBSE carries it on the client's
+   * word, given on 2026-09-12 after he flagged CBSE missing from the pass-rate
+   * figure; its poster prints percentages only and claims nothing. Intermediate
+   * carries it because the academy's 2025 to 2026 achievements poster prints
+   * it, though its April result poster does not. Each board's own comment says
+   * which it is. Never add this to a board without recording where the claim
+   * came from.
    */
   claim?: string;
   /** Source post, so the next person can re-check the transcription. */
@@ -102,6 +112,10 @@ export const boards: Board[] = [
     name: "Intermediate",
     mark: "tsbie",
     authority: "Board of Intermediate Education, Telangana",
+    // Printed on the academy's "Proud Achievements 2025 - 2026" poster as
+    // "100% RESULT IN MPC | BIPC | CEC | MEC", received 2026-09-15. The April
+    // result poster below claims nothing, so this rests on the later poster.
+    claim: "100% results from the academy",
     // instagram.com/p/DXb5ka_E1YD/ , 22 April 2026. Marks only, no percentages,
     // except the topper's "97% in second year". Ranked on percentage by the
     // academy, which is why 417/500 sits above 616/1000. Do not re-sort.
@@ -159,39 +173,73 @@ export const boards: Board[] = [
   },
 ];
 
+export type Highlight = {
+  /** The figure as printed or as given. Counts up on screen when it is a number. */
+  figure: string;
+  label: string;
+  detail: string;
+  /** Marks for the bodies the figure names. Nothing else, as on the faculty cards. */
+  marks?: MarkKey[];
+  /** Where the figure came from, so the next person can re-check it. */
+  source: string;
+};
+
 /**
- * Competitive exams, added 2026-09-12 on the client's ask for "Competitive
- * Exam Results". One result, and it leads the results section as a single wide
- * card rather than joining `boards` as a fifth list.
+ * The three figures that lead the results section as a row of white cards on
+ * the band, before a single name. Saad's review note of 2026-09-15: "highlight
+ * major accomplishments of results, because results are the selling criteria
+ * for the academy". The 2025 to 2026 achievements poster he attached leads
+ * the same way, one headline per programme, and this row is its honest
+ * subset.
  *
- * WHY IT IS NOT A BOARD. Two reasons, in the order they were found. Five cards
- * in the two-column board grid leave a card-shaped hole in the bottom right,
- * which the client flagged on sight. And a one-row list stretched to the full
- * width reads as a list whose rows failed to load, not as a result worth
- * leading with. A single result gets a single result's layout.
+ * WHY THE ICET RANK IS HERE AND NOT A BOARD. It began on 2026-09-12 as a
+ * single wide card. Five cards in the two-column board grid leave a
+ * card-shaped hole in the bottom right, which the client flagged on sight,
+ * and a one-row list stretched to the full width reads as a list whose rows
+ * failed to load. It is still the only competitive *result* the academy has
+ * published: all 61 posts on @abdulsacademy were re-read on 2026-09-12. The
+ * account carries plenty of competitive-exam *batches* (a 40 day EAMCET batch,
+ * an EAMCET crash course, an ICET batch for girls, POLYCET, ECET) but one
+ * result poster: instagram.com/p/DZuxZgYz3Lr/ , 18 June 2026, printing the
+ * rank, the name and the TSCHE emblem, and nothing else. A Google review also
+ * thanks "hadi sir" for a rank of 4400; that is a reviewer's own sentence and
+ * it stays in reviews.ts.
  *
- * WHY THERE IS ONLY ONE. All 61 posts on @abdulsacademy were read again on
- * 2026-09-12 looking for more. The account carries plenty of competitive-exam
- * *batches* (a 40 day EAMCET batch, an EAMCET crash course, an ICET batch for
- * girls, POLYCET, ECET) and a guidance reel on what to do after EAPCET
- * results, but exactly one published competitive *result*: this one. A Google
- * review also thanks "hadi sir" for a rank of 4400. That is a reviewer's own
- * sentence and it stays in reviews.ts; it is not a result the academy has
- * published, and moving it here would make it one.
+ * WHY POLYCET IS NOT HERE. The achievements poster headlines "state top ranks"
+ * in TG-POLYCET, and the only evidence under that headline is the rank list
+ * described in rule 1 at the top of this file: template cells. Nothing else
+ * the academy has published corroborates it, so the claim waits for a real
+ * rank list. POLYCET still appears in `competitiveExams` below, as a batch.
  *
- * Source: instagram.com/p/DZuxZgYz3Lr/ , 18 June 2026. The poster prints the
- * rank, the name and the TSCHE emblem, and nothing else. No marks, no
- * percentage, no hall ticket.
+ * WHY 70+ AND NOT 30+. The poster prints "30+ secured free seat in top
+ * colleges"; the client's own figure of 2026-09-12 was 70+. Saad chose 70+ on
+ * 2026-09-15. The two are recorded so the next reader knows both exist.
  */
-export const competitive = {
-  title: "Competitive exams",
-  mark: "tsche" as MarkKey,
-  authority: "Telangana State Council of Higher Education",
-  exam: "TS ICET entrance examination",
-  rank: "Rank 313",
-  student: "Ruqaiya Abdul Hakeem",
-  source: "TS ICET rank poster, 18 June 2026",
-} as const;
+export const highlights: Highlight[] = [
+  {
+    figure: "Rank 313",
+    label: "TS ICET entrance examination",
+    detail: "Ruqaiya Abdul Hakeem, 2026",
+    // TSCHE conducts ICET, and its emblem is on the poster beside the rank.
+    marks: ["tsche"],
+    source: "TS ICET rank poster, 18 June 2026",
+  },
+  {
+    figure: "70+",
+    label: "Free seats in top colleges",
+    detail: "Through EAPCET and ECET",
+    // Both exams are TSCHE's, run through JNTUH on its behalf.
+    marks: ["tsche"],
+    source: "The client, 2026-09-12; the 2025 to 2026 achievements poster prints 30+",
+  },
+  {
+    figure: "200+",
+    label: "Backlog subjects cleared",
+    detail: "Engineering and Diploma, OU and JNTU",
+    marks: ["ou", "jntuh"],
+    source: "Instagram post of 2 Oct 2025, repeated on the 2025 to 2026 achievements poster",
+  },
+];
 
 /**
  * The competitive exams the academy runs batches for, from its own profile
@@ -203,16 +251,8 @@ export const competitiveExams = "POLYCET, EAPCET, ECET and ICET";
 export const totalStudents = boards.reduce((n, b) => n + b.students.length, 0);
 
 /**
- * Two standouts, as one quiet sentence rather than a grid of big blue
- * figures. The section is deliberately not a leaderboard: the academy's real
- * argument is that everyone who sat the exam got through, not that a few
- * scored highly.
+ * SSC and ICSE are printed on the academy's own result posters, Intermediate
+ * on its 2025 to 2026 achievements poster. CBSE is the client's confirmation of
+ * 2026-09-12, not a printed line. See each board above.
  */
-export const standouts =
-  "Best of the year: 934 / 1000 in Intermediate, and rank 313 in TS ICET.";
-
-/**
- * SSC and ICSE are printed on the academy's own posters. CBSE is the client's
- * confirmation of 2026-09-12, not a printed line. See the CBSE board above.
- */
-export const passClaim = "100% results in SSC, CBSE and ICSE.";
+export const passClaim = "100% results in SSC, CBSE, ICSE and Intermediate.";

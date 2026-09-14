@@ -20,6 +20,8 @@ import type { MarkKey } from "./marks";
 
 export const nextgen = {
   name: "NextGen AI Training Institute",
+  /** For a heading that sits beside the mark in a narrow column (the footer). */
+  shortName: "NextGen",
   relation: "The academy's skills wing, same building on New Malakpet.",
   lede:
     "A degree gets you started. This is the part that gets you hired: practical software, AI tools and the English to interview in.",

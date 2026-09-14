@@ -26,7 +26,7 @@ export function Reasons() {
           <SectionHead eyebrow="Why here" title="How we teach." />
         </Reveal>
 
-        <Reveal className="cards cards--4">
+        <Reveal className="cards cards--4" stagger>
           {reasons.map((r) => (
             <article className="card" key={r.title}>
               <span className="card-ico">

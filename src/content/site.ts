@@ -117,26 +117,33 @@ export function whatsappLink(message: string): string {
  *         "CBSE is missing in pass rate section" and confirmed it when asked.
  *         The CBSE poster prints percentages only and makes no pass claim, so
  *         that third board rests on his word rather than on a printed line.
+ *         Intermediate joined on 2026-09-15: the academy's own "Proud
+ *         Achievements 2025 - 2026" poster prints "100% result in MPC, BiPC,
+ *         CEC, MEC", a printed claim like SSC's and ICSE's.
  *   97%   Mohammed Muzammil Bagmar, Intermediate second year, 934/1000.
  *   70+   His figure, same day, in his words: "70 + students secured free seat
  *         in top colleges by studying EAPCET etc". No year and no college list
  *         were given, so none are stated.
  *   200+  backlog subjects cleared, OU and JNTU.
  * TS ICET rank 313 (Ruqaiya Abdul Hakeem, 18 June 2026) is not a strip figure;
- * it is a named result row on the competitive board in results.ts.
+ * it leads the highlights row in results.ts.
  */
 export const stats = [
-  { value: "100%", label: "Pass rate in SSC, CBSE and ICSE, 2026" },
+  { value: "100%", label: "Pass rate in SSC, CBSE, ICSE and Intermediate, 2026" },
   { value: "97%", label: "Top score, Intermediate 2026" },
   { value: "70+", label: "Free seats secured in top colleges" },
   { value: "200+", label: "Engineering backlogs cleared" },
 ] as const;
 
 /**
- * The tinted strip above the header. Client, 2026-09-12: "Can we also add free
+ * Two lines of what is free here. Client, 2026-09-12: "Can we also add free
  * 1:1 Career Assistance & Free 1:1 Job Assistance in header section with
- * different light color." Career consultation was already promised inside the
- * NextGen programme list; this says both where a visitor reads them first.
+ * different light color." They ran as a tinted strip above the header until
+ * 2026-09-15, when Saad's review note took the strip out ("remove this from
+ * here"). They sat in the admissions banner for an hour the same day and came
+ * out on his next note ("this is not a part of the batches"). Unplaced for
+ * now; career consultation is already promised inside the NextGen programme
+ * list. Kept as data so the wording stays the client's when a home is found.
  */
 export const assistance = [
   "Free 1:1 career assistance",
@@ -152,6 +159,8 @@ export const assistance = [
 export const admission = {
   date: "25 September",
   title: "Long term EAPCET and NEET batch",
+  /** The bodies that conduct the two exams, in the title's order: TSCHE sets EAPCET, NTA sets NEET. */
+  marks: ["tsche", "nta"],
   message:
     "Hello, I'd like to know about the long term EAPCET and NEET batch starting 25 September.",
 } as const;
