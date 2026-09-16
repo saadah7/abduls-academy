@@ -3,9 +3,10 @@
 Handoff document. Any session picking this up should read this file first, then
 `CLAUDE.md`. Update the phase table as you go.
 
-Last updated: 2026-09-15 (Saad's review notes: motion across the page,
-admissions strip above the hero, results highlights row, faculty lines,
-reviews marquee)
+Last updated: 2026-09-16 (Saad's review notes: gallery re-shot from both
+Google listings and run as a marquee on phones, notices on load, admissions
+banner as a two-slide carousel, EAPCET names into the free-seats highlight,
+mobile nav as a side drawer)
 
 ---
 
@@ -49,13 +50,13 @@ is branch, then PR, then merge; never push to `main` directly.
 
 | # | Section | Band | What it is |
 |---|---|---|---|
-| 0 | Header | white, sticky | Full-width rectangle with a hairline below. Mark left, four links centred, "Book a demo" right. Collapses to a menu button below 980px. The tinted strip of the two free 1:1 assistance lines that sat above it from 2026-09-12 came out on 2026-09-15 (Saad: "remove this from here"); the lines are unplaced. |
-| 0a | Admissions | `--blue-100` banner | One dated intake as a centred banner: the TSCHE seal and NTA wordmark (the bodies that set EAPCET and NEET; the exams have no marks of their own), "Next batch, 25 September", the long term EAPCET and NEET batch set large, "Ask about this batch" on WhatsApp. Still not the dated admissions board that was cut: no countdown, no seats. Sat under the figures as one line until 2026-09-15, when Saad moved it between the header and the hero (PW's banner slot) and asked for it taller and centred. The two free 1:1 assistance lines sat here briefly and came out on his note that they are "not a part of the batches"; they are unplaced, kept in `site.ts` as `assistance`. More banner content needs real batch facts (fee, timings, duration) from the client. |
+| 0 | Header | white, sticky | Full-width rectangle with a hairline below. Mark left, four links centred, "Book a demo" right. Below 980px the links move into a side drawer: a 320px panel at the right edge over a scrim, rising from under the bar on a 280ms iOS sheet curve, its contents cascading 40ms apart. The toggle lost its outline ring on 2026-09-16 and the drawer's CTA is the primary button again (a stray `.nav-panel a` rule had been overriding it to ink on white). The tinted strip of the two free 1:1 assistance lines that sat above it from 2026-09-12 came out on 2026-09-15 (Saad: "remove this from here"); the lines are unplaced. |
+| 0a | Admissions | `--blue-100` banner | Two dated intakes as a swipeable centred banner, one slide each, on a native scroll-snap track with dots and a pause button; it advances itself every 6s and holds for hover, focus, the pause button or the reader driving the track. Saad, 2026-09-16: "make this horizontally scrollable, add the 999 course here too, maybe add small dots on botttom", then "it should auto advanve aswell". Slide two is the NextGen skills programme, new batch the 1st of every month, 30 days, from his facts the same day. Slide one: the TSCHE seal and NTA wordmark (the bodies that set EAPCET and NEET; the exams have no marks of their own), "Next batch, 25 September", the long term EAPCET and NEET batch set large, "Ask about this batch" on WhatsApp. Still not the dated admissions board that was cut: no countdown, no seats. Sat under the figures as one line until 2026-09-15, when Saad moved it between the header and the hero (PW's banner slot) and asked for it taller and centred. The two free 1:1 assistance lines sat here briefly and came out on his note that they are "not a part of the batches"; they are unplaced, kept in `site.ts` as `assistance`. More banner content needs real batch facts (fee, timings, duration) from the client. |
 | 1 | Hero | deep blue, rounded bottom | Centred eyebrow, headline, two-sentence lede naming both academies, "Book 3 free demo classes" and "Contact us". Below: two white cards, one per academy, each opening with its own logo, four lines each, linking to their sections. |
 | 2 | Proof | tint | Four figures: 100% (SSC, CBSE, ICSE and Intermediate), 97% (Intermediate top score), 70+ (free seats in top colleges), 200+ (backlogs cleared). They count up on first view. Tinted since 2026-09-15 so it does not meet the white programmes section. |
 | 3 | Programmes | white, tint cards | Four cards: Class 6 to 10, Intermediate, Diploma and Engineering, Open schooling and English. Each opens with the marks of the boards or universities it prepares for, then three lines and a demo link. |
-| 4 | Results 2026 | **deep blue, rounded both ends**, white cards | Three highlight cards lead (TS ICET rank 313, 70+ free seats through EAPCET and ECET, 200+ backlogs cleared), each with the mark of the body it names, then one card per board with the board's own mark in the head, top five rows, one button opens every row. Intermediate carries the 100% badge since 2026-09-15 (printed on the achievements poster). Closed, the four board cards share the tallest card's height with the "and N more" line pinned to the foot; open, each takes its own height (SSC runs to 21 rows). Names and marks verbatim. No headcount anywhere. A line under the boards names the exams batches run for. |
-| 4a | Inside the academy | tint | Six photographs from the academy's own Google Business Profile, an even 4:3 grid. Crops are baked into the files, not applied in CSS. |
+| 4 | Results 2026 | **deep blue, rounded both ends**, white cards | Three highlight cards lead (TS ICET rank 313, 70+ free seats through EAPCET and ECET, 200+ backlogs cleared), each with the mark of the body it names. Since 2026-09-16 the middle card also carries the five EAPCET and ECET names as a wrapped run, on Saad's note to combine that card with the rank list; all three cards share one height and the run is kept compact so the other two do not stand on a blank foot. Then then one card per board with the board's own mark in the head, top five rows, one button opens every row. Intermediate carries the 100% badge since 2026-09-15 (printed on the achievements poster). Closed, the four board cards share the tallest card's height with the "and N more" line pinned to the foot; open, each takes its own height (SSC runs to 21 rows). Names and marks verbatim. No headcount anywhere. A line under the boards names the exams batches run for. |
+| 4a | Inside the academy | tint | Nine photographs from the client's two Google listings, the academy's and NextGen's, as an even 4:3 grid above 560px and as a self-scrolling marquee below it (Saad, 2026-09-16: "this section on mobile should be same as the reviews section, marquee, desktop unchanged"). Nothing is cropped any more: the two portrait frames that carried baked-in crops were replaced on 2026-09-16, and with them went the close portrait of a boy with his medal, so no minor's face is published at any size. |
 | 4b | Faculty | white | Three cards: Abdul Hadi (Founder), Abdul Aziz, Abdul Bari (Managing Director). Each carries the credential the client gave and the mark of the organisation that credential names. No subjects stated. |
 | 4c | Reviews | tint | Five Google reviews verbatim as one self-scrolling row of review cards (stars, full quote, initial and name), edge to edge, under the 5.0 and 74-review aggregate linking to the profile. Every card is the height of the longest, with the reviewer pinned to the foot behind a hairline so the equal height reads as the design. Pauses under the pointer; scrolls by hand under reduced motion. |
 | 5 | Fallen behind | white | One centred statement, three figures, one button. |
@@ -88,9 +89,10 @@ the client's word" below.
 | 4 | Client review of the pass; iterate on what he flags | **done**, same day, in PR #1 |
 | 5 | Responsive check with a human eye (headless numbers are clean) | todo |
 | 6 | A11y and performance pass | **done for the 2026-09-12 diff**, four passes reported. It caught a focus-ring regression on the new deep band (the disclosure button's ring was 2.03:1 on it), 589KB of gallery JPEG promoted to head preloads by `loading="eager"`, and 362KB of over-provisioned assets. All fixed in PR #4. The pre-existing page has still never had a full pass. |
-| 7 | Real asset integration | **partly done**. Six photographs and the real Google place link are in; the vector logo and the guess-paper PDFs are still blocked on the client. |
+| 7 | Real asset integration | **partly done**. Nine photographs (both Google listings) and the real Google place link are in; the vector logo and the guess-paper PDFs are still blocked on the client. Signed out, Maps serves only 10 of the academy's 36 photos and 9 of NextGen's 17, so a signed-in pull would reach 34 more. |
 | 8 | Deploy | **done**, GitHub Pages via Actions |
 | 9 | Client notes of 2026-09-12 | **done**, PR #4 |
+| 11 | Saad's review notes of 2026-09-16: gallery re-shot from both Google listings and run as a marquee on phones, notices arming on load, the admissions banner as a two-slide auto-advancing carousel, the EAPCET and ECET names folded into the free-seats highlight, the mobile nav rebuilt as a side drawer, and two header fixes | **built**, branch `feat/review-notes-16-sep`. Reviewed locally before the PR; that review found and fixed four real defects (autoplay dying on the first page scroll, carousel dots at 1.29:1, the reduced-motion reset missing `transition-delay`, and rank/name concatenating for screen readers) plus a focus leak out of the drawer and the absence of any pause control a touch reader could reach. Two known gaps remain, both recorded below. |
 | 10 | Saad's review notes of 2026-09-15: blur stagger reveal across the page (hero included), counting figures, admissions strip above the hero, free-assistance strip out of the header, results highlights row, boards and review cards at equal heights, faculty lines, reviews marquee | **built**, branch `feat/agentation-notes-15-sep`, awaiting his look. Includes the taller centred banner (no logos: TSCHE covers EAPCET but NEET is NTA's and no NTA mark is sourced) and the bottom-right notices widget built from what the page already states |
 
 ---
@@ -168,7 +170,7 @@ one.
 | A graphic pattern as the hero visual | Client: "i need templates for website, not the visual". |
 | The miter + arcade build (stage picker, gradient wash, chapter rules, tile mosaic, dated admissions board) | Client, 2026-09-11: "we redesigned the website, but I still don't like it." Replaced by the cadmus.io pass. |
 | Multi-agent research workflows | Burns tokens for what grep answers. |
-| Transcribing names, ranks or hall tickets from the "Proud Achievements 2025 - 2026" poster | Its cells are a copied template: one hall ticket, 2661207759, against some fifteen students, one student with four ranks in one exam, whole rows repeated. Only its headline claims are used, each sourced where it appears. See rule 1 in `src/content/results.ts`. |
+| Transcribing hall tickets from the "Proud Achievements 2025 - 2026" poster, or anything at all from its POLYCET block | Its cells are a copied template: one hall ticket, 2661207759, against some fifteen students, MOHD MUZAMMIL with four ranks across its two blocks, whole rows repeated. **One narrow exception, added 2026-09-16 on the client's instruction and bounded there:** the free-seat block's five name-and-rank pairs are published, minus the repeated Zoha Mubeen card and with no hall ticket number at all. It does not extend to POLYCET, whose three MOHD MUZAMMIL cards at 1000, 3000 and 7000 are still out. Read rule 1 in `src/content/results.ts` before touching any of this; it carries the bounds and the reason. |
 | A "state top ranks in POLYCET" highlight | The poster's headline, and the only evidence under it is that unusable rank list. Waits for a real list. |
 
 ---
@@ -278,6 +280,25 @@ the only size that exists; TODO: ask Abdul for the vector. The TOSS emblem is
 | A real POLYCET and EAPCET rank list | The achievements poster's list is unusable (see REJECTED). Until one exists, TS ICET 313 is the only competitive rank on the page. Saad, 2026-09-15: leave it for now. |
 | ~~"Taught by an AI engineer at Google"~~ | **Resolved 2026-09-12.** Confirmed by the client and published once, on the faculty card. See "Published on the client's word" above. |
 | Urdu or Telugu versions? | The site is English only; the page says classes run in three languages. |
+
+## Known gaps, carried forward from the 2026-09-16 local review
+
+- **The marquees have no pause control.** `Marquee.tsx` pauses only on
+  `@media (hover: hover) and (pointer: fine)`, a query that never matches on a
+  phone. The gallery marquee added on 2026-09-16 renders ONLY below 560px, so
+  on the one device that sees it, nine photographs scroll with no way to stop
+  them; the reviews row has the identical gap at every width. Reduced motion
+  does stop both. Fix it once in `Marquee.tsx`, not per consumer, and note it
+  touches the reviews section too, which no client note has asked to change.
+- **The drawer's scroll lock shifts the page.** `document.body.style.overflow`
+  goes to hidden with no width compensation, so on a narrowed desktop window
+  (the drawer exists to 980px) the classic scrollbar disappears and everything,
+  sticky bar included, jumps about 15px. Invisible on touch. The fix is
+  `html { scrollbar-gutter: stable }`, which was left out because it reserves
+  the gutter at every width and would shift the desktop layout the client has
+  already signed off.
+
+---
 
 ## Open questions
 
