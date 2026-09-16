@@ -1045,16 +1045,27 @@ a:hover > .more svg {
   white-space: nowrap;
 }
 
+/* The three row tracks live on the list, not on each row, so every row in a
+   card measures against the same ones and the rank column sizes to the widest
+   rank that card holds. A fixed 1.5rem fitted the school boards, whose ranks
+   run 1 to 21, and clipped a five-digit entrance rank the day EAPCET briefly
+   arrived as a fifth board: 38px of number in a 24px track, printed over the
+   name. Those ranks live in .highlight-names now and no five-digit rank
+   currently reaches this list, so the minmax is what keeps it safe if one ever
+   does. Row gap stays zero; the rows carry their own rule and padding. */
 .rows {
   list-style: none;
   margin: var(--sp-5) 0 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: minmax(1.5rem, auto) minmax(0, 1fr) auto;
+  column-gap: var(--sp-3);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
-  gap: var(--sp-3);
+  grid-template-columns: subgrid;
+  grid-column: span 3;
   align-items: baseline;
   padding-block: var(--sp-2);
   border-top: 1px solid var(--line);
@@ -1932,8 +1943,47 @@ a:hover > .more svg {
    and why is argued in src/content/results.ts.
    ========================================================================= */
 
+/* All three cards share one height, the tallest. Only the middle one carries
+   the EAPCET names, so hanging them from the top was tried first and left it
+   jutting below the other two; Saad, 2026-09-16: "make these cards aligned,
+   same size". Grid stretch does it, the same way the board cards below share
+   a height, so this is simply the default left alone. */
 .highlights {
   margin-bottom: var(--sp-4);
+}
+
+/* The names behind the figure, as a run that wraps rather than the board
+   cards' table. The table was tried first and cost this card about 200px,
+   which equal heights then handed to the other two as a blank foot; centring
+   that space only split it in two and knocked the three figures off one line
+   (Saad, 2026-09-16: "too much empty space on those 2 cards", then "those two
+   cards still doesn't look good"). A wrapped run costs about 40px instead, so
+   all three cards are short enough that the slack stops reading as a hole,
+   and every name is still on the page.
+
+   Each pair holds together on one line: a rank orphaned from its name is
+   worse than a ragged right edge. */
+.highlight-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-3);
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-3) 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.highlight-names li {
+  color: var(--ink-700);
+  white-space: nowrap;
+}
+
+.highlight-names b {
+  margin-right: var(--sp-1);
+  color: var(--ink-400);
+  font-weight: 500;
 }
 
 .highlight-figure {
