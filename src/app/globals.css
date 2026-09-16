@@ -1917,24 +1917,6 @@ a:hover > .more svg {
   background: var(--blue-600);
 }
 
-/* The pause control. The banner advances itself, and the only two things that
-   paused it were a pointer hovering and DOM focus: a phone reader has neither,
-   and a screen reader moves a virtual cursor rather than focus, so on the
-   device this site is mostly read on there was no way to stop it at all. That
-   is WCAG 2.2.2, Level A, at a 6s interval. Tapping the track still stops it
-   for good; this is the same thing said out loud. */
-.admit-play {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--blue-600);
-  cursor: pointer;
-}
-
 .admit-date {
   display: inline-flex;
   align-items: center;
