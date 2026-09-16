@@ -9,6 +9,12 @@ import { announcements } from "@/content/announcements";
 const STORE = "aa-notices";
 /** The call bar shows below this width, and there the stack opens only on a tap. */
 const PHONE = "(max-width: 760px)";
+/**
+ * How long after mount the widget arms. The hero cascades in CSS the moment the
+ * document paints, and a widget landing in the same frame fights it; a beat
+ * later it reads as its own arrival. Set to 0 for no delay at all.
+ */
+const SETTLE = 450;
 
 type Stored = { closed?: boolean; dismissed?: string[] };
 
@@ -34,11 +40,18 @@ function write(patch: Stored) {
  * page's bottom right, that highlights the courses/batches active or upcoming,
  * kinda like notifications". The content is src/content/announcements.ts.
  *
- * It stays out of the way until the hero has scrolled off, so it never
- * competes with the headline. A desktop then opens the stack by itself; a
- * phone shows only the pill, above the call bar, and opens on a tap. Closing
- * the stack or dismissing a card is remembered for the session. With every
- * card dismissed the widget is gone.
+ * The pill arms on load, a beat after mount. Until 2026-09-16 the whole widget
+ * waited for the hero to scroll off, on an IntersectionObserver over #top;
+ * Saad, annotating the pill: "this should appear right when the page loads,
+ * currently it appears after scrolling down a bit".
+ *
+ * The stack behind it still waits for that scroll, and only on a desktop. The
+ * two were split rather than both moved to load, because the open stack is a
+ * white panel in the same corner as the hero's headline and at 1416 wide it
+ * covers the last word of it. So the pill answers the note, and the panel keeps
+ * out of the headline's way. A phone never auto-opens at all: it shows the pill
+ * above the call bar and opens on a tap. Closing the stack or dismissing a card
+ * is remembered for the session. With every card dismissed the widget is gone.
  *
  * Server and first client render both produce the hidden shell, so there is
  * nothing to mismatch on hydration; the effects arm it afterwards.
@@ -64,21 +77,33 @@ export function Notices() {
     write({ dismissed: next });
   }
 
-  // Arm once the hero has scrolled away.
+  // The pill, on load. See SETTLE for why it is not the very first frame.
   useEffect(() => {
+    setDismissed(read().dismissed ?? []);
+    const t = window.setTimeout(() => setArmed(true), SETTLE);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  // The stack, once the hero has scrolled off, and never on a phone.
+  //
+  // It waits for the pill to arm first. An observer reports on its very first
+  // frame, so a reload with the scroll restored past the hero, a deep link to
+  // #results, or the skip link all used to open the stack while the pill was
+  // still SETTLE milliseconds away: the two then landed together and the
+  // widget arrived already expanded, which is the one thing the settle exists
+  // to avoid. Keyed on armed, the stack can never precede the pill.
+  useEffect(() => {
+    if (!armed) return;
     const hero = document.getElementById("top");
     if (!hero) return;
-    const stored = read();
-    setDismissed(stored.dismissed ?? []);
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) return;
-      setArmed(true);
-      if (!stored.closed && !window.matchMedia(PHONE).matches) setOpen(true);
+      if (!read().closed && !window.matchMedia(PHONE).matches) setOpen(true);
       io.disconnect();
     });
     io.observe(hero);
     return () => io.disconnect();
-  }, []);
+  }, [armed]);
 
   useEffect(() => {
     if (!open) return;
