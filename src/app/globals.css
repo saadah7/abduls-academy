@@ -108,6 +108,8 @@
   --t-fast: 0.15s;
   --t-base: 0.2s;
   --e-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* The drawer curve, from Ionic by way of Vaul: leaves fast, lands soft. */
+  --e-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* ---- layout ---- */
   --max: 1200px;
@@ -576,6 +578,8 @@ a:hover > .more svg {
   gap: var(--sp-3);
 }
 
+/* No ring (Saad, 2026-09-16: "remove the outline circle"). The 44px box stays:
+   it is the tap target, and the icon inside it is only 20px. */
 .nav-toggle {
   display: none;
   align-items: center;
@@ -583,13 +587,14 @@ a:hover > .more svg {
   width: 44px;
   height: 44px;
   background: transparent;
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-pill);
+  border: 0;
+  padding: 0;
   color: var(--ink-900);
   cursor: pointer;
 }
 
-.nav-panel {
+.nav-panel,
+.nav-scrim {
   display: none;
 }
 
@@ -606,21 +611,92 @@ a:hover > .more svg {
   .mast-end .btn {
     display: none;
   }
-  .nav-panel[data-open="true"] {
+
+  /* The scrim. Dims the page the drawer is sitting over and closes it on a
+     tap, which is the gesture people reach for before they find the X. */
+  .nav-scrim {
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    z-index: 47;
     display: block;
-    padding-bottom: var(--sp-4);
-    border-top: 1px solid var(--line);
+    background: rgb(10 22 40 / 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--t-base) var(--e-out),
+      visibility var(--t-base);
   }
+
+  .nav-scrim[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* The drawer. A panel at the right edge, over the dimmed page.
+     Saad, 2026-09-16: "nav in mbile should be like a drawer with nice
+     animation", then "it should be side drawer"; before that it appeared
+     under the bar and pushed the page down, with no transition on either
+     edge. It comes in from the right because that is the edge the toggle
+     sits on, so it reads as coming out of the button that opened it.
+
+     It sits above the call bar (40) and the notices (45) and below the header
+     (50), so the close button stays reachable the whole way through. Why it is
+     a sibling of .hdr rather than a child is in Header.tsx: a backdrop-filter
+     makes an element the containing block for fixed descendants, and nested
+     inside it this would open as a 68px sliver.
+
+     A transition, not keyframes: this is a toggle, and a transition is the one
+     that reverses cleanly from wherever it has got to when it is pressed
+     again. visibility rides along so the closed drawer leaves the tab order
+     and the accessibility tree: it is visible from the first non-zero progress
+     and holds until the end on the way out, which is the special case the spec
+     carves out for it. At progress zero exactly it is still hidden, which is
+     why focus has to wait a frame; the note in Header.tsx has that. */
+  .nav-panel {
+    position: fixed;
+    inset: var(--nav-h) 0 0 auto;
+    z-index: 48;
+    width: min(320px, 86vw);
+    display: flex;
+    flex-direction: column;
+    padding: var(--sp-4) var(--sp-4) calc(var(--sp-6) + env(safe-area-inset-bottom));
+    background: var(--white);
+    box-shadow: -8px 0 32px rgb(10 22 40 / 0.14);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition:
+      transform 280ms var(--e-drawer),
+      visibility 280ms;
+  }
+
+  .nav-panel[data-open="true"] {
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  /* It takes focus when it opens, so that the reader is inside it rather than
+     on a button behind it. That is not a control, so it wears no ring. */
+  .nav-panel:focus {
+    outline: none;
+  }
+
   .nav-panel ul {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  .nav-panel a {
+
+  /* The list links only. Unscoped this also caught the CTA button below and
+     outranked .btn--primary on all four of these: it took the ink colour
+     rather than white, the panel padding rather than the button padding, and
+     a bottom border of its own. Saad, 2026-09-16: "text here shdoul be
+     white?" */
+  .nav-panel li a {
     display: flex;
     align-items: center;
     min-height: 52px;
-    padding: 0 var(--sp-4);
     color: var(--ink-900);
     font-weight: 600;
     text-decoration: none;
@@ -629,8 +705,51 @@ a:hover > .more svg {
   .nav-panel li:last-child a {
     border-bottom: 0;
   }
+
   .nav-panel-cta {
-    padding: var(--sp-3) var(--sp-4) 0;
+    margin-top: auto;
+    padding-top: var(--sp-5);
+  }
+
+  /* The contents cascade in behind the panel, 40ms apart, and leave together:
+     the delays hang off the open state only, so closing runs all of them at
+     once. A staggered exit reads as the drawer coming apart rather than
+     shutting. */
+  .nav-panel li,
+  .nav-panel-cta {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 240ms var(--e-out),
+      transform 240ms var(--e-out);
+  }
+
+  .nav-panel[data-open="true"] li,
+  .nav-panel[data-open="true"] .nav-panel-cta {
+    opacity: 1;
+    transform: none;
+  }
+
+  .nav-panel[data-open="true"] li:nth-child(1) {
+    transition-delay: 100ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(2) {
+    transition-delay: 140ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(3) {
+    transition-delay: 180ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(4) {
+    transition-delay: 220ms;
+  }
+  /* Anything past the fourth link joins the last step rather than arriving
+     first: without this a fifth LINKS entry gets a 0ms delay and beats the
+     four above it into view. */
+  .nav-panel[data-open="true"] li:nth-child(n + 5) {
+    transition-delay: 260ms;
+  }
+  .nav-panel[data-open="true"] .nav-panel-cta {
+    transition-delay: 260ms;
   }
 }
 
@@ -2538,12 +2657,24 @@ a:hover > .more svg {
   *::after {
     animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
+    /* transition-delay belongs here for the same reason animation-delay does.
+       Without it the drawer's staggered links still arrive one at a time over
+       260ms while every duration around them is collapsed, which is the
+       cascade the setting is asking us not to run. */
+    transition-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
   .marquee {
     overflow-x: auto;
     mask-image: none;
+  }
+  /* The drawer appears rather than rising. The rule above already collapses
+     its duration; this takes the distance out, so nothing travels at all. */
+  .nav-panel,
+  .nav-panel li,
+  .nav-panel-cta {
+    transform: none;
   }
   .marquee-track {
     animation: none;
