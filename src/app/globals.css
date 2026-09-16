@@ -1791,12 +1791,49 @@ a:hover > .more svg {
   .shots {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Nine frames at two columns leave the last one alone on a fourth row. Give
+     it both tracks so the grid ends square instead of half empty. Its image
+     keeps 4:3 and simply reads as the wide frame that closes the set. */
+  .shots > :last-child {
+    grid-column: span 2;
+  }
+}
+
+/* The phone arrangement: the same nine frames, run as the reviews row runs
+   its cards, edge to edge outside .wrap. Saad, 2026-09-16: "this section on
+   mobile should be same as the reviews section, marquee, desktop unchanged".
+   Only ever one of the two is rendered, so the frames of the other are never
+   near the viewport and, being lazy, are never fetched.
+
+   This also retires the one-column grid, and with it a rule that used to leak
+   into it: a last-child span of 2 in a single-track grid asked for a column
+   that was not there, so the grid made an implicit one, gave the spanning
+   frame the full width and collapsed every other frame to zero. */
+.shots-marquee {
+  display: none;
 }
 
 @media (max-width: 560px) {
   .shots {
-    grid-template-columns: 1fr;
+    display: none;
   }
+
+  .shots-marquee {
+    display: block;
+  }
+}
+
+.shots-marquee .shot {
+  width: clamp(240px, 78vw, 340px);
+  flex-shrink: 0;
+}
+
+/* Nine frames against the reviews row's five, so a longer pass holds the same
+   35px or so a second. Reading a photograph is quicker than reading a review,
+   but a row that outruns the one below it reads as a different component. */
+.shots-marquee .marquee-track {
+  animation-duration: 80s;
 }
 
 /* ============================================================================
