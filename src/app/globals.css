@@ -1708,6 +1708,36 @@ a:hover > .more svg {
   background: var(--blue-100);
 }
 
+/* One slide per view, scroll-snapped. Native scrolling does the work, so a
+   touch swipe, a trackpad swipe, shift-wheel and the arrow keys all drive it
+   without a library. grid-auto-columns: 100% is what makes a slide exactly one
+   band wide; the grid also gives every slide the height of the tallest, so the
+   band does not jump as it moves. */
+.admit-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.admit-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* The track is full-bleed and focusable, so the global 3px outward offset put
+   the ring's left and right edges outside the viewport where they clip. Inward
+   keeps the whole ring on screen. */
+.admit-track:focus-visible {
+  outline-offset: -3px;
+}
+
+.admit-slide {
+  scroll-snap-align: start;
+}
+
 .admit-row {
   display: flex;
   flex-direction: column;
@@ -1715,6 +1745,64 @@ a:hover > .more svg {
   gap: var(--sp-4);
   padding-block: clamp(32px, 4vw, 48px);
   text-align: center;
+}
+
+/* Saad asked for dots "so that swiping is easier". The button is a 24px tap
+   target and the dot inside it is the 8px mark, rather than an 8px button no
+   thumb can hit. */
+.admit-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding-bottom: clamp(16px, 2vw, 24px);
+}
+
+.admit-dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* --blue-500 and not --blue-200 for the resting dot. --blue-200 on the band's
+   --blue-100 computes to 1.29:1, which is not a faint dot, it is no dot: the
+   row read as one stray pill and told nobody there was a second slide.
+   --blue-500 is 3.20:1 and clears WCAG 1.4.11 for a state indicator. Rule 4 in
+   CLAUDE.md holds, it governs small text at 4.5:1, and this is non-text UI. */
+.admit-dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--blue-500);
+  transition: width var(--t-base) var(--e-out), background var(--t-base) var(--e-out);
+}
+
+.admit-dot[aria-current="true"]::before {
+  width: 22px;
+  background: var(--blue-600);
+}
+
+/* The pause control. The banner advances itself, and the only two things that
+   paused it were a pointer hovering and DOM focus: a phone reader has neither,
+   and a screen reader moves a virtual cursor rather than focus, so on the
+   device this site is mostly read on there was no way to stop it at all. That
+   is WCAG 2.2.2, Level A, at a 6s interval. Tapping the track still stops it
+   for good; this is the same thing said out loud. */
+.admit-play {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue-600);
+  cursor: pointer;
 }
 
 .admit-date {

@@ -6,7 +6,7 @@
  * you have right now".
  *
  * EVERY LINE HERE IS ALREADY ON THE PAGE, with its provenance where it lives:
- * the dated intake (site.ts `admission`, the client's 2026-09-12 message),
+ * the dated intake (site.ts `admissions`, the client's 2026-09-12 message),
  * the thirty-day skills programme (nextgen.ts, the academy's own posters),
  * the entrance-exam batches (results.ts `competitiveExams`, the profile post
  * of 2 Oct 2025, which is why that notice asks for the date rather than
@@ -17,7 +17,15 @@
 
 import { nextgen, skillsProgramme } from "./nextgen";
 import { competitiveExams } from "./results";
-import { admission, site, whatsappLink } from "./site";
+import { admissions, site, whatsappLink } from "./site";
+
+/**
+ * The banner's slide and this notice are the same intake, matched by id rather
+ * than by position: reorder the two slides and a positional read would quietly
+ * point the "eapcet-neet" notice at the skills batch, duplicating the notice
+ * directly below it.
+ */
+const intake = admissions.find((a) => a.id === "eapcet-neet") ?? admissions[0];
 
 export type Announcement = {
   id: string;
@@ -35,16 +43,16 @@ export const announcements: Announcement[] = [
   {
     id: "eapcet-neet",
     kind: "Upcoming batch",
-    title: admission.title,
-    meta: `Starts ${admission.date}`,
-    href: whatsappLink(admission.message),
+    title: intake.title,
+    meta: intake.when,
+    href: whatsappLink(intake.message),
     external: true,
   },
   {
     id: "skills",
     kind: "Skills programme",
     title: skillsProgramme.title,
-    meta: `${skillsProgramme.price} at ${nextgen.shortName}, ${skillsProgramme.duration}`,
+    meta: `${skillsProgramme.price} at ${nextgen.shortName}, ${skillsProgramme.duration}, from ${skillsProgramme.startsOn}`,
     href: "#nextgen",
   },
   {
