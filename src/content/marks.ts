@@ -25,7 +25,21 @@
  * size is set in CSS.
  */
 export type Mark =
-  | { src: string; alt: string; w: number; h: number; tall?: boolean; wide?: boolean }
+  | {
+      src: string;
+      alt: string;
+      w: number;
+      h: number;
+      tall?: boolean;
+      wide?: boolean;
+      /**
+       * The file has an opaque ground rather than a transparent one, so it
+       * shows as a pale rectangle on anything that is not white. It states a
+       * fact about the asset; each place that shows the mark decides what to
+       * do about it, the way the footer and the hero already wrap theirs.
+       */
+      ground?: boolean;
+    }
   | { text: string; alt: string };
 
 export const marks = {
@@ -81,7 +95,17 @@ export const marks = {
 
   // the two academies
   abduls: { src: "/logo.png", alt: "Abdul's Academy", w: 858, h: 152 },
-  nextgen: { src: "/photos/nextgen-logo.png", alt: "NextGen AI Training Institute", w: 150, h: 150 },
+  // Flat RGB with no alpha: every corner pixel is #fefefe, and the artwork
+  // carries a 12% white margin of its own (see .hero-card-logo). The footer
+  // tiles it and the hero oversizes it to absorb that margin; `ground` is what
+  // lets a mark row do the same without knowing which key it is holding.
+  nextgen: {
+    src: "/photos/nextgen-logo.png",
+    alt: "NextGen AI Training Institute",
+    w: 150,
+    h: 150,
+    ground: true,
+  },
 
   /*
     Employer wordmarks, for the credential line on the faculty cards. Both were

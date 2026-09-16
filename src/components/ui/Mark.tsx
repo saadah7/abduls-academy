@@ -9,7 +9,10 @@ import { asset } from "@/lib/asset";
  *
  * Two shape flags, both set in marks.ts: `tall` lifts a portrait mark so it
  * does not read as a dot beside the round seals, and `wide` shortens a
- * wordmark so it does not run half the width of the card it sits in.
+ * wordmark so it does not run half the width of the card it sits in. A third,
+ * `ground`, says the file has no transparency, so a row on a tinted surface
+ * can give it a ground of its own instead of letting it show as a pale
+ * rectangle.
  *
  * The src is run through asset() to pick up the deploy base path. These are
  * small and fixed, so next/image's own 1x/2x srcset covers them on Vercel and
@@ -31,6 +34,7 @@ export function Mark({ k, className }: { k: MarkKey; className?: string }) {
         "mark-img",
         "tall" in m && m.tall ? "mark-img--tall" : null,
         "wide" in m && m.wide ? "mark-img--wide" : null,
+        "ground" in m && m.ground ? "mark-img--ground" : null,
         className,
       ]
         .filter(Boolean)

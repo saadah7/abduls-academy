@@ -1917,24 +1917,6 @@ a:hover > .more svg {
   background: var(--blue-600);
 }
 
-/* The pause control. The banner advances itself, and the only two things that
-   paused it were a pointer hovering and DOM focus: a phone reader has neither,
-   and a screen reader moves a virtual cursor rather than focus, so on the
-   device this site is mostly read on there was no way to stop it at all. That
-   is WCAG 2.2.2, Level A, at a 6s interval. Tapping the track still stops it
-   for good; this is the same thing said out loud. */
-.admit-play {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--blue-600);
-  cursor: pointer;
-}
-
 .admit-date {
   display: inline-flex;
   align-items: center;
@@ -2138,18 +2120,44 @@ a:hover > .more svg {
    ========================================================================= */
 
 /* Wordmarks sit shorter than the round emblems, and the row keeps its height
-   whether a card has marks or not so the three names stay on one line. */
+   whether a card has marks or not so all four names stay on one line.
+
+   IT HOLDS ONE LINE. Abdul Aziz carries two wordmarks and they wrapped, which
+   pushed his name a line below the other three and made the row of cards look
+   broken. nowrap is the instruction; the sizes below are what makes it fit.
+
+   The wide marks were already meant to be short and were not, because
+   `:not(.mark-img--tall)` counts its argument: that selector is (0,3,0) and
+   the --wide rule under it was (0,2,0), so the general rule beat the specific
+   one and Google and Tech Mahindra rendered at 34px, about 100px and 137px
+   wide. The base rule now excludes --wide outright rather than out-specifying
+   it. At the narrowest the 4-across grid ever gets (a 1025px viewport: 40px
+   --pad, three 16px gaps, 24px card padding, so 176px of card) the pair
+   measures 65 + 88 + the inherited 12px gap = 165px. The gap is deliberately
+   left alone: this row is also the results highlights' (page.tsx), and there
+   is no width here that needs the 4px back. */
 .marks--credential {
+  flex-wrap: nowrap;
   min-height: 34px;
   margin-bottom: var(--sp-4);
 }
 
-.marks--credential .mark-img:not(.mark-img--tall) {
+.marks--credential .mark-img:not(.mark-img--tall):not(.mark-img--wide) {
   height: 34px;
 }
 
 .marks--credential .mark-img--wide {
-  height: 24px;
+  height: 22px;
+}
+
+/* NextGen's file has an opaque near-white ground, so on the cards' --blue-50
+   it reads as a pasted rectangle. The footer already solves this with
+   .ftr-tile and the hero by oversizing; this is the same answer for a row that
+   renders whatever marks its entry names. No padding: the artwork carries a
+   12% white margin of its own, which is the inset. */
+.marks--credential .mark-img--ground {
+  background: var(--white);
+  border-radius: var(--r-sm);
 }
 
 .teacher h3 {
@@ -2167,12 +2175,28 @@ a:hover > .more svg {
   text-transform: uppercase;
 }
 
+/* Pinned to the floor of the card, so the qualifications share a baseline the
+   way the names do. auto eats the slack a shorter card leaves; the padding is
+   the floor under it, so a card whose role and qualification both run long
+   still has a gap between them.
+
+   THE PIN NEEDS ITS OWN SELECTOR. `.card > p` above sets a top margin on every
+   paragraph in a card and is (0,1,1); `.teacher-cred` is (0,1,0) and loses to
+   it, so `margin-top: auto` written here does nothing at all and the card sat
+   20.7px off its own floor with the rule looking correct. Matching `.card >`
+   puts this at (0,2,0) and it wins. Nothing else moves into that rule: the
+   same override is also quietly beating the font-size declared below, and
+   changing that is a design decision, not a bug fix. */
 .teacher-cred {
-  margin-top: var(--sp-2);
+  padding-top: var(--sp-4);
   color: var(--blue-700);
   font-size: var(--fs-body);
   font-weight: 500;
   line-height: 1.5;
+}
+
+.card > .teacher-cred {
+  margin-top: auto;
 }
 
 /* ============================================================================

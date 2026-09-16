@@ -19,7 +19,7 @@
  * The published-data list is meant to be exhaustive, and it is checked against
  * the codebase rather than written from memory: results.ts for names and marks,
  * reviews.ts for the quoted reviewers (one of whom states his own exam rank),
- * faculty.ts for the three teachers, and gallery.ts for the frames that show a
+ * faculty.ts for the four people it names, and gallery.ts for the frames that show a
  * student. If you publish a new category of personal data, it goes in that list
  * and in the removal paragraph in the same commit.
  *
@@ -102,7 +102,7 @@ export const privacy: LegalDoc = {
         "Competitive exam ranks, with the student's name. One comes from our own result poster; another appears inside a Google review, where the student wrote it himself.",
         "Photographs of the academy, three of which show students recognisably.",
         "Quotations from public Google reviews of the academy, each with the reviewer's Google display name as it already appears there.",
-        "The names of our teachers, and the credential each of them has given us.",
+        "The names of our teachers and staff, and the credential each of them has given us.",
       ],
     },
     {
@@ -115,7 +115,7 @@ export const privacy: LegalDoc = {
     {
       heading: "Having a name or a photograph removed",
       body: [
-        "If any of the above is about you, or about your child, and you want it taken off this site, tell us and we will remove it. That covers a name, a mark, a rank, a quotation and a photograph, and it applies to our teachers as much as to our students. You do not have to give a reason, and it will not affect anyone's classes in any way.",
+        "If any of the above is about you, or about your child, and you want it taken off this site, tell us and we will remove it. That covers a name, a mark, a rank, a quotation and a photograph, and it applies to our teachers and staff as much as to our students. You do not have to give a reason, and it will not affect anyone's classes in any way.",
         `Message or call ${site.phones[0].display}, or send a WhatsApp to ${site.phones[1].display}. Say which page and which name or photograph. We will take it off the site, and we will tell you when we have.`,
         "One thing you should know, because it changes how complete that removal is. This website is built in the open: its source files, including the page that lists results, sit in a public code repository, and that repository keeps a copy of every past version. Taking a name off the page does not take it out of that history. If you want it gone from there too, say so when you ask us, and we will clear it.",
         "What we cannot reach are copies that search engines or other people have already taken."
