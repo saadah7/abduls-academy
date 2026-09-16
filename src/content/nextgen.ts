@@ -61,6 +61,8 @@ export const skillsProgramme = {
   price: "₹999",
   wasPrice: "₹4,999",
   duration: "30 days",
+  /** Saad, 2026-09-16: "the 999rs course starts on 1st of evert month, duration is 30 days". */
+  startsOn: "the 1st of every month",
   skills: [
     { label: "MS Office", mark: "office" },
     { label: "Advanced Excel", mark: "excel" },

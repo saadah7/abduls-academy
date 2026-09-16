@@ -9,6 +9,8 @@
  * put the source next to it.
  */
 
+import { nextgen, skillsProgramme } from "./nextgen";
+
 export const site = {
   name: "Abdul's Academy",
   tagline: "empowering minds",
@@ -151,16 +153,37 @@ export const assistance = [
 ] as const;
 
 /**
- * The one dated intake on the page. Client, 2026-09-12: "just 25sep for now,
- * its Long term EAPCET & NEET batch". No year, no fee and no timings were
- * given, so none are invented. An earlier pass cut a whole dated admissions
- * board for being too much content; this is one line, not that board.
+ * The dated intakes in the banner above the hero, one slide each.
+ *
+ * The long term batch is the client's, 2026-09-12: "just 25sep for now, its
+ * Long term EAPCET & NEET batch". No year, no fee and no timings were given,
+ * so none are invented.
+ *
+ * The skills programme joined it on 2026-09-16, when Saad asked for the 999
+ * course in this banner and gave the two facts it needed. A monthly intake has
+ * no single date, so its line states the rule instead of a date that would be
+ * wrong on the 2nd. Price and duration stay in nextgen.ts, which owns the
+ * course; only the banner's own wording is here.
+ *
+ * An earlier pass cut a whole dated admissions board for being too much
+ * content. These are still one line each, not that board.
  */
-export const admission = {
-  date: "25 September",
-  title: "Long term EAPCET and NEET batch",
-  /** The bodies that conduct the two exams, in the title's order: TSCHE sets EAPCET, NTA sets NEET. */
-  marks: ["tsche", "nta"],
-  message:
-    "Hello, I'd like to know about the long term EAPCET and NEET batch starting 25 September.",
-} as const;
+export const admissions = [
+  {
+    id: "eapcet-neet",
+    when: "Next batch, 25 September",
+    title: "Long term EAPCET and NEET batch",
+    /** The bodies that conduct the two exams, in the title's order: TSCHE sets EAPCET, NTA sets NEET. */
+    marks: ["tsche", "nta"],
+    message:
+      "Hello, I'd like to know about the long term EAPCET and NEET batch starting 25 September.",
+  },
+  {
+    id: "skills",
+    when: `New batch on ${skillsProgramme.startsOn}`,
+    title: `${skillsProgramme.title} for ${skillsProgramme.price}`,
+    /** NextGen runs this one, so it carries its own mark, not an exam body's. */
+    marks: ["nextgen"],
+    message: `Hello, I'd like to know about the ${skillsProgramme.title.toLowerCase()} programme for ${skillsProgramme.price} at ${nextgen.shortName}.`,
+  },
+] as const;

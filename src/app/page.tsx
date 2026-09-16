@@ -99,6 +99,23 @@ export default function Home() {
                   </p>
                   <h3>{h.label}</h3>
                   <p className="highlight-detail">{h.detail}</p>
+                  {h.students?.length ? (
+                    <ul className="highlight-names">
+                      {h.students.map((s) => (
+                        /*
+                          The space is a real node, not formatting. JSX drops
+                          whitespace that spans a newline, so rank and name
+                          concatenate into "1500Syed Rayyan" for a screen
+                          reader, for copy-paste and for find-in-page. The 4px
+                          margin on the <b> only fixes the look of it.
+                        */
+                        <li key={s.name}>
+                          <b className="tabular">{s.rank}</b>{" "}
+                          {s.name}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </article>
               ))}
             </Reveal>

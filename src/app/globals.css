@@ -108,6 +108,8 @@
   --t-fast: 0.15s;
   --t-base: 0.2s;
   --e-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* The drawer curve, from Ionic by way of Vaul: leaves fast, lands soft. */
+  --e-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* ---- layout ---- */
   --max: 1200px;
@@ -576,6 +578,8 @@ a:hover > .more svg {
   gap: var(--sp-3);
 }
 
+/* No ring (Saad, 2026-09-16: "remove the outline circle"). The 44px box stays:
+   it is the tap target, and the icon inside it is only 20px. */
 .nav-toggle {
   display: none;
   align-items: center;
@@ -583,13 +587,14 @@ a:hover > .more svg {
   width: 44px;
   height: 44px;
   background: transparent;
-  border: 1px solid var(--line-2);
-  border-radius: var(--r-pill);
+  border: 0;
+  padding: 0;
   color: var(--ink-900);
   cursor: pointer;
 }
 
-.nav-panel {
+.nav-panel,
+.nav-scrim {
   display: none;
 }
 
@@ -606,21 +611,92 @@ a:hover > .more svg {
   .mast-end .btn {
     display: none;
   }
-  .nav-panel[data-open="true"] {
+
+  /* The scrim. Dims the page the drawer is sitting over and closes it on a
+     tap, which is the gesture people reach for before they find the X. */
+  .nav-scrim {
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    z-index: 47;
     display: block;
-    padding-bottom: var(--sp-4);
-    border-top: 1px solid var(--line);
+    background: rgb(10 22 40 / 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--t-base) var(--e-out),
+      visibility var(--t-base);
   }
+
+  .nav-scrim[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* The drawer. A panel at the right edge, over the dimmed page.
+     Saad, 2026-09-16: "nav in mbile should be like a drawer with nice
+     animation", then "it should be side drawer"; before that it appeared
+     under the bar and pushed the page down, with no transition on either
+     edge. It comes in from the right because that is the edge the toggle
+     sits on, so it reads as coming out of the button that opened it.
+
+     It sits above the call bar (40) and the notices (45) and below the header
+     (50), so the close button stays reachable the whole way through. Why it is
+     a sibling of .hdr rather than a child is in Header.tsx: a backdrop-filter
+     makes an element the containing block for fixed descendants, and nested
+     inside it this would open as a 68px sliver.
+
+     A transition, not keyframes: this is a toggle, and a transition is the one
+     that reverses cleanly from wherever it has got to when it is pressed
+     again. visibility rides along so the closed drawer leaves the tab order
+     and the accessibility tree: it is visible from the first non-zero progress
+     and holds until the end on the way out, which is the special case the spec
+     carves out for it. At progress zero exactly it is still hidden, which is
+     why focus has to wait a frame; the note in Header.tsx has that. */
+  .nav-panel {
+    position: fixed;
+    inset: var(--nav-h) 0 0 auto;
+    z-index: 48;
+    width: min(320px, 86vw);
+    display: flex;
+    flex-direction: column;
+    padding: var(--sp-4) var(--sp-4) calc(var(--sp-6) + env(safe-area-inset-bottom));
+    background: var(--white);
+    box-shadow: -8px 0 32px rgb(10 22 40 / 0.14);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition:
+      transform 280ms var(--e-drawer),
+      visibility 280ms;
+  }
+
+  .nav-panel[data-open="true"] {
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  /* It takes focus when it opens, so that the reader is inside it rather than
+     on a button behind it. That is not a control, so it wears no ring. */
+  .nav-panel:focus {
+    outline: none;
+  }
+
   .nav-panel ul {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  .nav-panel a {
+
+  /* The list links only. Unscoped this also caught the CTA button below and
+     outranked .btn--primary on all four of these: it took the ink colour
+     rather than white, the panel padding rather than the button padding, and
+     a bottom border of its own. Saad, 2026-09-16: "text here shdoul be
+     white?" */
+  .nav-panel li a {
     display: flex;
     align-items: center;
     min-height: 52px;
-    padding: 0 var(--sp-4);
     color: var(--ink-900);
     font-weight: 600;
     text-decoration: none;
@@ -629,8 +705,51 @@ a:hover > .more svg {
   .nav-panel li:last-child a {
     border-bottom: 0;
   }
+
   .nav-panel-cta {
-    padding: var(--sp-3) var(--sp-4) 0;
+    margin-top: auto;
+    padding-top: var(--sp-5);
+  }
+
+  /* The contents cascade in behind the panel, 40ms apart, and leave together:
+     the delays hang off the open state only, so closing runs all of them at
+     once. A staggered exit reads as the drawer coming apart rather than
+     shutting. */
+  .nav-panel li,
+  .nav-panel-cta {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 240ms var(--e-out),
+      transform 240ms var(--e-out);
+  }
+
+  .nav-panel[data-open="true"] li,
+  .nav-panel[data-open="true"] .nav-panel-cta {
+    opacity: 1;
+    transform: none;
+  }
+
+  .nav-panel[data-open="true"] li:nth-child(1) {
+    transition-delay: 100ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(2) {
+    transition-delay: 140ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(3) {
+    transition-delay: 180ms;
+  }
+  .nav-panel[data-open="true"] li:nth-child(4) {
+    transition-delay: 220ms;
+  }
+  /* Anything past the fourth link joins the last step rather than arriving
+     first: without this a fifth LINKS entry gets a 0ms delay and beats the
+     four above it into view. */
+  .nav-panel[data-open="true"] li:nth-child(n + 5) {
+    transition-delay: 260ms;
+  }
+  .nav-panel[data-open="true"] .nav-panel-cta {
+    transition-delay: 260ms;
   }
 }
 
@@ -1045,16 +1164,27 @@ a:hover > .more svg {
   white-space: nowrap;
 }
 
+/* The three row tracks live on the list, not on each row, so every row in a
+   card measures against the same ones and the rank column sizes to the widest
+   rank that card holds. A fixed 1.5rem fitted the school boards, whose ranks
+   run 1 to 21, and clipped a five-digit entrance rank the day EAPCET briefly
+   arrived as a fifth board: 38px of number in a 24px track, printed over the
+   name. Those ranks live in .highlight-names now and no five-digit rank
+   currently reaches this list, so the minmax is what keeps it safe if one ever
+   does. Row gap stays zero; the rows carry their own rule and padding. */
 .rows {
   list-style: none;
   margin: var(--sp-5) 0 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: minmax(1.5rem, auto) minmax(0, 1fr) auto;
+  column-gap: var(--sp-3);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
-  gap: var(--sp-3);
+  grid-template-columns: subgrid;
+  grid-column: span 3;
   align-items: baseline;
   padding-block: var(--sp-2);
   border-top: 1px solid var(--line);
@@ -1708,6 +1838,36 @@ a:hover > .more svg {
   background: var(--blue-100);
 }
 
+/* One slide per view, scroll-snapped. Native scrolling does the work, so a
+   touch swipe, a trackpad swipe, shift-wheel and the arrow keys all drive it
+   without a library. grid-auto-columns: 100% is what makes a slide exactly one
+   band wide; the grid also gives every slide the height of the tallest, so the
+   band does not jump as it moves. */
+.admit-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.admit-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* The track is full-bleed and focusable, so the global 3px outward offset put
+   the ring's left and right edges outside the viewport where they clip. Inward
+   keeps the whole ring on screen. */
+.admit-track:focus-visible {
+  outline-offset: -3px;
+}
+
+.admit-slide {
+  scroll-snap-align: start;
+}
+
 .admit-row {
   display: flex;
   flex-direction: column;
@@ -1715,6 +1875,64 @@ a:hover > .more svg {
   gap: var(--sp-4);
   padding-block: clamp(32px, 4vw, 48px);
   text-align: center;
+}
+
+/* Saad asked for dots "so that swiping is easier". The button is a 24px tap
+   target and the dot inside it is the 8px mark, rather than an 8px button no
+   thumb can hit. */
+.admit-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding-bottom: clamp(16px, 2vw, 24px);
+}
+
+.admit-dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* --blue-500 and not --blue-200 for the resting dot. --blue-200 on the band's
+   --blue-100 computes to 1.29:1, which is not a faint dot, it is no dot: the
+   row read as one stray pill and told nobody there was a second slide.
+   --blue-500 is 3.20:1 and clears WCAG 1.4.11 for a state indicator. Rule 4 in
+   CLAUDE.md holds, it governs small text at 4.5:1, and this is non-text UI. */
+.admit-dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--blue-500);
+  transition: width var(--t-base) var(--e-out), background var(--t-base) var(--e-out);
+}
+
+.admit-dot[aria-current="true"]::before {
+  width: 22px;
+  background: var(--blue-600);
+}
+
+/* The pause control. The banner advances itself, and the only two things that
+   paused it were a pointer hovering and DOM focus: a phone reader has neither,
+   and a screen reader moves a virtual cursor rather than focus, so on the
+   device this site is mostly read on there was no way to stop it at all. That
+   is WCAG 2.2.2, Level A, at a 6s interval. Tapping the track still stops it
+   for good; this is the same thing said out loud. */
+.admit-play {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue-600);
+  cursor: pointer;
 }
 
 .admit-date {
@@ -1791,12 +2009,49 @@ a:hover > .more svg {
   .shots {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Nine frames at two columns leave the last one alone on a fourth row. Give
+     it both tracks so the grid ends square instead of half empty. Its image
+     keeps 4:3 and simply reads as the wide frame that closes the set. */
+  .shots > :last-child {
+    grid-column: span 2;
+  }
+}
+
+/* The phone arrangement: the same nine frames, run as the reviews row runs
+   its cards, edge to edge outside .wrap. Saad, 2026-09-16: "this section on
+   mobile should be same as the reviews section, marquee, desktop unchanged".
+   Only ever one of the two is rendered, so the frames of the other are never
+   near the viewport and, being lazy, are never fetched.
+
+   This also retires the one-column grid, and with it a rule that used to leak
+   into it: a last-child span of 2 in a single-track grid asked for a column
+   that was not there, so the grid made an implicit one, gave the spanning
+   frame the full width and collapsed every other frame to zero. */
+.shots-marquee {
+  display: none;
 }
 
 @media (max-width: 560px) {
   .shots {
-    grid-template-columns: 1fr;
+    display: none;
   }
+
+  .shots-marquee {
+    display: block;
+  }
+}
+
+.shots-marquee .shot {
+  width: clamp(240px, 78vw, 340px);
+  flex-shrink: 0;
+}
+
+/* Nine frames against the reviews row's five, so a longer pass holds the same
+   35px or so a second. Reading a photograph is quicker than reading a review,
+   but a row that outruns the one below it reads as a different component. */
+.shots-marquee .marquee-track {
+  animation-duration: 80s;
 }
 
 /* ============================================================================
@@ -1807,8 +2062,47 @@ a:hover > .more svg {
    and why is argued in src/content/results.ts.
    ========================================================================= */
 
+/* All three cards share one height, the tallest. Only the middle one carries
+   the EAPCET names, so hanging them from the top was tried first and left it
+   jutting below the other two; Saad, 2026-09-16: "make these cards aligned,
+   same size". Grid stretch does it, the same way the board cards below share
+   a height, so this is simply the default left alone. */
 .highlights {
   margin-bottom: var(--sp-4);
+}
+
+/* The names behind the figure, as a run that wraps rather than the board
+   cards' table. The table was tried first and cost this card about 200px,
+   which equal heights then handed to the other two as a blank foot; centring
+   that space only split it in two and knocked the three figures off one line
+   (Saad, 2026-09-16: "too much empty space on those 2 cards", then "those two
+   cards still doesn't look good"). A wrapped run costs about 40px instead, so
+   all three cards are short enough that the slack stops reading as a hole,
+   and every name is still on the page.
+
+   Each pair holds together on one line: a rank orphaned from its name is
+   worse than a ragged right edge. */
+.highlight-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-3);
+  margin: var(--sp-4) 0 0;
+  padding: var(--sp-3) 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.highlight-names li {
+  color: var(--ink-700);
+  white-space: nowrap;
+}
+
+.highlight-names b {
+  margin-right: var(--sp-1);
+  color: var(--ink-400);
+  font-weight: 500;
 }
 
 .highlight-figure {
@@ -2363,12 +2657,24 @@ a:hover > .more svg {
   *::after {
     animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
+    /* transition-delay belongs here for the same reason animation-delay does.
+       Without it the drawer's staggered links still arrive one at a time over
+       260ms while every duration around them is collapsed, which is the
+       cascade the setting is asking us not to run. */
+    transition-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
   .marquee {
     overflow-x: auto;
     mask-image: none;
+  }
+  /* The drawer appears rather than rising. The rule above already collapses
+     its duration; this takes the distance out, so nothing travels at all. */
+  .nav-panel,
+  .nav-panel li,
+  .nav-panel-cta {
+    transform: none;
   }
   .marquee-track {
     animation: none;

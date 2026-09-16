@@ -15,11 +15,52 @@
  *
  *    The "Proud Achievements 2025 - 2026" poster (received 2026-09-15) does
  *    print hall ticket numbers, and they are unusable: one number, 2661207759,
- *    stands against some fifteen different students, one student holds four
- *    different ranks in one exam, and several rows repeat whole. They are
- *    template cells, not transcriptions. Nothing from that poster's rank
- *    lists is on this page. Only the claims it prints as headlines are, and
- *    each says so where it is used.
+ *    stands against six different names on its free-seat block alone, MOHD
+ *    MUZAMMIL holds four different ranks across its two blocks (1000, 3000 and
+ *    7000 under TG-POLYCET, 2000 under the free seats), and several cards
+ *    repeat whole. They are template cells, not transcriptions.
+ *
+ *    A NARROW, DELIBERATE EXCEPTION SITS UNDER THAT, and it is the client's
+ *    call, made with the defects in front of him. Saad, 2026-09-16: "in appset
+ *    skip the Zoha Mubin ones and add the rest". So the free-seat block's five
+ *    name-and-rank pairs are on the page DESPITE the template-cell problem,
+ *    not because it was resolved. The exception is bounded, and the bounds are
+ *    the point:
+ *
+ *      - Five pairs only, from the free-seat block. The repeated Zoha Mubeen
+ *        card he named is dropped.
+ *      - NOT ONE hall ticket number, because the poster prints the same one
+ *        against all five. Rule 1 above is untouched by this.
+ *      - It does NOT extend to the POLYCET block. See below.
+ *      - Mohd Muzammil's free-seat rank of 2000 is published on the same
+ *        instruction, and it is the weakest of the five: his is the name the
+ *        poster contradicts itself on. Confirmed with Saad on 2026-09-16 as a
+ *        deliberate keep. If the client ever sends the official rank cards,
+ *        check that one first.
+ *
+ *    An earlier draft of this paragraph described the defect as "one name
+ *    carries four different ranks across the poster" where the original
+ *    finding had been "in one exam". That softening was written while adding
+ *    the data it governs, with no new evidence behind it, and it is exactly
+ *    what made rank 2000 look separable from 1000/3000/7000. Restored above.
+ *    Do not weaken this record to fit a decision; record the decision instead.
+ *
+ *    The five went in as a fifth board and moved the same day into the
+ *    free-seats highlight, on Saad's note to combine the two; a board card
+ *    also left an odd fifth card in a two-column grid, the arrangement the
+ *    client stopped on once before.
+ *
+ *    ITS POLYCET BLOCK IS STILL OUT, and not for want of asking. Shown the
+ *    three cards that read MOHD MUZAMMIL at ranks 1000, 3000 and 7000 on one
+ *    hall ticket, Saad's reading on 2026-09-16 was that they are three
+ *    different students and the name was never edited off the duplicated
+ *    card. If he is right, two names are missing and Muzammil's own rank is
+ *    unknown; if he is wrong, one of three ranks is his and nothing says
+ *    which. Either way nothing here can be published. What unblocks it is the
+ *    official rank cards, or a list from the client naming each student
+ *    against each rank. Do not take a rank off that poster on its own.
+ *
+ *    Its headline claims are used, and each says so where it is used.
  *
  * 2. NEVER COMPUTE A PERCENTAGE THE POSTER DID NOT PRINT. SSC and ICSE posters
  *    print both marks and percentage. CBSE prints percentage only. Intermediate
@@ -180,6 +221,14 @@ export type Highlight = {
   detail: string;
   /** Marks for the bodies the figure names. Nothing else, as on the faculty cards. */
   marks?: MarkKey[];
+  /**
+   * The names behind the figure, where the academy has published them. Only
+   * the free-seats card carries these: a figure a reader cannot check is worth
+   * less than one with the ranks under it. Rendered as a wrapped run on the
+   * card, NOT as the board cards' table: see the `.highlight-names` note in
+   * globals.css for why the table shape was rejected here.
+   */
+  students?: Student[];
   /** Where the figure came from, so the next person can re-check it. */
   source: string;
 };
@@ -196,8 +245,11 @@ export type Highlight = {
  * single wide card. Five cards in the two-column board grid leave a
  * card-shaped hole in the bottom right, which the client flagged on sight,
  * and a one-row list stretched to the full width reads as a list whose rows
- * failed to load. It is still the only competitive *result* the academy has
- * published: all 61 posts on @abdulsacademy were re-read on 2026-09-12. The
+ * failed to load. Since 2026-09-16 the EAPCET and ECET names sit inside the
+ * free-seats highlight below, so this is no longer the only competitive result
+ * on the page, but it is still the only one the academy published on a result
+ * poster of its own: all 61 posts on @abdulsacademy were re-read on
+ * 2026-09-12. The
  * account carries plenty of competitive-exam *batches* (a 40 day EAMCET batch,
  * an EAMCET crash course, an ICET batch for girls, POLYCET, ECET) but one
  * result poster: instagram.com/p/DZuxZgYz3Lr/ , 18 June 2026, printing the
@@ -230,7 +282,23 @@ export const highlights: Highlight[] = [
     detail: "Through EAPCET and ECET",
     // Both exams are TSCHE's, run through JNTUH on its behalf.
     marks: ["tsche"],
-    source: "The client, 2026-09-12; the 2025 to 2026 achievements poster prints 30+",
+    // The five the achievements poster names under that headline, added
+    // 2026-09-16 on Saad's "in appset skip the Zoha Mubin ones and add the
+    // rest", then folded into this card on his note to combine the two. What
+    // was left off the poster and why is rule 1 at the top of this file.
+    //
+    // `rank` here is the exam rank the poster prints, not a position in a list
+    // as it is on the school boards. Poster order is kept, ascending anyway.
+    // No `roll` on any of them: the poster prints one hall ticket number
+    // against all five names, so there is nothing to transcribe.
+    students: [
+      { rank: 1500, name: "Syed Rayyan" },
+      { rank: 1505, name: "Mohd Anas" },
+      { rank: 2000, name: "Mohd Muzammil" },
+      { rank: 16000, name: "Abdul Rafay" },
+      { rank: 19000, name: "Syed Taha" },
+    ],
+    source: "The client, 2026-09-12; the 2025 to 2026 achievements poster prints 30+ and names these five",
   },
   {
     figure: "200+",

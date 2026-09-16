@@ -5,7 +5,35 @@ import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { Icon } from "@/components/ui/Icon";
 import { Mark } from "@/components/ui/Mark";
 import { Reveal } from "@/components/ui/Reveal";
-import type { Board } from "@/content/results";
+import type { Board, Student } from "@/content/results";
+
+/**
+ * The rank rows of one board card: the three columns are tracks on the <ol>
+ * and each row subgrids onto them, so the rank column sizes to the widest rank
+ * that card holds and every name still starts on the same line.
+ */
+function RankRows({ id, students }: { id: string; students: readonly Student[] }) {
+  return (
+    <ol className="rows">
+      {students.map((s) => (
+        <li className="row" key={`${id}-${s.rank}`}>
+          <span className="row-rank tabular">{s.rank}</span>
+          <span className="row-name">
+            {s.name}
+            {s.note ? <span className="row-note">{s.note}</span> : null}
+            {/* Hall ticket numbers render only when one has actually been
+                transcribed. See src/content/results.ts. */}
+            {s.roll ? <span className="row-note tabular">Hall ticket {s.roll}</span> : null}
+          </span>
+          <span className="row-figures">
+            {s.score ? <span className="tabular">{s.score}</span> : null}
+            {s.percent ? <span className="row-percent tabular">{s.percent}</span> : null}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 /** Rows shown per board before the reader asks for all of them. */
 const PREVIEW = 5;
@@ -42,26 +70,7 @@ export function ResultsBoard({ boards }: { boards: Board[] }) {
                 {board.claim ? <span className="badge">100% results</span> : null}
               </div>
 
-              <ol className="rows">
-                {shown.map((s) => (
-                  <li className="row" key={`${board.id}-${s.rank}`}>
-                    <span className="row-rank tabular">{s.rank}</span>
-                    <span className="row-name">
-                      {s.name}
-                      {s.note ? <span className="row-note">{s.note}</span> : null}
-                      {/* Hall ticket numbers render only when one has actually
-                          been transcribed. See src/content/results.ts. */}
-                      {s.roll ? (
-                        <span className="row-note tabular">Hall ticket {s.roll}</span>
-                      ) : null}
-                    </span>
-                    <span className="row-figures">
-                      {s.score ? <span className="tabular">{s.score}</span> : null}
-                      {s.percent ? <span className="row-percent tabular">{s.percent}</span> : null}
-                    </span>
-                  </li>
-                ))}
-              </ol>
+              <RankRows id={board.id} students={shown} />
 
               {rest > 0 ? <p className="board-more">and {rest} more</p> : null}
             </article>
